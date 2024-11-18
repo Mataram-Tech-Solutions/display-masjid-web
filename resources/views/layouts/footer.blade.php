@@ -1,11 +1,15 @@
-<footer>
-    <div class="footer clearfix mb-0 text-muted">
-        <div class="float-start">
-            <p>2023 &copy; Mazer</p>
+<footer class="footer pt-3  ">
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-lg-between">
+        <div class="col-lg-6 mb-lg-0 mb-4">
+          <div class="copyright text-center text-sm text-muted text-lg-start">
+            © <script>
+              document.write(new Date().getFullYear())
+            </script>,
+            made by
+            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Mataram Tech Solutions</a>
+          </div>
         </div>
-        <div class="float-end">
-            <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                by <a href="https://saugi.me">Saugi</a></p>
-        </div>
+      </div>
     </div>
-</footer>
+  </footer>
