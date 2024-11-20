@@ -18,6 +18,7 @@
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
         <!-- CSS Files -->
         <link id="pagestyle" href="{{asset('argon/assets/css/argon-dashboard.css?v=2.1.0')}}" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         </head>
 
 

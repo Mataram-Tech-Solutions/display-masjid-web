@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('kajian', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
+            $table->unsignedBigInteger('ulama');
+            $table->foreign('ulama')->references('id')->on('ustadz')->onDelete('cascade');
             $table->unsignedBigInteger('created_by'); // Kolom imam yang merujuk ke id di tabel ustadz
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by'); // Kolom imam yang merujuk ke id di tabel ustadz

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreign('audio')->references('id')->on('audio')->onDelete('cascade');
             $table->unsignedBigInteger('imam');
             $table->foreign('imam')->references('id')->on('ustadz')->onDelete('cascade');
+            $table->unsignedBigInteger('khatib');
+            $table->foreign('khatib')->references('id')->on('ustadz')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by');
