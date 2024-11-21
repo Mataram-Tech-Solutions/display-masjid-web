@@ -10,12 +10,12 @@ class Jadwal extends Model
     use HasFactory;
     protected $table = 'jadwal';
 
-    public function ustadz()
+    public function jdwlustadz()
     {
         return $this->belongsTo(Ustadz::class, 'imam');
     }
 
-    public function khatib()
+    public function jdwlkhatib()
     {
         return $this->belongsTo(Ustadz::class, 'khatib');
     }

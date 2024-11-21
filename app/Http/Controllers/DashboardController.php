@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Jadwal;
+use App\Models\Kajian;
 
 class DashboardController extends Controller
 {
@@ -13,24 +14,17 @@ class DashboardController extends Controller
     public function index()
     {
         $jam = Jadwal::pluck('waktu_adzan');
-        $jadwals = Jadwal::with(['ustadz', 'khatib'])->get();
-        
-
-        // Modifikasi data jadwal setelah didapatkan
-        // $jadwals = $jadwals->map(function ($jadwal) {
-        //     // Jika khatib kosong dan bukan Dzuhur, set khatib menjadi null
-        //     if (is_null($jadwal->khatib) && $jadwal->shalat !== 'Dzuhur') {
-        //         $jadwal->khatib = null;
-        //     }
-        //     return $jadwal;
-        // });
+        $jadwals = Jadwal::with(['jdwlustadz', 'jdwlkhatib'])->get();
+        $kajianjdwl = Kajian::with(['pemateri'])->get();
+            
         // return response()->json([
         //     'status' => 'success',
-        //     'data' => $jadwals
+        //     'data' => $kajianjdwl
         // ], 200);  
         return view('dashboard', [
             'jam' => $jam,
             'jadwal' => $jadwals,
+            'kajian' => $kajianjdwl,
         ]);
 
     }

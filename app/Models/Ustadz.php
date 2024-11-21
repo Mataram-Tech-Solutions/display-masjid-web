@@ -10,13 +10,18 @@ class Ustadz extends Model
     use HasFactory;
     protected $table = 'ustadz';
 
-    public function ustadz()
+    public function jdwlustadz()
     {
-        return $this->hasMany(Jadwal::class, 'name');
+        return $this->hasMany(Jadwal::class, 'id');
     }
 
-    public function khatib()
+    public function jdwlkhatib()
     {
-        return $this->hasMany(Jadwal::class, 'name');
+        return $this->hasMany(Jadwal::class, 'id');
+    }
+
+    public function pemateri()
+    {
+        return $this->hasMany(Kajian::class, 'id');
     }
 }
