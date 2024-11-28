@@ -19,6 +19,9 @@
         <!-- CSS Files -->
         <link id="pagestyle" href="{{asset('argon/assets/css/argon-dashboard.css?v=2.1.0')}}" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
         </head>
 
 
@@ -130,10 +133,27 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+  <script>
+    flatpickr("#time", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "HH:ii:SS", // Format jam, menit, dan detik
+        time_24hr: true, // Format 24 jam
+    });
+</script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('argon/assets/js/argon-dashboard.min.js?v=2.1.0')}}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {{-- <script src="{{asset('clockpicker-gh-pages/src/clockpicker.js')}}"></script>
+  <script src="{{asset('clockpicker-gh-pages/dist/bootstrap-clockpicker.js')}}"></script>
+  <script src="{{asset('clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js')}}"></script>
+  <script src="{{asset('clockpicker-gh-pages/dist/jquery-clockpicker.js')}}"></script>
+  <script src="{{asset('clockpicker-gh-pages/dist/jquery-clockpicker.min.js')}}"></script> --}}
+
+
 </body>
 
 </html>

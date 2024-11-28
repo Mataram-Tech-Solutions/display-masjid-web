@@ -21,7 +21,7 @@ class DashboardController extends Controller
         //     'status' => 'success',
         //     'data' => $kajianjdwl
         // ], 200);  
-        return view('dashboard', [
+        return view('dashboard.index', [
             'jam' => $jam,
             'jadwal' => $jadwals,
             'kajian' => $kajianjdwl,

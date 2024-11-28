@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JadwalKajianController;
+use App\Http\Controllers\JadwalSholatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,5 +34,27 @@ Route::middleware([
             'edit' => 'dashboard.edit',
             'update' => 'dashboard.update',
             'destroy' => 'dashboard.destroy',
+        ]);
+
+        Route::resource('/jadwalsholat', JadwalSholatController::class)
+        ->names([
+            'index' => 'jadwalsholat.index',
+            'create' => 'jadwalsholat.create',
+            'store' => 'jadwalsholat.store',
+            'show' => 'jadwalsholat.show',
+            'edit' => 'jadwalsholat.edit',
+            'update' => 'jadwalsholat.update',
+            'destroy' => 'jadwalsholat.destroy',
+        ]);
+
+        Route::resource('/jadwalkajian', JadwalKajianController::class)
+        ->names([
+            'index' => 'jadwalkajian.index',
+            'create' => 'jadwalkajian.create',
+            'store' => 'jadwalkajian.store',
+            'show' => 'jadwalkajian.show',
+            'edit' => 'jadwalkajian.edit',
+            'update' => 'jadwalkajian.update',
+            'destroy' => 'jadwalkajian.destroy',
         ]);
 });

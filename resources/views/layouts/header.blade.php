@@ -2,10 +2,61 @@
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item text-sm">
+                    <a class="opacity-5 text-white" 
+                    href="{{ 
+                        Route::currentRouteName() == 'dashboard.index' ? route('dashboard.index') : 
+                        (Route::currentRouteName() == 'jadwalsholat.index' ? route('jadwalsholat.index') : 
+                        (Route::currentRouteName() == 'jadwalsholat.edit' ? route('jadwalsholat.index') : 
+                        (Route::currentRouteName() == 'jadwalkajian.index' ? route('jadwalkajian.index') : 
+                        (Route::currentRouteName() == 'jadwalkajian.edit' ? route('jadwalkajian.index') : 'javascript:void(0);')))) 
+                    }}">
+                    @if(Route::currentRouteName() == 'dashboard.index')
+                        
+                    @elseif(Route::currentRouteName() == 'jadwalsholat.index')
+                        
+                    @elseif(Route::currentRouteName() == 'jadwalsholat.edit')
+                        Jadwal Sholat
+                    @elseif(Route::currentRouteName() == 'jadwalkajian.index')
+                        
+                    @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
+                        Jadwal Kajian
+                    @else
+                        Unknown Page
+                    @endif
+                 </a>
+                 
+                 <li class="breadcrumb-item text-sm text-white active" aria-current="page">
+                     @if(Route::currentRouteName() == 'dashboard.index')
+                         Dashboard
+                     @elseif(Route::currentRouteName() == 'jadwalsholat.index')
+                         Jadwal Sholat
+                     @elseif(Route::currentRouteName() == 'jadwalsholat.edit')
+                         Edit Jadwal Sholat
+                     @elseif(Route::currentRouteName() == 'jadwalkajian.index')
+                         Jadwal Kajian
+                     @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
+                         Edit Jadwal Kajian
+                     @else
+                         Unknown Page
+                     @endif
+                 </li>                 
             </ol>
-            <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+            <h6 class="font-weight-bolder text-white mb-0">
+                @if(Route::currentRouteName() == 'dashboard.index')
+                    Dashboard
+                @elseif(Route::currentRouteName() == 'jadwalsholat.index')
+                    Jadwal Sholat
+                    @elseif(Route::currentRouteName() == 'jadwalsholat.edit')
+                    Edit Jadwal Sholat
+                @elseif(Route::currentRouteName() == 'jadwalkajian.index')
+                    Jadwal Kajian
+                    @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
+                    Edit Jadwal Kajian
+                @else
+                    Unknown Page
+                @endif
+            </h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">

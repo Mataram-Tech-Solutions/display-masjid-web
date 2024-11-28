@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->time('waktu_adzan');
             $table->time('waktu_iqomah');
-            $table->integer('jeda_adziq')->nullable();
+            $table->integer('buzzeriqomah')->nullable();
             $table->boolean('audmurstat')->default(0);
             $table->boolean('audstat')->default(0);
             $table->unsignedBigInteger('audmur');

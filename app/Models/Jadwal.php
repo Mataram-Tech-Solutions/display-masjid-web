@@ -19,4 +19,14 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Ustadz::class, 'khatib');
     }
+
+    public function audioadzan()
+    {
+        return $this->belongsTo(Audio::class, 'audio');
+    }
+
+    public function audiomur()
+    {
+        return $this->belongsTo(Audio::class, 'audmur');
+    }
 }

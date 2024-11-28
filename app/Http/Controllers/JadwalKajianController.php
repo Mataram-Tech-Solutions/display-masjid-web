@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kajian;
 use Illuminate\Http\Request;
-use App\Models\Jadwal;
 
-class JadwalController extends Controller
+class JadwalKajianController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $kajian = Kajian::with(['pemateri'])->get();            
+        return view('jadwalKajian.index', [
+            'kajian' => $kajian,
 
+        ]);
     }
 
     /**
@@ -60,6 +64,13 @@ class JadwalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+        $kajian = Kajian::findOrFail($id);
+        $kajian->delete();
+        return redirect()->route('jadwalkajian.index')->with('success', 'Data berhasil dihapus!');
+        } catch (\Exception $e) {
+            // Redirect ke edit jika gagal dengan pesan error
+            return redirect()->route('jadwalkajian.index', $id)->with('error', 'Terjadi kesalahan dari server!');
+        }
     }
 }

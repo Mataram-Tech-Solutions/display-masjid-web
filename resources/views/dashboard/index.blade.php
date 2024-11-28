@@ -166,12 +166,24 @@
                       </td>
                         <td class="align-middle text-sm">
                             <div class="col text-center">
+                                <p class="text-xs font-weight-bold mb-0">Adzan:</p>
+                                <h6 class="text-sm mb-0">
+                                  @if(is_null($jadwal->waktu_adzan))
+                                      -
+                                  @else
+                                    {{ substr($jadwal->waktu_adzan, 0, 5) }}
+                                  @endif
+                              </h6>
+                            </div>
+                        </td>
+                        <td class="align-middle text-sm">
+                            <div class="col text-center">
                                 <p class="text-xs font-weight-bold mb-0">Iqomah:</p>
                                 <h6 class="text-sm mb-0">
                                   @if(is_null($jadwal->waktu_iqomah))
                                       -
                                   @else
-                                      {{ $jadwal->waktu_iqomah }}
+                                    {{ substr($jadwal->waktu_iqomah, 0, 5) }}
                                   @endif
                               </h6>
                             </div>
@@ -206,7 +218,7 @@
                             data-bs-target="#jadwalDetailModal" 
                             data-nama="{{ $kajian->judul }}" 
                             data-tanggal="{{ $kajian->tgl_pelaksanaan }}" 
-                            data-deskripsi="{{ $kajian->pemateri->name }}">
+                            data-ulama="{{ $kajian->pemateri->ustd == 'ustadz' ? 'Ust. ' . $kajian->pemateri->name : 'Ustz. ' . $kajian->pemateri->name }}">
                             <i class="ni ni-bold-right" aria-hidden="true"></i>
                         </button>
                           </div>
@@ -227,9 +239,9 @@
           </div>
           <div class="modal-body">
               <!-- Konten detail jadwal -->
-              <p><strong>Nama Kegiatan:</strong> <span id="namaKegiatan"></span></p>
-              <p><strong>Tanggal:</strong> <span id="tanggal"></span></p>
-              <p><strong>Deskripsi:</strong> <span id="deskripsi"></span></p>
+              <p><strong>Nama Kegiatan :</strong> <span id="namaKegiatan"></span></p>
+              <p><strong>Tanggal :</strong> <span id="tanggal"></span></p>
+              <p><strong>Ulama :</strong> <span id="ulama"></span></p>
               <!-- Tambahkan informasi lain sesuai kebutuhan -->
           </div>
           <div class="modal-footer">
@@ -251,12 +263,12 @@
                 // Ambil data dari tombol
                 const namaKegiatan = this.getAttribute('data-nama');
                 const tanggal = this.getAttribute('data-tanggal');
-                const deskripsi = this.getAttribute('data-deskripsi');
+                const ulama = this.getAttribute('data-ulama');
 
                 // Set data ke elemen dalam modal
                 document.getElementById('namaKegiatan').textContent = namaKegiatan;
                 document.getElementById('tanggal').textContent = tanggal;
-                document.getElementById('deskripsi').textContent = deskripsi;
+                document.getElementById('ulama').textContent = ulama;
             });
         });
     });
