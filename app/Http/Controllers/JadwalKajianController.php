@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kajian;
+use App\Models\Ustadz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalKajianController extends Controller
 {
@@ -24,7 +26,10 @@ class JadwalKajianController extends Controller
      */
     public function create()
     {
-        //
+        $ulama = Ustadz::get();
+        return view('jadwalKajian.create', [
+            'ulama' => $ulama
+        ]);
     }
 
     /**
@@ -32,7 +37,29 @@ class JadwalKajianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $judul = $request->input('judul');
+        $pemateri = $request->input('ulama');
+        $tgl_pelaksanaan = $request->input('pelaksanaan_date');
+        $pelaksanaanjam = $request->input('pelaksanaan_hour');
+        $pelaksanaanmenit = $request->input('pelaksanaan_minute');
+        try {
+            $kajian = new Kajian();
+            
+            // Update data
+            $kajian->judul = $judul;
+            $kajian->ulama = $pemateri;
+            $kajian->tgl_pelaksanaan = sprintf('%s %02d:%02d:00', $tgl_pelaksanaan, $pelaksanaanjam, $pelaksanaanmenit);
+            $kajian->updated_by = Auth::user()->id;
+            $kajian->created_by = Auth::user()->id;
+    
+            // Simpan ke database
+            $kajian->save();
+            return redirect()->route('jadwalkajian.index')->with('success', 'Berhasil menambahkan jadwal!');
+            } catch (\Exception $e) {
+                // Redirect ke edit jika gagal dengan pesan error
+                return redirect()->route('jadwalkajian.create')->with('error', 'Terjadi kesalahan dari server!');
+            }
+
     }
 
     /**
@@ -48,7 +75,12 @@ class JadwalKajianController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $oldval =  Kajian::with('pemateri')->find($id);
+        $ulama = Ustadz::get();
+        return view('jadwalKajian.edit', [
+            'oldval' => $oldval,
+            'ulama' => $ulama
+        ]);
     }
 
     /**
@@ -56,7 +88,27 @@ class JadwalKajianController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $judul = $request->input('judul');
+        $pemateri = $request->input('ulama');
+        $tgl_pelaksanaan = $request->input('pelaksanaan_date');
+        $pelaksanaanjam = $request->input('pelaksanaan_hour');
+        $pelaksanaanmenit = $request->input('pelaksanaan_minute');
+        try {
+            $kajian = Kajian::findOrFail($id);
+            
+            // Update data
+            $kajian->judul = $judul;
+            $kajian->ulama = $pemateri;
+            $kajian->tgl_pelaksanaan = sprintf('%s %02d:%02d:00', $tgl_pelaksanaan, $pelaksanaanjam, $pelaksanaanmenit);
+            $kajian->updated_by = Auth::user()->id;
+    
+            // Simpan ke database
+            $kajian->save();
+            return redirect()->route('jadwalkajian.index')->with('success', 'Data berhasil diperbarui!');
+            } catch (\Exception $e) {
+                // Redirect ke edit jika gagal dengan pesan error
+                return redirect()->route('jadwalkajian.edit', $id)->with('error', 'Terjadi kesalahan dari server!');
+            }
     }
 
     /**

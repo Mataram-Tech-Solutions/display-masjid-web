@@ -23,7 +23,7 @@
                 @foreach ($kajian as $kajians)
                 <tr>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $kajians->id }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $loop->iteration }}</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $kajians->judul}}</span>
@@ -33,7 +33,7 @@
                             @if ($kajians->pemateri->ustd == "ustadz")
                                 Ust. {{$kajians->pemateri->name}}
                             @else
-                                Ustdz. {{$kajians->pemateri->name}}
+                                Ustz. {{$kajians->pemateri->name}}
                             @endif
                         </span>
                     </td>
@@ -46,10 +46,14 @@
                         </form>
                     </td>
                     <td class="align-middle text-center">
-                        <form action="{{ route('jadwalkajian.destroy', $kajians->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                        <form action="{{ route('jadwalkajian.destroy', $kajians->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Hapus Data</button>
+                            <button  type="button" 
+                            class="btn btn-sm btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal"
+                            onclick="setDeleteForm('{{ route('jadwalkajian.destroy', $kajians->id) }}')">Hapus Data</button>
                         </form>
                     </td>
                 </tr>
@@ -59,7 +63,7 @@
           </div>
         </div>
         <div class="card-footer pb-0 pt-2 d-flex justify-content-end align-items-center">
-            <form action="{{ route('jadwalkajian.edit', $kajians->id) }}" method="GET">
+            <form action="{{ route('jadwalkajian.create') }}" method="GET">
                 <button type="submit" class="btn btn-sm btn-primary">Tambah Jadwal</button>
             </form>
         </div>        
@@ -95,6 +99,35 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <div class="text-danger mb-3">
+
+                <i class="fas fa-question-circle fa-3x text-warning"></i>
+                </div>
+                <h5 class="modal-title mb-2">Yakin menghapus data ini?</h5>
+                <div class="row g-1 justify-content-center">
+                    <div class="col-auto">
+                        <form id="deleteForm" action="" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger w-100">Ya</button>
+                        </form>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tidak</button>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+
   @if (session('success'))
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -113,4 +146,10 @@
     });
 </script>
 @endif
+<script>
+    function setDeleteForm(actionUrl) {
+        var form = document.getElementById('deleteForm');
+        form.action = actionUrl;
+    }
+</script>
   @endsection
