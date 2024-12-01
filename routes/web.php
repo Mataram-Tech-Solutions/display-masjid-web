@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalKajianController;
 use App\Http\Controllers\JadwalSholatController;
+use App\Http\Controllers\UlamaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,5 +57,16 @@ Route::middleware([
             'edit' => 'jadwalkajian.edit',
             'update' => 'jadwalkajian.update',
             'destroy' => 'jadwalkajian.destroy',
+        ]);
+
+        Route::resource('/ulama', UlamaController::class)
+        ->names([
+            'index' => 'ulama.index',
+            'create' => 'ulama.create',
+            'store' => 'ulama.store',
+            'show' => 'ulama.show',
+            'edit' => 'ulama.edit',
+            'update' => 'ulama.update',
+            'destroy' => 'ulama.destroy',
         ]);
 });

@@ -26,7 +26,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ in_array(Route::currentRouteName(), ['jadwalkajian.index', 'jadwalkajian.edit']) ? 'active' : '' }}" href="{{ route('jadwalkajian.index') }}">
+          <a class="nav-link {{ in_array(Route::currentRouteName(), ['jadwalkajian.index', 'jadwalkajian.edit', 'jadwalkajian.create']) ? 'active' : '' }}" href="{{ route('jadwalkajian.index') }}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
             </div>
@@ -34,7 +34,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/virtual-reality.html">
+          <a class="nav-link {{ in_array(Route::currentRouteName(), ['ulama.index', 'ulama.edit', 'ulama.create']) ? 'active' : '' }}" href="{{ route('ulama.index') }}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-app text-dark text-sm opacity-10"></i>
             </div>

@@ -9,7 +9,9 @@
                         (Route::currentRouteName() == 'jadwalsholat.index' ? route('jadwalsholat.index') : 
                         (Route::currentRouteName() == 'jadwalsholat.edit' ? route('jadwalsholat.index') : 
                         (Route::currentRouteName() == 'jadwalkajian.index' ? route('jadwalkajian.index') : 
-                        (Route::currentRouteName() == 'jadwalkajian.edit' ? route('jadwalkajian.index') : 'javascript:void(0);')))) 
+                        (Route::currentRouteName() == 'jadwalkajian.edit' ? route('jadwalkajian.index') : 
+                        (Route::currentRouteName() == 'ulama.index' ? route('ulama.index') : 
+                        (Route::currentRouteName() == 'ulama.edit' ? route('ulama.index') : 'javascript:void(0);')))))) 
                     }}">
                     @if(Route::currentRouteName() == 'dashboard.index')
                         
@@ -21,6 +23,14 @@
                         
                     @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
                         Jadwal Kajian
+                    @elseif(Route::currentRouteName() == 'jadwalkajian.create')
+                        Jadwal Kajian
+                    @elseif(Route::currentRouteName() == 'ulama.index')
+                        
+                    @elseif(Route::currentRouteName() == 'ulama.edit')
+                        Ulama
+                    @elseif(Route::currentRouteName() == 'ulama.create')
+                        Ulama
                     @else
                         Unknown Page
                     @endif
@@ -37,6 +47,14 @@
                          Jadwal Kajian
                      @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
                          Edit Jadwal Kajian
+                     @elseif(Route::currentRouteName() == 'jadwalkajian.create')
+                         Tambah Jadwal Kajian
+                     @elseif(Route::currentRouteName() == 'ulama.index')
+                         Ulama
+                     @elseif(Route::currentRouteName() == 'ulama.edit')
+                         Edit Ulama
+                     @elseif(Route::currentRouteName() == 'ulama.create')
+                         Tambah Ulama
                      @else
                          Unknown Page
                      @endif
@@ -51,8 +69,16 @@
                     Edit Jadwal Sholat
                 @elseif(Route::currentRouteName() == 'jadwalkajian.index')
                     Jadwal Kajian
-                    @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
+                @elseif(Route::currentRouteName() == 'jadwalkajian.edit')
                     Edit Jadwal Kajian
+                @elseif(Route::currentRouteName() == 'jadwalkajian.create')
+                    Tambah Jadwal Kajian
+                @elseif(Route::currentRouteName() == 'ulama.index')
+                    Ulama
+                @elseif(Route::currentRouteName() == 'ulama.edit')
+                    Edit ulama
+                @elseif(Route::currentRouteName() == 'ulama.create')
+                    Tambah ulama
                 @else
                     Unknown Page
                 @endif
