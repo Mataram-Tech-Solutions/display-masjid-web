@@ -10,8 +10,12 @@
                         (Route::currentRouteName() == 'jadwalsholat.edit' ? route('jadwalsholat.index') : 
                         (Route::currentRouteName() == 'jadwalkajian.index' ? route('jadwalkajian.index') : 
                         (Route::currentRouteName() == 'jadwalkajian.edit' ? route('jadwalkajian.index') : 
+                        (Route::currentRouteName() == 'jadwalkajian.create' ? route('jadwalkajian.index') : 
                         (Route::currentRouteName() == 'ulama.index' ? route('ulama.index') : 
-                        (Route::currentRouteName() == 'ulama.edit' ? route('ulama.index') : 'javascript:void(0);')))))) 
+                        (Route::currentRouteName() == 'ulama.edit' ? route('ulama.index') : 
+                        (Route::currentRouteName() == 'ulama.create' ? route('ulama.index') :
+                        (Route::currentRouteName() == 'muharram.index' ? route('muharram.index') : 
+                        (Route::currentRouteName() == 'muharram.edit' ? route('muharram.index') : 'javascript:void(0);')))))))))) 
                     }}">
                     @if(Route::currentRouteName() == 'dashboard.index')
                         
@@ -31,6 +35,10 @@
                         Ulama
                     @elseif(Route::currentRouteName() == 'ulama.create')
                         Ulama
+                    @elseif(Route::currentRouteName() == 'muharram.index')
+                        
+                    @elseif(Route::currentRouteName() == 'muharram.edit')
+                        Muharram
                     @else
                         Unknown Page
                     @endif
@@ -55,6 +63,10 @@
                          Edit Ulama
                      @elseif(Route::currentRouteName() == 'ulama.create')
                          Tambah Ulama
+                     @elseif(Route::currentRouteName() == 'muharram.index')
+                         Muharram
+                     @elseif(Route::currentRouteName() == 'muharram.edit')
+                         Edit Tahun Hijriyah
                      @else
                          Unknown Page
                      @endif
@@ -79,6 +91,10 @@
                     Edit ulama
                 @elseif(Route::currentRouteName() == 'ulama.create')
                     Tambah ulama
+                @elseif(Route::currentRouteName() == 'muharram.index')
+                    Muharram
+                @elseif(Route::currentRouteName() == 'muharram.edit')
+                    Edit Tahun Hijriyah
                 @else
                     Unknown Page
                 @endif

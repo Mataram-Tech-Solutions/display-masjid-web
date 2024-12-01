@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalKajianController;
 use App\Http\Controllers\JadwalSholatController;
+use App\Http\Controllers\MuharramController;
 use App\Http\Controllers\UlamaController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,5 +69,16 @@ Route::middleware([
             'edit' => 'ulama.edit',
             'update' => 'ulama.update',
             'destroy' => 'ulama.destroy',
+        ]);
+
+        Route::resource('/muharram', MuharramController::class)
+        ->names([
+            'index' => 'muharram.index',
+            'create' => 'muharram.create',
+            'store' => 'muharram.store',
+            'show' => 'muharram.show',
+            'edit' => 'muharram.edit',
+            'update' => 'muharram.update',
+            'destroy' => 'muharram.destroy',
         ]);
 });

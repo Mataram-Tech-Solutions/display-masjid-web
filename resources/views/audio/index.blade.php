@@ -4,15 +4,15 @@
     <div class="col-12">
       <div class="card mb-4">
         <div class="card-header pb-0">
-          <h6>Muharram</h6>
+          <h6>Audio</h6>
         </div>
         <div class="card-body px-0 pt-0 pb-0">
           <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Pergantian Tahun Hiijriyah</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hiijriyah Ke-</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama File</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mp3 Player</th>
                   <th class="text-secondary opacity-7 ms-4"></th>
                 </tr>
               </thead>
