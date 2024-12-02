@@ -11,23 +11,37 @@
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama File</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mp3 Player</th>
-                  <th class="text-secondary opacity-7 ms-4"></th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mp3 Player</th>
+                    <th class="text-secondary opacity-7 ms-4"></th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($muharram as $muharrams)
+                @foreach ($audio as $audios)
                 <tr>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $muharrams->tanggalmuh }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $loop->iteration }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $muharrams->muhke }} H</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $audios->name }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <form action="{{ route('muharram.edit', $muharrams->id) }}" method="GET">
-                            <button type="submit" class="btn btn-sm btn-warning">Edit Data</button>
+                        <!-- Tambahkan pemutar audio -->
+                        <audio controls>
+                            <source src="{{ asset('upload/audio/' . $audios->unique . '_' . $audios->name) }}" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                        </audio>
+                    </td>
+                    <td class="align-middle text-center">
+                        <form action="{{ route('audio.destroy', $audios->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button  type="button" 
+                            class="btn btn-sm btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteConfirmationModal"
+                            onclick="setDeleteForm('{{ route('audio.destroy', $audios->id) }}')">Hapus Data</button>
                         </form>
                     </td>
                 </tr>
@@ -35,7 +49,12 @@
             </tbody>
             </table>
           </div>
-        </div>  
+        </div>
+        <div class="card-footer pb-0 pt-2 d-flex justify-content-end align-items-center">
+            <form action="{{ route('audio.create') }}" method="GET">
+                <button type="submit" class="btn btn-sm btn-primary">Tambah Audio</button>
+            </form>
+        </div>       
       </div>
     </div>
   </div>  

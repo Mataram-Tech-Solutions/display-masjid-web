@@ -15,7 +15,9 @@
                         (Route::currentRouteName() == 'ulama.edit' ? route('ulama.index') : 
                         (Route::currentRouteName() == 'ulama.create' ? route('ulama.index') :
                         (Route::currentRouteName() == 'muharram.index' ? route('muharram.index') : 
-                        (Route::currentRouteName() == 'muharram.edit' ? route('muharram.index') : 'javascript:void(0);')))))))))) 
+                        (Route::currentRouteName() == 'muharram.edit' ? route('muharram.index') :
+                        (Route::currentRouteName() == 'audio.index' ? route('audio.index') : 
+                        (Route::currentRouteName() == 'audio.create' ? route('audio.index') : 'javascript:void(0);')))))))))))) 
                     }}">
                     @if(Route::currentRouteName() == 'dashboard.index')
                         
@@ -39,6 +41,10 @@
                         
                     @elseif(Route::currentRouteName() == 'muharram.edit')
                         Muharram
+                    @elseif(Route::currentRouteName() == 'audio.index')
+                        
+                    @elseif(Route::currentRouteName() == 'audio.create')
+                        Audio
                     @else
                         Unknown Page
                     @endif
@@ -67,6 +73,10 @@
                          Muharram
                      @elseif(Route::currentRouteName() == 'muharram.edit')
                          Edit Tahun Hijriyah
+                     @elseif(Route::currentRouteName() == 'audio.index')
+                         Audio
+                     @elseif(Route::currentRouteName() == 'audio.create')
+                         Tambah File Audio
                      @else
                          Unknown Page
                      @endif
@@ -95,6 +105,10 @@
                     Muharram
                 @elseif(Route::currentRouteName() == 'muharram.edit')
                     Edit Tahun Hijriyah
+                @elseif(Route::currentRouteName() == 'audio.index')
+                    Audio
+                @elseif(Route::currentRouteName() == 'audio.create')
+                    Tambah File Audio
                 @else
                     Unknown Page
                 @endif

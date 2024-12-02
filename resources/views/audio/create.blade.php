@@ -4,41 +4,25 @@
     <div class="col-12">
       <div class="card mb-4">
             <div class="card-header pb-0">
-                <h6>Tambah Data Ulama</h6>
+                <h6>Tambah Audio</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-                <form action="{{ route('ulama.store') }}"method="POST">
+                <form action="{{ route('audio.store') }}"method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="row px-4">
                         <!-- Form Sholat -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="nama" class="form-control-label">Nama :</label>
-                                <input type="text" class="form-control" id="nama" name="nama" value="">
+                                <label for="file" class="form-control-label">File Audio:</label>
+                                <input type="file" class="form-control" id="file" name="file" required>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="gender" class="form-control-label">Ustadz/Ustadzah :</label>
-                                <select class="form-control" id="gender" name="gender" required>
-                                    <option value="" disabled selected>--Pilih ustadz/ustadzah--</option>
-                                    <option value="ustadz">
-                                        Ustadz
-                                    </option>
-                                    <option value="ustadzah">
-                                        Ustadzah
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        
                     <!-- Submit Button -->
                     <div class="row px-4 mt-3">
                         <div class="col-md-12 text-end">
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            <a href="{{ route('ulama.index') }}" class="btn btn-secondary">Kembali</a>
+                            <a href="{{ route('audio.index') }}" class="btn btn-secondary">Kembali</a>
                         </div>
                     </div>
                 </form>

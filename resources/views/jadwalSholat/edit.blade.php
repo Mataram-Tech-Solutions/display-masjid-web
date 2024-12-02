@@ -67,11 +67,12 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="audioadzan" class="form-control-label">Audio Adzan :</label>
-                                <select class="form-control" id="audioadzan" name="audioadzan" required>
-                                    <!-- Opsi pertama (selalu muncul di awal, disabled) -->
-                                    <option value="" disabled>--Pilih Audio--</option>
+                                <select class="form-control" id="audioadzan" name="audioadzan">
+                                    <option value="" {{ old('audioadzan', $sebelumnya->audioadzan->id ?? null) === null ? 'selected' : 'disable' }} >
+                                        --Pilih Audio--
+                                    </option>
                                 
-                                    <!-- Jika ada data dari old(), tampilkan sebagai opsi terpilih -->
+                                    <!-- Jika ada data dari old() atau $sebelumnya, tampilkan sebagai opsi terpilih -->
                                     @if(old('audioadzan', $sebelumnya->audioadzan->id ?? null))
                                         <option value="{{ old('audioadzan', $sebelumnya->audioadzan->id) }}" selected>
                                             {{ old('audioadzan', $sebelumnya->audioadzan->name) }}
@@ -94,11 +95,13 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="audiomur" class="form-control-label">Audio Murrothal :</label>
-                                <select class="form-control" id="audiomur" name="audiomur" required>
-                                    <!-- Opsi pertama (selalu muncul di awal, disabled) -->
-                                    <option value="" disabled>--Pilih Audio--</option>
+                                <select class="form-control" id="audiomur" name="audiomur">
+                                    <!-- Opsi pertama (default, selalu muncul di awal) -->
+                                    <option value="" {{ old('audiomur', $sebelumnya->audiomur->id ?? null) === null ? 'selected' : 'disable' }} >
+                                        --Pilih Audio--
+                                    </option>
                                 
-                                    <!-- Jika ada data dari old(), tampilkan sebagai opsi terpilih -->
+                                    <!-- Jika ada data dari old() atau $sebelumnya, tampilkan sebagai opsi terpilih -->
                                     @if(old('audiomur', $sebelumnya->audiomur->id ?? null))
                                         <option value="{{ old('audiomur', $sebelumnya->audiomur->id) }}" selected>
                                             {{ old('audiomur', $sebelumnya->audiomur->name) }}
@@ -115,6 +118,7 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                
                                 
                             </div>
                         </div>     

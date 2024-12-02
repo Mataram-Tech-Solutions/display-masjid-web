@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AudioController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalKajianController;
 use App\Http\Controllers\JadwalSholatController;
@@ -80,5 +81,16 @@ Route::middleware([
             'edit' => 'muharram.edit',
             'update' => 'muharram.update',
             'destroy' => 'muharram.destroy',
+        ]);
+
+        Route::resource('/audio', AudioController::class)
+        ->names([
+            'index' => 'audio.index',
+            'create' => 'audio.create',
+            'store' => 'audio.store',
+            'show' => 'audio.show',
+            'edit' => 'audio.edit',
+            'update' => 'audio.update',
+            'destroy' => 'audio.destroy',
         ]);
 });

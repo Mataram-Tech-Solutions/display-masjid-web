@@ -37,13 +37,13 @@
                         <span class="text-secondary text-xs font-weight-bold">{{ $lists->waktu_iqomah ?? '-' }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->buzzeriqomah }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->buzzeriqomah ?? '-'  }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->audioadzan->name }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->audioadzan->name ?? '-'  }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->audiomur->name }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->audiomur->name ?? '-'  }}</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="badge badge-sm {{ $lists->audstat == '1' ? 'bg-gradient-success' : 'bg-gradient-danger' }}">
