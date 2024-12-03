@@ -104,7 +104,6 @@ class UlamaController extends Controller
     {
         try {
             $ulama = Ustadz::findOrFail($id);
-            $kajian = Kajian::where('ulama', $id)->get();
             Kajian::where('ulama', $id)->update(['ulama' => null]);
             Jadwal::where('imam', $id)->update(['imam' => null]);
             Jadwal::where('khatib', $id)->update(['khatib' => null]);

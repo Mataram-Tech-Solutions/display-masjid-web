@@ -93,4 +93,15 @@ Route::middleware([
             'update' => 'audio.update',
             'destroy' => 'audio.destroy',
         ]);
+
+        Route::resource('/primarydisplay', AudioController::class)
+        ->names([
+            'index' => 'primarydisplay.index',
+            'create' => 'primarydisplay.create',
+            'store' => 'primarydisplay.store',
+            'show' => 'primarydisplay.show',
+            'edit' => 'primarydisplay.edit',
+            'update' => 'primarydisplay.update',
+            'destroy' => 'primarydisplay.destroy',
+        ]);
 });

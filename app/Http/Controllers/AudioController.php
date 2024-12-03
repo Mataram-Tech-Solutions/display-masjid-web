@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Audio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+
 
 class AudioController extends Controller
 {
@@ -87,8 +89,15 @@ class AudioController extends Controller
     public function destroy(string $id)
     {
         try {
-            $kajian = Audio::findOrFail($id);
-            $kajian->delete();
+            $audio = Audio::findOrFail($id);
+            $filePath = public_path('upload/audio/' . $audio->unique . '_' . $audio->name);
+
+            // Periksa apakah file ada
+            if (File::exists($filePath)) {
+                // Hapus file
+                File::delete($filePath);
+            }
+            $audio->delete();
             return redirect()->route('audio.index')->with('success', 'Data berhasil dihapus!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error

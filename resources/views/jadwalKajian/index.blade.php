@@ -30,13 +30,16 @@
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">
-                            @if ($kajians->pemateri->ustd == "ustadz")
-                                Ust. {{$kajians->pemateri->name}}
+                            @if (optional($kajians->pemateri)->ustd == "ustadzah")
+                                Ustz. {{ optional($kajians->pemateri)->name }}
+                            @elseif (optional($kajians->pemateri)->ustd == "ustadz")
+                                Ust. {{ optional($kajians->pemateri)->name }}
                             @else
-                                Ustz. {{$kajians->pemateri->name}}
+                                -
                             @endif
                         </span>
                     </td>
+                    
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $kajians->tgl_pelaksanaan}}</span>
                     </td>

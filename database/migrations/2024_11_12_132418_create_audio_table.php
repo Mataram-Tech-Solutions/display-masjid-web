@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('audio', function (Blueprint $table) {
             $table->id();
+            $table->integer('unique');
             $table->string('name');
             $table->unsignedBigInteger('created_by'); // Kolom imam yang merujuk ke id di tabel ustadz
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

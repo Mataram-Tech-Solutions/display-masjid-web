@@ -23,7 +23,7 @@
                             <div class="form-group">
                                 <label for="ulama" class="form-control-label">ulama :</label>
                                 <select class="form-control" id="ulama" name="ulama" required>
-                                    <option value="" disabled>--Pilih ulama--</option>
+                                    <option value="" disabled {{ is_null($oldval->ulama) ? 'selected' : '' }}>--Pilih ulama--</option>
                                     @foreach ($ulama as $ulamas)                               
                                     <option value="{{ $ulamas->id }}" 
                                         {{ $oldval->ulama == $ulamas->id ? 'selected' : '' }}>

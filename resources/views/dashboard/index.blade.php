@@ -218,7 +218,7 @@
                             data-bs-target="#jadwalDetailModal" 
                             data-nama="{{ $kajian->judul }}" 
                             data-tanggal="{{ $kajian->tgl_pelaksanaan }}" 
-                            data-ulama="{{ $kajian->pemateri->ustd == 'ustadz' ? 'Ust. ' . $kajian->pemateri->name : 'Ustz. ' . $kajian->pemateri->name }}">
+                            data-ulama="{{ optional($kajian->pemateri)->ustd == 'ustadz' ? 'Ust. ' . optional($kajian->pemateri)->name : (optional($kajian->pemateri)->name ? 'Ustz. ' . optional($kajian->pemateri)->name : '-') }}">
                             <i class="ni ni-bold-right" aria-hidden="true"></i>
                         </button>
                           </div>
