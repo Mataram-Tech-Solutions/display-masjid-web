@@ -4,61 +4,42 @@
     <div class="col-12">
       <div class="card mb-4">
         <div class="card-header pb-0">
-          <h6>Display Gambar & Vidio</h6>
+          <h6>Running Text</h6>
         </div>
         <div class="card-body px-0 pt-0 pb-0">
           <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama File</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">View</th>
-                    <th class="text-secondary opacity-7 ms-4"></th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Running Text</th>
+                  <th class="text-secondary opacity-7 ms-4"></th>
+                  <th class="text-secondary opacity-7 ms-4"></th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($primarydis as $primarydiss)
-                @php
-                    $fileName = $primarydiss->unique . '_' . $primarydiss->name;
-
-                    $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-                    $isImage = in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png']);
-                    $isVideo = strtolower($fileExtension) === 'mp4';
-                @endphp
+                @foreach ($runtxt as $runtxts)
                 <tr>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $loop->iteration }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $primarydiss->name }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $runtxts->txt}}</span>
                     </td>
                     <td class="align-middle text-center">
-                        @if ($isImage)
-                            <img 
-                                src="{{ asset('upload/image/' . $fileName) }}" 
-                                alt="Image" 
-                                style="max-width: 100px; max-height: 100px;">
-                        @elseif ($isVideo)
-                            <video 
-                                controls 
-                                style="max-width: 200px; max-height: 150px;">
-                                <source src="{{ asset('upload/video/' . $fileName) }}" type="video/mp4">
-                                Browser Anda tidak mendukung pemutar video.
-                            </video>
-                        @else
-                            <span class="text-secondary text-xs font-weight-bold">File tidak didukung</span>
-                        @endif
+                        <form action="{{ route('runtxt.edit', $runtxts->id) }}" method="GET">
+                            <button type="submit" class="btn btn-sm btn-warning">Edit Data</button>
+                        </form>
                     </td>
                     <td class="align-middle text-center">
-                        <form action="{{ route('primarydisplay.destroy', $primarydiss->id) }}" method="POST">
+                        <form action="{{ route('runtxt.destroy', $runtxts->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button  type="button" 
                             class="btn btn-sm btn-danger"
                             data-bs-toggle="modal"
                             data-bs-target="#deleteConfirmationModal"
-                            onclick="setDeleteForm('{{ route('primarydisplay.destroy', $primarydiss->id) }}')">Hapus Data</button>
+                            onclick="setDeleteForm('{{ route('runtxt.destroy', $runtxts->id) }}')">Hapus Data</button>
                         </form>
                     </td>
                 </tr>
@@ -68,10 +49,10 @@
           </div>
         </div>
         <div class="card-footer pb-0 pt-2 d-flex justify-content-end align-items-center">
-            <form action="{{ route('primarydisplay.create') }}" method="GET">
-                <button type="submit" class="btn btn-sm btn-primary">Tambah Gambar/Vidio</button>
+            <form action="{{ route('runtxt.create') }}" method="GET">
+                <button type="submit" class="btn btn-sm btn-primary">Tambah Text</button>
             </form>
-        </div>       
+        </div>        
       </div>
     </div>
   </div>  

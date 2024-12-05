@@ -17,10 +17,6 @@ class JadwalSholatController extends Controller
     public function index()
     {
         $list = Jadwal::with(['jdwlustadz', 'jdwlkhatib', 'audioadzan', 'audiomur'])->get();            
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => $list
-        // ], 200);  
         return view('jadwalSholat.index', [
             'list' => $list,
         ]);

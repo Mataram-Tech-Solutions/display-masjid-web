@@ -16,18 +16,8 @@ class PrimarydisController extends Controller
     public function index()
     {
         $primarydis = Primarydis::all();
-        $fileName = $primarydis->unique . '_' . $primarydis->name;
-        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-        if (in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png'])) {
-            $image = true;
-        } elseif (strtolower($fileExtension) === 'mp4') {
-            $image = false;
-        } else {
-            $image = null;
-        }
         return view('primarydisplay.index',[
             'primarydis' => $primarydis,
-            'type' => $image
         ]);
     }
 
@@ -75,10 +65,10 @@ class PrimarydisController extends Controller
     
             // Simpan ke database
             $primarydis->save();
-            return redirect()->route('audio.index')->with('success', 'Berhasil menambahkan jadwal!');
+            return redirect()->route('primarydisplay.index')->with('success', 'Berhasil menambahkan jadwal!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error
-                return redirect()->route('audio.create')->with('error', 'Terjadi kesalahan dari server!');
+                return redirect()->route('primarydisplay.create')->with('error', 'Terjadi kesalahan dari server!');
             }
     }
 

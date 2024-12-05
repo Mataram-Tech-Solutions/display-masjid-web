@@ -4,25 +4,25 @@
     <div class="col-12">
       <div class="card mb-4">
             <div class="card-header pb-0">
-                <h6>Tambah Gambar/Vidio</h6>
+                <h6>Edit Running Text</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-                <form action="{{ route('primarydisplay.store') }}"method="POST" enctype="multipart/form-data">
+                <form action="{{ route('runtxt.update', $oldval->id) }}" method="POST">
                     @csrf
-                    @method('POST')
+                    @method('PUT')
                     <div class="row px-4">
                         <!-- Form Sholat -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="file" class="form-control-label">File Gambar/Vidio:</label>
-                                <input type="file" class="form-control" id="file" name="file" required>
+                                <label for="running" class="form-control-label">Text :</label>
+                                <input type="text" class="form-control" id="running" name="running" value="{{ old('running', $oldval->txt) }}">
                             </div>
                         </div>
                     <!-- Submit Button -->
                     <div class="row px-4 mt-3">
                         <div class="col-md-12 text-end">
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            <a href="{{ route('primarydisplay.index') }}" class="btn btn-secondary">Kembali</a>
+                            <a href="{{ route('runtxt.index') }}" class="btn btn-secondary">Kembali</a>
                         </div>
                     </div>
                 </form>

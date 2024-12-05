@@ -17,7 +17,17 @@
                         (Route::currentRouteName() == 'muharram.index' ? route('muharram.index') : 
                         (Route::currentRouteName() == 'muharram.edit' ? route('muharram.index') :
                         (Route::currentRouteName() == 'audio.index' ? route('audio.index') : 
-                        (Route::currentRouteName() == 'audio.create' ? route('audio.index') : 'javascript:void(0);')))))))))))) 
+                        (Route::currentRouteName() == 'audio.create' ? route('audio.index') : 
+                        (Route::currentRouteName() == 'primarydisplay.index' ? route('primarydisplay.index') : 
+                        (Route::currentRouteName() == 'primarydisplay.create' ? route('primarydisplay.index') : 
+                        (Route::currentRouteName() == 'centxt.index' ? route('centxt.index') : 
+                        (Route::currentRouteName() == 'centxt.edit' ? route('centxt.index') : 
+                        (Route::currentRouteName() == 'centxt.create' ? route('centxt.index') : 
+                        (Route::currentRouteName() == 'runtxt.index' ? route('runtxt.index') : 
+                        (Route::currentRouteName() == 'runtxt.edit' ? route('runtxt.index') : 
+                        (Route::currentRouteName() == 'runtxt.create' ? route('runtxt.index') :  
+                        (Route::currentRouteName() == 'masjid.index' ? route('masjid.index') : 
+                        (Route::currentRouteName() == 'masjid.edit' ? route('masjid.index') : 'javascript:void(0);'))))))))))))))))))))))
                     }}">
                     @if(Route::currentRouteName() == 'dashboard.index')
                         
@@ -45,6 +55,26 @@
                         
                     @elseif(Route::currentRouteName() == 'audio.create')
                         Audio
+                    @elseif(Route::currentRouteName() == 'primarydisplay.index')
+                        
+                    @elseif(Route::currentRouteName() == 'primarydisplay.create')
+                        Gambar & Vidio
+                    @elseif(Route::currentRouteName() == 'centxt.index')
+                        
+                    @elseif(Route::currentRouteName() == 'centxt.edit')
+                        Hadist
+                    @elseif(Route::currentRouteName() == 'centxt.create')
+                        Hadist
+                    @elseif(Route::currentRouteName() == 'runtxt.index')
+                        
+                    @elseif(Route::currentRouteName() == 'runtxt.edit')
+                        Running Text
+                    @elseif(Route::currentRouteName() == 'runtxt.create')
+                        Running Text
+                    @elseif(Route::currentRouteName() == 'masjid.index')
+                        
+                    @elseif(Route::currentRouteName() == 'masjid.edit')
+                        Masjid
                     @else
                         Unknown Page
                     @endif
@@ -77,6 +107,26 @@
                          Audio
                      @elseif(Route::currentRouteName() == 'audio.create')
                          Tambah File Audio
+                     @elseif(Route::currentRouteName() == 'primarydisplay.index')
+                         Gambar & Vidio
+                     @elseif(Route::currentRouteName() == 'primarydisplay.create')
+                         Tambah File Gambar & vidio
+                    @elseif(Route::currentRouteName() == 'centxt.index')
+                         Hadist
+                     @elseif(Route::currentRouteName() == 'centxt.edit')
+                         Edit Hadist
+                     @elseif(Route::currentRouteName() == 'centxt.create')
+                         Tambah Hadist
+                    @elseif(Route::currentRouteName() == 'runtxt.index')
+                         Running Text
+                     @elseif(Route::currentRouteName() == 'runtxt.edit')
+                         Edit Running Text
+                     @elseif(Route::currentRouteName() == 'runtxt.create')
+                         Tambah Running Text
+                    @elseif(Route::currentRouteName() == 'masjid.index')
+                         Profile Masjid
+                     @elseif(Route::currentRouteName() == 'masjid.edit')
+                         Edit Profile Masjid
                      @else
                          Unknown Page
                      @endif
@@ -109,6 +159,26 @@
                     Audio
                 @elseif(Route::currentRouteName() == 'audio.create')
                     Tambah File Audio
+                @elseif(Route::currentRouteName() == 'primarydisplay.index')
+                    Gambar & Vidio
+                @elseif(Route::currentRouteName() == 'primarydisplay.create')
+                    Tambah File Gambar & Vidio
+                @elseif(Route::currentRouteName() == 'centxt.index')
+                    Hadist
+                @elseif(Route::currentRouteName() == 'centxt.edit')
+                    Edit Hadist
+                @elseif(Route::currentRouteName() == 'centxt.create')
+                    Tambah Hadist
+                @elseif(Route::currentRouteName() == 'runtxt.index')
+                    Running Text
+                @elseif(Route::currentRouteName() == 'runtxt.edit')
+                    Edit Running Text
+                @elseif(Route::currentRouteName() == 'runtxt.create')
+                    Tambah Running Text
+                @elseif(Route::currentRouteName() == 'masjid.index')
+                    Profile Masjid
+                @elseif(Route::currentRouteName() == 'masjid.edit')
+                    Edit Profile Masjid
                 @else
                     Unknown Page
                 @endif

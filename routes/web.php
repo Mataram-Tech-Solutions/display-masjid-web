@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\AudioController;
+use App\Http\Controllers\CentxtController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JadwalKajianController;
 use App\Http\Controllers\JadwalSholatController;
+use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\MuharramController;
+use App\Http\Controllers\PrimarydisController;
+use App\Http\Controllers\RuntxtController;
 use App\Http\Controllers\UlamaController;
 use Illuminate\Support\Facades\Route;
 
@@ -94,7 +98,7 @@ Route::middleware([
             'destroy' => 'audio.destroy',
         ]);
 
-        Route::resource('/primarydisplay', AudioController::class)
+        Route::resource('/primarydisplay', PrimarydisController::class)
         ->names([
             'index' => 'primarydisplay.index',
             'create' => 'primarydisplay.create',
@@ -103,5 +107,37 @@ Route::middleware([
             'edit' => 'primarydisplay.edit',
             'update' => 'primarydisplay.update',
             'destroy' => 'primarydisplay.destroy',
+        ]);
+
+        Route::resource('/centxt', CentxtController::class)
+        ->names([
+            'index' => 'centxt.index',
+            'create' => 'centxt.create',
+            'store' => 'centxt.store',
+            'show' => 'centxt.show',
+            'edit' => 'centxt.edit',
+            'update' => 'centxt.update',
+            'destroy' => 'centxt.destroy',
+        ]);
+
+        Route::resource('/runtxt', RuntxtController::class)
+        ->names([
+            'index' => 'runtxt.index',
+            'create' => 'runtxt.create',
+            'store' => 'runtxt.store',
+            'show' => 'runtxt.show',
+            'edit' => 'runtxt.edit',
+            'update' => 'runtxt.update',
+            'destroy' => 'runtxt.destroy',
+        ]);
+        Route::resource('/masjid',MasjidController::class)
+        ->names([
+            'index' => 'masjid.index',
+            'create' => 'masjid.create',
+            'store' => 'masjid.store',
+            'show' => 'masjid.show',
+            'edit' => 'masjid.edit',
+            'update' => 'masjid.update',
+            'destroy' => 'masjid.destroy',
         ]);
 });
