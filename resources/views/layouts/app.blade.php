@@ -152,6 +152,10 @@
   <script src="{{asset('clockpicker-gh-pages/dist/bootstrap-clockpicker.min.js')}}"></script>
   <script src="{{asset('clockpicker-gh-pages/dist/jquery-clockpicker.js')}}"></script>
   <script src="{{asset('clockpicker-gh-pages/dist/jquery-clockpicker.min.js')}}"></script> --}}
+  <script>
+      console.log(window.Echo); // Pastikan objek Echo tersedia
+  </script>
+
 
 
 </body>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('unique');
             $table->string('name');
+            $table->string('mime');
             $table->unsignedBigInteger('created_by'); // Kolom imam yang merujuk ke id di tabel ustadz
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by'); // Kolom imam yang merujuk ke id di tabel ustadz

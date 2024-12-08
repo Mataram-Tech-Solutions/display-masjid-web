@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PrimarydisUpdated;
 use App\Models\Primarydis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,12 @@ class PrimarydisController extends Controller
      */
     public function index()
     {
+        event(new PrimarydisUpdated(Primarydis::all()));
         $primarydis = Primarydis::all();
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $primarydis
+        // ], 200);  
         return view('primarydisplay.index',[
             'primarydis' => $primarydis,
         ]);
@@ -60,11 +66,13 @@ class PrimarydisController extends Controller
             // Update data
             $primarydis->unique = $unique;
             $primarydis->name = $filenameori;
+            $primarydis->mime = $mimeType;
             $primarydis->updated_by = Auth::user()->id;
             $primarydis->created_by = Auth::user()->id;
     
             // Simpan ke database
             $primarydis->save();
+            event(new PrimarydisUpdated(Primarydis::all()));
             return redirect()->route('primarydisplay.index')->with('success', 'Berhasil menambahkan jadwal!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error
@@ -120,6 +128,8 @@ class PrimarydisController extends Controller
                 File::delete($filePath);
             }
             $datadisplay->delete();
+            event(new PrimarydisUpdated(Primarydis::all()));
+
             return redirect()->route('primarydisplay.index')->with('success', 'Data berhasil dihapus!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error

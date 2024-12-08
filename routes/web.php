@@ -1,8 +1,10 @@
 <?php
 
+use App\Events\HelloEvent;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\CentxtController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DisUtamaController;
 use App\Http\Controllers\JadwalKajianController;
 use App\Http\Controllers\JadwalSholatController;
 use App\Http\Controllers\MasjidController;
@@ -23,9 +25,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 
 Route::middleware([
     'auth:sanctum',
@@ -140,4 +142,19 @@ Route::middleware([
             'update' => 'masjid.update',
             'destroy' => 'masjid.destroy',
         ]);
+        Route::resource('/displayutama',DisUtamaController::class)
+        ->names([
+            'index' => 'displayutama.index',
+            'create' => 'displayutama.create',
+            'store' => 'displayutama.store',
+            'show' => 'displayutama.show',
+            'edit' => 'displayutama.edit',
+            'update' => 'displayutama.update',
+            'destroy' => 'displayutama.destroy',
+        ]);
+});
+
+Route::get("/send-event", function () {
+    $text = "hello ini Leo";
+    broadcast(new HelloEvent($text));
 });
