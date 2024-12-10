@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WaktuRealController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('/waktu', WaktuRealController::class)
+        ->names([
+            'index' => 'waktu.index',
+            'create' => 'waktu.create',
+            'store' => 'waktu.store',
+            'show' => 'waktu.show',
+            'edit' => 'waktu.edit',
+            'update' => 'waktu.update',
+            'destroy' => 'waktu.destroy',
+        ]);

@@ -14,6 +14,10 @@ class MasjidController extends Controller
     public function index()
     {
         $masjid = Masjid::get();
+        //   return response()->json([
+        //     'status' => 'success',
+        //     'data' => $masjid
+        // ], 200);  
         return view('masjid.index',[
             'masjid' => $masjid,
         ]);

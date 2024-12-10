@@ -12,6 +12,7 @@ use App\Http\Controllers\MuharramController;
 use App\Http\Controllers\PrimarydisController;
 use App\Http\Controllers\RuntxtController;
 use App\Http\Controllers\UlamaController;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -152,9 +153,4 @@ Route::middleware([
             'update' => 'displayutama.update',
             'destroy' => 'displayutama.destroy',
         ]);
-});
-
-Route::get("/send-event", function () {
-    $text = "hello ini Leo";
-    broadcast(new HelloEvent($text));
 });

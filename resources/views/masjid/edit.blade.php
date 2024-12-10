@@ -7,7 +7,7 @@
                 <h6>Edit Profile Masjid</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-                <form action="{{ route('muharram.update', $oldval->id) }}" method="POST">
+                <form action="{{ route('masjid.update', $oldval->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="row px-4">
@@ -21,7 +21,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="alamat" class="form-control-label">Alamat Masjid :</label>
-                                <input type="text" class="form-control" id="alamat" alamat="alamat" value="{{ old('alamat', $oldval->name) }}">
+                                <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat', $oldval->alamat) }}">
                             </div>
                         </div>  
                         
@@ -29,7 +29,7 @@
                     <div class="row px-4 mt-3">
                         <div class="col-md-12 text-end">
                             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            <a href="{{ route('muharram.index') }}" class="btn btn-secondary">Kembali</a>
+                            <a href="{{ route('masjid.index') }}" class="btn btn-secondary">Kembali</a>
                         </div>
                     </div>
                 </form>
