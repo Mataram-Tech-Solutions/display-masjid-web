@@ -13,7 +13,6 @@
                 <tr>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hadist</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Arti</th>
                   <th class="text-secondary opacity-7 ms-4"></th>
                   <th class="text-secondary opacity-7 ms-4"></th>
                 </tr>
@@ -23,9 +22,6 @@
                 <tr>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $loop->iteration }}</span>
-                    </td>
-                    <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $centxts->arab}}</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $centxts->txt}}</span>

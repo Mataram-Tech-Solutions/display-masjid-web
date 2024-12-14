@@ -14,14 +14,8 @@
                         <!-- Form Sholat -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="hadist" class="form-control-label">Hadist :</label>
-                                <input type="text" class="form-control" id="hadist" name="hadist" value="">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="arti" class="form-control-label">Arti :</label>
-                                <input type="text" class="form-control" id="arti" name="arti" value="">
+                                <label for="txt" class="form-control-label">Hadist :</label>
+                                <input type="text" class="form-control" id="txt" name="txt" value="">
                             </div>
                         </div>
                     <div class="row px-4 mt-3">

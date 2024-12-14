@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Events\Hadist;
+use App\Events\Jdwlsho;
 use App\Events\PrimarydisUpdated;
 use App\Events\ProfileMasjid;
+use App\Events\Runtxt;
 use App\Events\TanggalIslam;
 use App\Models\Centxt;
+use App\Models\Jadwal;
 use App\Models\Masjid;
 use App\Models\Primarydis;
+use App\Models\Runtxt as ModelsRuntxt;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +29,9 @@ class PrimarydisController extends Controller
         event(new PrimarydisUpdated(Primarydis::all()));
         event(new Hadist(Centxt::all()));
         event(new ProfileMasjid(Masjid::all()));
+        event(new Hadist(Centxt::all()));
+        event(new Runtxt(ModelsRuntxt::all()));
+        event(new Jdwlsho(Jadwal::all()));
         $muharramStart = Carbon::create(2024, 7, 7);
 
         // Nama bulan Islam

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Hadist;
 use App\Models\Centxt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,19 +34,18 @@ class CentxtController extends Controller
      */
     public function store(Request $request)
     {
-        $hadist = $request->input('hadist');
-        $arti = $request->input('arti');
+        $arti = $request->input('txt');
         try {
             $modelcentxt = new Centxt();
             
             // Update data
-            $modelcentxt->arab = $hadist;
             $modelcentxt->txt = $arti;
             $modelcentxt->updated_by = Auth::user()->id;
             $modelcentxt->created_by = Auth::user()->id;
     
             // Simpan ke database
             $modelcentxt->save();
+            event(new Hadist(Centxt::all()));
             return redirect()->route('centxt.index')->with('success', 'Berhasil menambahkan jadwal!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error
@@ -77,13 +77,11 @@ class CentxtController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $hadist = $request->input('hadist');
-        $arti = $request->input('arti');
+        $arti = $request->input('txt');
         try {
             $modelcentxt = Centxt::findOrFail($id);
             
             // Update data
-            $modelcentxt->arab = $hadist;
             $modelcentxt->txt = $arti;
             $modelcentxt->updated_by = Auth::user()->id;
     

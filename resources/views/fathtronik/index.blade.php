@@ -103,44 +103,115 @@
             white-space: normal;
             text-overflow: ellipsis;
         }
+
+        #hadist {
+            transition: opacity 2.0s ease-in-out;
+            /* Animasi transisi */
+            opacity: 1;
+            /* Default terlihat */
+        }
+
+        .fade-out {
+            opacity: 0;
+            /* Tidak terlihat */
+        }
+
+        .fade-in {
+            opacity: 1;
+            /* Terlihat */
+        }
+
+        marquee {
+            font-size: 18px;
+            /* Ukuran teks */
+            color: #fff;
+            /* Warna teks */
+
+            padding: 10px;
+            /* Padding di dalam marquee */
+            /* Border */
+            white-space: nowrap;
+            /* Pastikan teks tidak membungkus */
+        }
     </style>
     @vite('resources/css/app.css')
 </head>
 
 <body>
     <div class="background-container">
-            <div class="container-fluid fixed-top">
-                <div class="row row-cols-3 d-flex justify-content-center align-items-center text-center custom-brightnees">
-                    <!-- Column 1 -->
-                    <div class="col custom-p d-flex flex-column align-items-center"
-                        style="font-family: 'CustomFont', sans-serif;">
-                        <span class="fs-5 fw-bold text-white" id="firstText">Loading...</span> <!-- Tanggal Biasa -->
-                        <span class="fs-5 fw-bold" id="secondText" style="color: #44da2a">Loading...</span>
-                    </div>
-
-
-                    <!-- Column 2 -->
-                    <div class="col custom-p d-flex flex-column align-items-center"
-                        style="font-family: 'CustomFont', sans-serif;">
-                        <span class="fs-2 fw-bold text-primary" id="masjid">Loading...</span> <!-- Tanggal Biasa -->
-                        <span class="fs-5 fw-bold text-white" id="alamat-masjid">Loading...</span>
-                    </div>
-
-                    <!-- Column 3 -->
-                    <div class="col custom-p d-flex flex-column align-items-center"
-                        style="font-family: 'CustomFont', sans-serif;">
-                        <span class="fs-2 fw-bold text-white" id="realtime-clock"></span> <!-- Tanggal Biasa -->
-                    </div>
+        <div class="container-fluid fixed-top">
+            <div class="row row-cols-3 d-flex justify-content-center align-items-center text-center custom-brightnees">
+                <!-- Column 1 -->
+                <div class="col custom-p d-flex flex-column align-items-center"
+                    style="font-family: 'CustomFont', sans-serif;">
+                    <span class="fs-5  text-white" id="firstText">Loading...</span> <!-- Tanggal Biasa -->
+                    <span class="fs-5 " id="secondText" style="color: #44da2a">Loading...</span>
                 </div>
-                <div class="row text-center" style="margin-top: 50px">
-                    <div class="col-7 mx-auto">
-                        <span class="fs-2 fw-bold text-white text-wrap" id="hadist" style="word-wrap: break-word;">
-                            Additional Content 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquam.
-                        </span>
-                    </div>
+
+
+                <!-- Column 2 -->
+                <div class="col custom-p d-flex flex-column align-items-center"
+                    style="font-family: 'CustomFont', sans-serif;">
+                    <span class="fs-2  text-primary" id="masjid">Loading...</span> <!-- Tanggal Biasa -->
+                    <span class="fs-5  text-white" id="alamat-masjid">Loading...</span>
                 </div>
-                
+
+                <!-- Column 3 -->
+                <div class="col custom-p d-flex flex-column align-items-center"
+                    style="font-family: 'CustomFont', sans-serif;">
+                    <span class="fs-2  text-white" id="realtime-clock"></span> <!-- Tanggal Biasa -->
+                </div>
             </div>
+            <div class="row text-center" style="margin-top: 50px">
+                <div class="col-10 mx-auto">
+                    <span class="fs-2 text-white text-wrap" id="hadist" style="word-wrap: break-word;">
+                        Additional Content 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquam.
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="container-fluid fixed-bottom  custom-brightnees">
+            <div class="row row-cols-8 d-flex justify-content-center align-items-center text-center text-white fs-5">
+                <div class="col p-2" id="imsak" style="background-color: rgba(0, 31, 63, 0.8);"> <!-- Biru tua transparan -->
+                    <span class="prayer-name">Imsak</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+                <div class="col p-2" id="subuh" style="background-color: rgba(0, 116, 217, 0.8);"> <!-- Biru langit transparan -->
+                    <span class="prayer-name">Subuh</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+                <div class="col p-2" id="syuruq" style="background-color: rgba(127, 219, 255, 0.8);"> <!-- Biru muda transparan -->
+                    <span class="prayer-name">Syuruq</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+                <div class="col p-2" id="dzuhur" style="background-color: rgba(46, 204, 64, 0.8);"> <!-- Hijau transparan -->
+                    <span class="prayer-name">Dzuhur</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+                <div class="col p-2" id="ashar" style="background-color: rgba(255, 220, 0, 0.8);"> <!-- Kuning transparan -->
+                    <span class="prayer-name">Ashar</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+                <div class="col p-2" id="maghrib" style="background-color: rgba(255, 133, 27, 0.8);"> <!-- Oranye transparan -->
+                    <span class="prayer-name">Maghrib</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+                <div class="col p-2" id="isya" style="background-color: rgba(133, 20, 75, 0.8);"> <!-- Merah tua transparan -->
+                    <span class="prayer-name">Isya</span>
+                    <div class="prayer-time">--:--</div>
+                </div>
+            </div>
+            
+            
+            <div class="row d-flex justify-content-center align-items-center text-center">
+                <marquee id="running-text" behavior="scroll" direction="left" scrollamount="5" class="fs-5">
+                    <!-- Teks akan dimasukkan secara dinamis -->
+                </marquee>
+            </div>
+        </div>
+
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -272,7 +343,7 @@
                 .listen('WaktuReal', (e) => {
                     console.log('Data JSON real-time:', e.data);
                     const time = e.data; // Ambil nilai waktu dari JSON
-                    realtime.textContent = time; 
+                    realtime.textContent = time;
                 });
         });
     </script>
@@ -284,12 +355,129 @@
                 .listen('Hadist', (e) => {
                     console.log('Data JSON real-time:', e.data);
                     const time = e.data; // Ambil nilai waktu dari JSON
-                    realtime.textContent = time; 
+                    realtime.textContent = time;
                 });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            const textSpan = document.getElementById("hadist");
+            let items = [];
+            let currentIndex = 0;
+            let intervalId = null; // Simpan ID interval untuk kontrol lebih lanjut
 
+            Echo.channel('hadist-channel')
+                .listen('Hadist', (e) => {
+                    console.log('Data JSON terbaru:', e.data);
+                    const dt = e.data;
 
+                    if (Array.isArray(dt) && dt.length > 0) {
+                        items = dt
+                        currentIndex = 0; // Reset indeks
+                        textSpan.textContent = items[currentIndex].txt; // Tampilkan teks pertama
+
+                        if (!intervalId) {
+                            // Mulai interval jika belum berjalan
+                            intervalId = setInterval(updateText, 7000);
+                        }
+                    } else {
+                        console.warn("Format data tidak valid atau kosong");
+                    }
+                });
+
+            // Fungsi untuk memperbarui teks
+            function updateText() {
+                if (items.length > 0) { // Pastikan items tidak kosong
+                    textSpan.classList.add("fade-out"); // Tambahkan kelas fade-out
+
+                    // Setelah animasi fade-out selesai, ganti teks dan tampilkan dengan fade-in
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % items.length; // Pindah ke indeks berikutnya
+                        textSpan.textContent = items[currentIndex].txt; // Perbarui teks
+                        textSpan.classList.remove("fade-out"); // Hapus kelas fade-out
+                        textSpan.classList.add("fade-in"); // Tambahkan kelas fade-in
+
+                        // Hapus kelas fade-in setelah animasi selesai
+                        setTimeout(() => {
+                            textSpan.classList.remove("fade-in");
+                        }, 2000); // Durasi fade-in (sesuai CSS transition)
+                    }, 2000); // Durasi fade-out (sesuai CSS transition)
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const marqueeElement = document.getElementById("running-text"); // Elemen marquee
+            let textQueue = []; // Antrian teks dari WebSocket
+
+            // Fungsi untuk memperbarui teks marquee
+            function updateMarquee() {
+                if (textQueue.length > 0) {
+                    // Gabungkan semua teks dalam antrian menjadi satu string
+                    marqueeElement.textContent = textQueue.join(" | ");
+                }
+            }
+
+            // Mendengarkan data dari WebSocket melalui Laravel Echo
+            Echo.channel('runtext-channel')
+                .listen('Runtxt', (e) => {
+                    console.log("Data JSON terbaru:", e.data);
+
+                    if (Array.isArray(e.data) && e.data.length > 0) {
+                        // Ambil properti `txt` dari data dan tambahkan ke antrian
+                        textQueue = e.data.map(item => item.txt);
+                        updateMarquee(); // Perbarui teks marquee
+                    } else {
+                        console.warn("Data tidak valid atau kosong:", e.data);
+                    }
+                });
+        });
+    </script>
+   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Objek untuk memetakan waktu sholat dengan ID kolom
+        const prayerMapping = {
+            Imsak: "imsak",
+            Shubuh: "subuh",
+            Syuruq: "syuruq",
+            Dzuhur: "dzuhur",
+            Ashr: "ashar",
+            Maghrib: "maghrib",
+            Isya: "isya",
+        };
+
+        // Fungsi untuk memperbarui waktu sholat di kolom
+        function updatePrayerTimes(data) {
+            // Iterasi melalui data API
+            data.forEach((item) => {
+                const prayerId = prayerMapping[item.shalat]; // Cocokkan nama shalat dengan ID kolom
+                if (prayerId) {
+                    const element = document.getElementById(prayerId); // Dapatkan elemen HTML
+                    if (element && item.waktu_adzan) {
+                        // Update waktu adzan pada elemen
+                        element.querySelector(".prayer-time").textContent = item.waktu_adzan;
+                    }
+                }
+            });
+        }
+
+        // Mendengarkan data dari WebSocket melalui Laravel Echo
+        Echo.channel('sholat-channel')
+            .listen('Jdwlsho', (e) => {
+                console.log("Data Waktu Sholat:", e.data);
+
+                // Pastikan data valid dan berformat yang sesuai
+                if (Array.isArray(e.data)) {
+                    updatePrayerTimes(e.data); // Update waktu sholat
+                } else {
+                    console.warn("Format data WebSocket tidak valid:", e.data);
+                }
+            });
+    });
+</script>
+
+    
 
 
 

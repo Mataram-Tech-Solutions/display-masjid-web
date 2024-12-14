@@ -14,14 +14,8 @@
                         <!-- Form Sholat -->
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="hadist" class="form-control-label">Hadist :</label>
-                                <input type="text" class="form-control" id="hadist" name="hadist" value="{{ old('hadist', $oldval->arab) }}">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="arti" class="form-control-label">Arti :</label>
-                                <input type="text" class="form-control" id="arti" name="arti" value="{{ old('arti', $oldval->txt) }}">
+                                <label for="txt" class="form-control-label">Hadist :</label>
+                                <input type="text" class="form-control" id="txt" name="txt" value="{{ old('txt', $oldval->txt) }}">
                             </div>
                         </div>
                     <!-- Submit Button -->
