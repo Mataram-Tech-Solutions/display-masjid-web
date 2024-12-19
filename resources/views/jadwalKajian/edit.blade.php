@@ -49,17 +49,34 @@
                         </div>                     
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="iqomah" class="form-control-label">Jam Pelaksanaan:</label>
+                                <label for="iqomah" class="form-control-label">Jam Mulai:</label>
                                 <div class="d-flex align-items-center">
                                     <!-- Input for Hours -->
                                     <input type="number" class="form-control me-2" id="pelaksanaan_hour" name="pelaksanaan_hour" 
-                                        value="{{ old('pelaksanaan_hour', date('H', strtotime($oldval->tgl_pelaksanaan))) }}" 
+                                        value="{{ old('pelaksanaan_hour', date('H', strtotime($oldval->jam_mulai))) }}" 
                                         min="0" max="23" placeholder="HH" required>
                                     <!-- Separator -->
                                     <span class="mx-1 me-2">:</span>
                                     <!-- Input for Minutes -->
                                     <input type="number" class="form-control" id="pelaksanaan_minute" name="pelaksanaan_minute" 
-                                        value="{{ old('pelaksanaan_minute', date('i', strtotime($oldval->tgl_pelaksanaan))) }}" 
+                                        value="{{ old('pelaksanaan_minute', date('i', strtotime($oldval->jam_mulai))) }}" 
+                                        min="0" max="59" placeholder="MM" required>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="iqomah" class="form-control-label">Jam Selesai:</label>
+                                <div class="d-flex align-items-center">
+                                    <!-- Input for Hours -->
+                                    <input type="number" class="form-control me-2" id="selesai_hour" name="selesai_hour" 
+                                        value="{{ old('selesai_hour', date('H', strtotime($oldval->jam_selesai))) }}" 
+                                        min="0" max="23" placeholder="HH" required>
+                                    <!-- Separator -->
+                                    <span class="mx-1 me-2">:</span>
+                                    <!-- Input for Minutes -->
+                                    <input type="number" class="form-control" id="selesai_minute" name="selesai_minute" 
+                                        value="{{ old('selesai_minute', date('i', strtotime($oldval->jam_selesai))) }}" 
                                         min="0" max="59" placeholder="MM" required>
                                 </div>
                             </div>

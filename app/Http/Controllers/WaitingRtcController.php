@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\WaktuReal;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
-class WaktuRealController extends Controller
+class WaitingRtcController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('waitingrtc.index');
     }
 
     /**
@@ -30,18 +27,8 @@ class WaktuRealController extends Controller
      */
     public function store(Request $request)
     {
-        event(new WaktuReal($request->time));
-        Cache::put('server_time', $request->time, now()->addMinutes(10));
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                [
-                    'time' => $request->time // Kembalikan dalam format H:i:s
-                ]
-            ]
-        ], 200);
+        //
     }
-
 
     /**
      * Display the specified resource.

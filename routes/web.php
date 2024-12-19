@@ -12,6 +12,8 @@ use App\Http\Controllers\MuharramController;
 use App\Http\Controllers\PrimarydisController;
 use App\Http\Controllers\RuntxtController;
 use App\Http\Controllers\UlamaController;
+use App\Http\Controllers\WaitingRtcController;
+use App\Http\Middleware\CheckPostedTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
@@ -26,14 +28,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Route::get('/waiting-rtc', [WaitingRtcController::class, 'index'])
+    ->name('waiting-rtc.index');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
+        Route::middleware([
+            'auth:sanctum',
+            config('jetstream.auth_session'),
+            'verified'
+        //    'check.time' // Tambahkan middleware Anda
 ])->group(function () {
     Route::resource('/', DashboardController::class)
         ->names([

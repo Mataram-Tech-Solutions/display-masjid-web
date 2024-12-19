@@ -15,6 +15,8 @@
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Judul</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ulama</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Pelaksanaan</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mulai</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Selesai</th>
                   <th class="text-secondary opacity-7 ms-4"></th>
                   <th class="text-secondary opacity-7 ms-4"></th>
                 </tr>
@@ -42,6 +44,12 @@
                     
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $kajians->tgl_pelaksanaan}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ $kajians->jam_mulai}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ $kajians->jam_selesai}}</span>
                     </td>
                     <td class="align-middle text-center">
                         <form action="{{ route('jadwalkajian.edit', $kajians->id) }}" method="GET">

@@ -76,7 +76,9 @@
         .custom-p .fs-4,
         .custom-p .fs-3,
         .custom-p .fs-6,
-        .custom-p .fs-2 {
+        .custom-p .fs-2,
+        .custom-p .fs-1,
+        .custom-p {
             line-height: 1.1;
             margin: 0;
             text-shadow: 5px 5px 16px rgba(0, 0, 0, 1.0);
@@ -133,6 +135,25 @@
             white-space: nowrap;
             /* Pastikan teks tidak membungkus */
         }
+
+        .height-col {
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .prayer-name {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .prayer-time {
+            font-size: 40px;
+            font-weight: bold;
+        }
     </style>
     @vite('resources/css/app.css')
 </head>
@@ -144,8 +165,8 @@
                 <!-- Column 1 -->
                 <div class="col custom-p d-flex flex-column align-items-center"
                     style="font-family: 'CustomFont', sans-serif;">
-                    <span class="fs-5  text-white" id="firstText">Loading...</span> <!-- Tanggal Biasa -->
-                    <span class="fs-5 " id="secondText" style="color: #44da2a">Loading...</span>
+                    <span class="fs-3  text-white" id="firstText">Loading...</span> <!-- Tanggal Biasa -->
+                    <span class="fs-3" id="secondText" style="color: #44da2a">Loading...</span>
                 </div>
 
 
@@ -159,10 +180,10 @@
                 <!-- Column 3 -->
                 <div class="col custom-p d-flex flex-column align-items-center"
                     style="font-family: 'CustomFont', sans-serif;">
-                    <span class="fs-2  text-white" id="realtime-clock"></span> <!-- Tanggal Biasa -->
+                    <span class="text-white" id="realtime-clock" style="font-size: 70px"></span> <!-- Tanggal Biasa -->
                 </div>
             </div>
-            <div class="row text-center" style="margin-top: 50px">
+            <div class="row text-center custom-p" style="margin-top: 50px">
                 <div class="col-10 mx-auto">
                     <span class="fs-2 text-white text-wrap" id="hadist" style="word-wrap: break-word;">
                         Additional Content 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut aliquam.
@@ -172,40 +193,55 @@
 
 
         </div>
-        <div class="container-fluid fixed-bottom  custom-brightnees">
-            <div class="row row-cols-8 d-flex justify-content-center align-items-center text-center text-white fs-5">
-                <div class="col p-2" id="imsak" style="background-color: rgba(0, 31, 63, 0.8);"> <!-- Biru tua transparan -->
+        <div class="container-fluid fixed-bottom custom-brightnees">
+            <div class="row custom-p">
+                <div class="col mb-2" id="countdown-sholat" style="color: #e4c40f; font-size: 35px"></div>
+            </div>
+            <div class="row row-cols-12 d-flex justify-content-center align-items-center text-center fs-5 custom-p"
+                id="dynamic-cols">
+                <!-- Kolom-kolom akan dimasukkan di sini oleh JavaScript -->
+            </div>
+
+            <div class="row row-cols-7 d-flex justify-content-center align-items-center text-center text-white fs-5">
+                <div class="col p-2 custom-p height-col" id="imsak" style="background-color: rgba(0, 31, 63, 0.8);">
+                    <!-- Biru tua transparan -->
                     <span class="prayer-name">Imsak</span>
                     <div class="prayer-time">--:--</div>
                 </div>
-                <div class="col p-2" id="subuh" style="background-color: rgba(0, 116, 217, 0.8);"> <!-- Biru langit transparan -->
+                <div class="col p-2 custom-p height-col" id="subuh"
+                    style="background-color: rgba(0, 116, 217, 0.8);"> <!-- Biru langit transparan -->
                     <span class="prayer-name">Subuh</span>
                     <div class="prayer-time">--:--</div>
                 </div>
-                <div class="col p-2" id="syuruq" style="background-color: rgba(127, 219, 255, 0.8);"> <!-- Biru muda transparan -->
+                <div class="col p-2 custom-p height-col" id="syuruq"
+                    style="background-color: rgba(127, 219, 255, 0.8);"> <!-- Biru muda transparan -->
                     <span class="prayer-name">Syuruq</span>
                     <div class="prayer-time">--:--</div>
                 </div>
-                <div class="col p-2" id="dzuhur" style="background-color: rgba(46, 204, 64, 0.8);"> <!-- Hijau transparan -->
+                <div class="col p-2 custom-p height-col" id="dzuhur"
+                    style="background-color: rgba(46, 204, 64, 0.8);"> <!-- Hijau transparan -->
                     <span class="prayer-name">Dzuhur</span>
                     <div class="prayer-time">--:--</div>
                 </div>
-                <div class="col p-2" id="ashar" style="background-color: rgba(255, 220, 0, 0.8);"> <!-- Kuning transparan -->
+                <div class="col p-2 custom-p height-col" id="ashar"
+                    style="background-color: rgba(255, 220, 0, 0.8);"> <!-- Kuning transparan -->
                     <span class="prayer-name">Ashar</span>
                     <div class="prayer-time">--:--</div>
                 </div>
-                <div class="col p-2" id="maghrib" style="background-color: rgba(255, 133, 27, 0.8);"> <!-- Oranye transparan -->
+                <div class="col p-2 custom-p height-col" id="maghrib"
+                    style="background-color: rgba(255, 133, 27, 0.8);"> <!-- Oranye transparan -->
                     <span class="prayer-name">Maghrib</span>
                     <div class="prayer-time">--:--</div>
                 </div>
-                <div class="col p-2" id="isya" style="background-color: rgba(133, 20, 75, 0.8);"> <!-- Merah tua transparan -->
+                <div class="col p-2 custom-p height-col" id="isya"
+                    style="background-color: rgba(133, 20, 75, 0.8);"> <!-- Merah tua transparan -->
                     <span class="prayer-name">Isya</span>
                     <div class="prayer-time">--:--</div>
                 </div>
             </div>
-            
-            
-            <div class="row d-flex justify-content-center align-items-center text-center">
+
+
+            <div class="row d-flex justify-content-center align-items-center text-center custom-p">
                 <marquee id="running-text" behavior="scroll" direction="left" scrollamount="5" class="fs-5">
                     <!-- Teks akan dimasukkan secara dinamis -->
                 </marquee>
@@ -434,50 +470,207 @@
                 });
         });
     </script>
-   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Objek untuk memetakan waktu sholat dengan ID kolom
-        const prayerMapping = {
-            Imsak: "imsak",
-            Shubuh: "subuh",
-            Syuruq: "syuruq",
-            Dzuhur: "dzuhur",
-            Ashr: "ashar",
-            Maghrib: "maghrib",
-            Isya: "isya",
-        };
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Objek untuk memetakan waktu sholat dengan ID kolom
+            const prayerMapping = {
+                Imsak: "imsak",
+                Shubuh: "subuh",
+                Syuruq: "syuruq",
+                Dzuhur: "dzuhur",
+                Ashr: "ashar",
+                Maghrib: "maghrib",
+                Isya: "isya",
+            };
 
-        // Fungsi untuk memperbarui waktu sholat di kolom
-        function updatePrayerTimes(data) {
-            // Iterasi melalui data API
-            data.forEach((item) => {
-                const prayerId = prayerMapping[item.shalat]; // Cocokkan nama shalat dengan ID kolom
-                if (prayerId) {
-                    const element = document.getElementById(prayerId); // Dapatkan elemen HTML
-                    if (element && item.waktu_adzan) {
-                        // Update waktu adzan pada elemen
-                        element.querySelector(".prayer-time").textContent = item.waktu_adzan;
+            // Fungsi untuk memperbarui waktu sholat di kolom
+            function updatePrayerTimes(data) {
+                // Iterasi melalui data API
+                data.forEach((item) => {
+                    const prayerId = prayerMapping[item.shalat]; // Cocokkan nama shalat dengan ID kolom
+                    if (prayerId) {
+                        const element = document.getElementById(prayerId); // Dapatkan elemen HTML
+                        if (element && item.waktu_adzan) {
+                            // Ambil hanya jam dan menit (hh:mm)
+                            const timeParts = item.waktu_adzan.split(":");
+                            const timeFormatted = timeParts[0] + ":" + timeParts[1];
+
+                            // Update waktu adzan pada elemen
+                            element.querySelector(".prayer-time").textContent = timeFormatted;
+                        }
                     }
-                }
+                });
+            }
+
+            // Mendengarkan data dari WebSocket melalui Laravel Echo
+            Echo.channel('sholat-channel')
+                .listen('Jdwlsho', (e) => {
+                    console.log("Data Waktu Sholat:", e.data);
+
+                    // Pastikan data valid dan berformat yang sesuai
+                    if (Array.isArray(e.data)) {
+                        updatePrayerTimes(e.data); // Update waktu sholat
+                    } else {
+                        console.warn("Format data WebSocket tidak valid:", e.data);
+                    }
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mendengarkan data dari WebSocket melalui Laravel Echo
+            Echo.channel('kajian-channel')
+                .listen('Jdwlkaj', (e) => {
+                    console.log("Data Waktu kajian:", e.data);
+
+                    // Pastikan data valid dan berformat yang sesuai (array)
+                    if (Array.isArray(e.data)) {
+                        // Menambahkan kolom-kolom ke dalam div #dynamic-cols
+                        updateDynamicColumns(e.data);
+                    } else {
+                        console.warn("Format data WebSocket tidak valid:", e.data);
+                    }
+                });
+
+            // Fungsi untuk memperbarui kolom berdasarkan seluruh data
+            function updateDynamicColumns(data) {
+                // Ambil elemen container untuk kolom-kolom
+                const container = document.getElementById('dynamic-cols');
+                container.innerHTML = ''; // Kosongkan kontainer sebelum menambah data baru
+
+                // Iterasi data dan buat kolom untuk setiap item
+                data.forEach(item => {
+                    const col = document.createElement('div');
+                    col.classList.add('col', 'mb-2'); // Tambahkan kelas col dan margin-bottom
+
+                    // Format waktu ke HH:mm
+                    const jamMulai = formatTime(item.jam_mulai);
+                    const jamSelesai = formatTime(item.jam_selesai);
+
+                    // Struktur kolom (3 baris teks/spans)
+                    col.innerHTML = `
+                <div class="text-primary"><strong>${item.ulamaName || 'N/A'}</strong></div>
+                <div class="text-white">${item.judul || 'No Title'}</div>
+                <div class="text-white">${item.tgl_pelaksanaan} ${jamMulai}-${jamSelesai}</div>
+            `;
+
+                    // Tambahkan kolom ke dalam container
+                    container.appendChild(col);
+                });
+            }
+
+            // Fungsi untuk memformat waktu ke HH:mm
+            function formatTime(timeString) {
+                if (!timeString) return 'Invalid Time'; // Jika tidak ada waktu, kembalikan default
+
+                // Pastikan format timeString adalah "HH:MM:SS"
+                const [hours, minutes] = timeString.split(':');
+                return `${hours}:${minutes}`;
+            }
+        });
+    </script>
+   <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Fungsi untuk mengonversi waktu dalam format HH:MM:SS ke detik
+        function konversiKeDetik(waktu) {
+            const [jam, menit, detik] = waktu.split(":").map(Number);
+            return (jam * 3600) + (menit * 60) + detik;
+        }
+
+        // Fungsi untuk menghitung selisih detik dan menyertakan nama shalat
+        function hitungSelisihDetik(waktuReal, arrayWaktuAdzan) {
+            const waktuRealDalamDetik = konversiKeDetik(waktuReal);
+            return arrayWaktuAdzan.map(item => {
+                const selisihDetik = item.waktu_adzan_detik < waktuRealDalamDetik
+                    ? Math.abs((item.waktu_adzan_detik + 86400) - waktuRealDalamDetik)
+                    : Math.abs(item.waktu_adzan_detik - waktuRealDalamDetik);
+
+                // Kembalikan objek dengan nama shalat dan selisih detik
+                return {
+                    shalat: item.shalat,
+                    selisihDetik: selisihDetik
+                };
             });
         }
 
-        // Mendengarkan data dari WebSocket melalui Laravel Echo
+        function hitungSelisihDetik2(waktuReal, dataWaktuAdzan, shalat) {
+            const waktuRealDalamDetik = konversiKeDetik(waktuReal);
+            const selisihDetik = dataWaktuAdzan < waktuRealDalamDetik
+                ? Math.abs((dataWaktuAdzan + 86400) - waktuRealDalamDetik)
+                : Math.abs(dataWaktuAdzan - waktuRealDalamDetik);
+
+            // Kembalikan objek dengan nama shalat dan selisih detik
+            return {
+                shalat: shalat,
+                selisihDetik: selisihDetik
+            };
+        }
+
+
+        // Fungsi untuk mengonversi detik ke format HH:MM:SS
+        function konversiKeFormatWaktu(detik) {
+            const jam = Math.floor(detik / 3600);
+            const menit = Math.floor((detik % 3600) / 60);
+            const detikSisa = detik % 60;
+
+            // Pastikan formatnya selalu 2 digit
+            return `${jam.toString().padStart(2, '0')}:${menit.toString().padStart(2, '0')}:${detikSisa.toString().padStart(2, '0')}`;
+        }
+
+        // Channel pertama: Mendapatkan data waktu adzan dan mengonversi ke detik
         Echo.channel('sholat-channel')
             .listen('Jdwlsho', (e) => {
-                console.log("Data Waktu Sholat:", e.data);
+                const hasilKonversi = e.data.map(item => ({
+                    shalat: item.shalat,  // Ambil nama shalat
+                    waktu_adzan_detik: konversiKeDetik(item.waktu_adzan) // Konversi waktu adzan ke detik
+                }));
+                console.log("Hasil Konversi Waktu Adzan ke Detik:", hasilKonversi);
 
-                // Pastikan data valid dan berformat yang sesuai
-                if (Array.isArray(e.data)) {
-                    updatePrayerTimes(e.data); // Update waktu sholat
-                } else {
-                    console.warn("Format data WebSocket tidak valid:", e.data);
-                }
+                // Channel kedua: Menghitung selisih dengan waktu real-time
+                Echo.channel('waktureal-channel')
+                    .listen('WaktuReal', (e) => {
+                        const currentTime = e.data;
+                        console.log("Waktu Real-time:", currentTime);
+
+                        // Hitung selisih detik dengan menyertakan nama shalat
+                        const selisihDetik = hitungSelisihDetik(currentTime, hasilKonversi);
+                        console.log("Selisih Detik:", selisihDetik);
+
+                        // Konversi selisih detik ke format HH:MM:SS
+                        const hasilKonversiFormatWaktu = selisihDetik.map(item => ({
+                            shalat: item.shalat,  // Nama shalat
+                            waktuSelisih: konversiKeFormatWaktu(item.selisihDetik)  // Selisih dalam format HH:MM:SS
+                        }));
+                        console.log("Selisih dalam Format HH:MM:SS:", hasilKonversiFormatWaktu);
+                        const shalatBerikutnya = hasilKonversi.find(item => konversiKeDetik(currentTime) < item.waktu_adzan_detik);
+                        
+                        if (shalatBerikutnya) {
+                            // Hitung selisih detik dan konversi ke format HH:MM:SS
+                            const selisihDetik = hitungSelisihDetik2(currentTime, shalatBerikutnya.waktu_adzan_detik, shalatBerikutnya.shalat);
+                            const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);
+                            
+                            // Tampilkan nama shalat dan selisih waktu
+                            document.getElementById("countdown-sholat").innerHTML = `
+                                >> ${shalatBerikutnya.shalat} - ${waktuSelisih}
+                            `;
+                        } else {
+                            // Jika sudah melewati semua waktu adzan, reset ke Imsak
+                            const pertama = hasilKonversi[0];
+                            const selisihDetik = hitungSelisihDetik2(currentTime, hasilKonversi[0].waktu_adzan_detik, pertama.shalat);
+                            const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);                            
+                            document.getElementById("countdown-sholat").innerHTML = `
+                                >> ${pertama.shalat} - ${waktuSelisih}
+                            `;
+                        }
+                    });
             });
     });
 </script>
 
     
+
+
+
 
 
 

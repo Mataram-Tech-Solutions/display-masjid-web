@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Hadist;
+use App\Events\Jdwlkaj;
 use App\Events\Jdwlsho;
 use App\Events\PrimarydisUpdated;
 use App\Events\ProfileMasjid;
@@ -10,12 +11,14 @@ use App\Events\Runtxt;
 use App\Events\TanggalIslam;
 use App\Models\Centxt;
 use App\Models\Jadwal;
+use App\Models\Kajian;
 use App\Models\Masjid;
 use App\Models\Primarydis;
 use App\Models\Runtxt as ModelsRuntxt;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 
@@ -32,6 +35,23 @@ class PrimarydisController extends Controller
         event(new Hadist(Centxt::all()));
         event(new Runtxt(ModelsRuntxt::all()));
         event(new Jdwlsho(Jadwal::all()));
+        $kajian = DB::table('kajian')
+        ->leftJoin('ustadz', 'kajian.ulama', '=', 'ustadz.id')
+        ->select('kajian.*', 'ustadz.name AS ulamaName')
+        ->get()
+        ->map(function ($item) {
+            // Gunakan Carbon untuk memformat tanggal
+            $formattedDate = Carbon::parse($item->tgl_pelaksanaan)->translatedFormat('d M Y');
+
+            // Ganti nama bulan ke Bahasa Indonesia
+            $item->tgl_pelaksanaan = str_replace(
+                ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                $formattedDate
+            );
+            return $item;
+        }); 
+        event(new Jdwlkaj($kajian));
         $muharramStart = Carbon::create(2024, 7, 7);
 
         // Nama bulan Islam
@@ -95,7 +115,7 @@ class PrimarydisController extends Controller
         $primarydis = Primarydis::all();
         // return response()->json([
         //     'status' => 'success',
-        //     'data' => $primarydis
+        //     'data' => $kajian
         // ], 200);  
         return view('primarydisplay.index',[
             'primarydis' => $primarydis,

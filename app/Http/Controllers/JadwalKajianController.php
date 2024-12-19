@@ -42,13 +42,17 @@ class JadwalKajianController extends Controller
         $tgl_pelaksanaan = $request->input('pelaksanaan_date');
         $pelaksanaanjam = $request->input('pelaksanaan_hour');
         $pelaksanaanmenit = $request->input('pelaksanaan_minute');
+        $selesaijam = $request->input('selesai_hour');
+        $selesaimenit = $request->input('selesai_minute');
         try {
             $kajian = new Kajian();
             
             // Update data
             $kajian->judul = $judul;
             $kajian->ulama = $pemateri;
-            $kajian->tgl_pelaksanaan = sprintf('%s %02d:%02d:00', $tgl_pelaksanaan, $pelaksanaanjam, $pelaksanaanmenit);
+            $kajian->tgl_pelaksanaan = $tgl_pelaksanaan;
+            $kajian->jam_mulai = sprintf('%02d:%02d:00', $pelaksanaanjam, $pelaksanaanmenit);
+            $kajian->jam_selesai = sprintf('%02d:%02d:00', $selesaijam, $selesaimenit);
             $kajian->updated_by = Auth::user()->id;
             $kajian->created_by = Auth::user()->id;
     
@@ -93,13 +97,17 @@ class JadwalKajianController extends Controller
         $tgl_pelaksanaan = $request->input('pelaksanaan_date');
         $pelaksanaanjam = $request->input('pelaksanaan_hour');
         $pelaksanaanmenit = $request->input('pelaksanaan_minute');
+        $selesaijam = $request->input('selesai_hour');
+        $selesaimenit = $request->input('selesai_minute');
         try {
             $kajian = Kajian::findOrFail($id);
             
             // Update data
             $kajian->judul = $judul;
             $kajian->ulama = $pemateri;
-            $kajian->tgl_pelaksanaan = sprintf('%s %02d:%02d:00', $tgl_pelaksanaan, $pelaksanaanjam, $pelaksanaanmenit);
+            $kajian->tgl_pelaksanaan = $tgl_pelaksanaan;
+            $kajian->jam_mulai = sprintf('%02d:%02d:00', $pelaksanaanjam, $pelaksanaanmenit);
+            $kajian->jam_selesai = sprintf('%02d:%02d:00', $selesaijam, $selesaimenit);
             $kajian->updated_by = Auth::user()->id;
     
             // Simpan ke database
