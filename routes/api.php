@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PrayerTimeController;
 use App\Http\Controllers\WaktuRealController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,14 @@ Route::resource('/waktu', WaktuRealController::class)
             'edit' => 'waktu.edit',
             'update' => 'waktu.update',
             'destroy' => 'waktu.destroy',
+        ]);
+Route::resource('/prayer', PrayerTimeController::class)
+        ->names([
+            'index' => 'prayer.index',
+            'create' => 'prayer.create',
+            'store' => 'prayer.store',
+            'show' => 'prayer.show',
+            'edit' => 'prayer.edit',
+            'update' => 'prayer.update',
+            'destroy' => 'prayer.destroy',
         ]);

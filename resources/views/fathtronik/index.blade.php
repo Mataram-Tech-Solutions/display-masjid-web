@@ -12,7 +12,7 @@
     <style>
         @font-face {
             font-family: 'CustomFont';
-            src: url('/fonts/BoldenVan.ttf') format('truetype');
+            src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -83,6 +83,7 @@
             margin: 0;
             text-shadow: 5px 5px 16px rgba(0, 0, 0, 1.0);
         }
+        
 
 
         #firstText {
@@ -153,6 +154,44 @@
         .prayer-time {
             font-size: 40px;
             font-weight: bold;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Transparent background */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-content {
+            border: none;
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+        }
+
+        .countdown-labels {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .timer-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffffff;
         }
     </style>
     @vite('resources/css/app.css')
@@ -249,8 +288,30 @@
         </div>
 
     </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <canvas id="doughnut-timer" width="250" height="250"></canvas>
+            <div class="row row-cols-1 d-flex justify-content-center align-items-center text-center mt-2">
+                <div id="namaSho" class="col custom-p"
+                    style="color: #fff; font-size: 48px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    WAKTU ISYA</div>
+            </div>
+            <div class="countdown-labels">
+                <div id="adzan-text" class="custom-p text-center"
+                    style="color: #fff; font-size: 24px; margin-bottom: 5px;">ADZAN</div>
+                <div id="timer" class="custom-p text-center" style="color: #fff; font-size: 56px;">10</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             const assetsContainer = document.querySelector('.background-container');
@@ -569,113 +630,230 @@
             }
         });
     </script>
-   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Fungsi untuk mengonversi waktu dalam format HH:MM:SS ke detik
-        function konversiKeDetik(waktu) {
-            const [jam, menit, detik] = waktu.split(":").map(Number);
-            return (jam * 3600) + (menit * 60) + detik;
-        }
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let doughnutChart; // Variabel global untuk menyimpan referensi chart
 
-        // Fungsi untuk menghitung selisih detik dan menyertakan nama shalat
-        function hitungSelisihDetik(waktuReal, arrayWaktuAdzan) {
-            const waktuRealDalamDetik = konversiKeDetik(waktuReal);
-            return arrayWaktuAdzan.map(item => {
-                const selisihDetik = item.waktu_adzan_detik < waktuRealDalamDetik
-                    ? Math.abs((item.waktu_adzan_detik + 86400) - waktuRealDalamDetik)
-                    : Math.abs(item.waktu_adzan_detik - waktuRealDalamDetik);
+            function showModal(duration, hitungmundur, sholat, audioadzan, audioadzstat) {
+                const modal = document.getElementById("modal");
+                const timerElement = document.getElementById("timer");
+                const namesho = document.getElementById("namaSho");
+                const ctx = document.getElementById("doughnut-timer").getContext("2d");
+
+                let countdown = hitungmundur;  // Gunakan hitungmundur sebagai waktu yang tersisa
+                let shalat_name = sholat;
+                let adzanstatus = audioadzstat;
+                let adzanaudio = audioadzan;
+
+                timerElement.textContent = countdown;  // Tampilkan countdown pada elemen timer
+                namesho.textContent = shalat_name;  // Tampilkan nama sholat
+
+                // Tampilkan modal
+                modal.style.display = "flex";
+
+                // Jika doughnutChart belum ada, buat chart baru
+                if (!doughnutChart) {
+                    // Konfigurasi data awal Chart.js
+                    const data = {
+                        datasets: [{
+                            data: [countdown, 0], // Waktu tersisa dan waktu berlalu
+                            backgroundColor: ["#ee1e1e", "#dbfbff"], // Merah dan putih solid (tidak transparan)
+                            borderWidth: 0,
+                        }],
+                    };
+
+                    const options = {
+                        responsive: false,
+                        cutout: "75%", // Membuat lingkaran lebih tipis
+                        rotation: -20, // Mulai dari atas (-90 derajat)
+                        circumference: 380, // Lingkaran penuh (380 derajat untuk efek rotasi)
+                        animation: {
+                            animateRotate: true, // Aktifkan animasi rotasi
+                            duration: 1000, // Durasi animasi setiap pembaruan
+                        },
+                    };
+
+                    // Inisialisasi Chart.js
+                    doughnutChart = new Chart(ctx, {
+                        type: "doughnut",
+                        data: data,
+                        options: options,
+                    });
+                }
+
+                // Perbarui data chart tanpa merusak animasi
+                const elapsed = duration - countdown;  // Waktu berlalu berdasarkan perhitungan manual
+                doughnutChart.data.datasets[0].data = [countdown, elapsed];
+                doughnutChart.update();
+
+                // Perbarui tampilan countdown
+                timerElement.textContent = countdown;
+
+                // Jika countdown sudah habis, sembunyikan modal dan jalankan audio
+                if (countdown <= 1) {
+                    modal.style.display = "none"; // Sembunyikan modal setelah selesai
+                    if (audioadzstat == 1) {
+                        displayadzan(shalat_name, adzanaudio);  // Jalankan audio adzan
+                        console.log('kosongtes:', audioadzstat);
+                    } else {
+                        console.log('kosongtes:', audioadzstat);
+                    }
+                }
+            }
+
+
+
+            function displayadzan(shalat_name, adzanaudio) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                // Data yang dikirimkan
+                const data = {
+                    shalat_name: shalat_name,
+                    adzanaudio: adzanaudio, // Data yang ingin dikirim
+                };
+
+                // Kirim POST request ke server
+                fetch("http://127.0.0.1:8000/displayadzan", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken, // Tambahkan CSRF token
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                            // Kembalikan respons sebagai HTML
+                            return response.text();
+                        } else {
+                            console.error("POST request failed");
+                        }
+                    })
+                    .then((html) => {
+                        if (html) {
+                            document.open();
+                            document.write(html);
+                            document.close();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error during POST request:", error);
+                    });
+            }
+
+            // Fungsi untuk mengonversi waktu dalam format HH:MM:SS ke detik
+            function konversiKeDetik(waktu) {
+                const [jam, menit, detik] = waktu.split(":").map(Number);
+                return (jam * 3600) + (menit * 60) + detik;
+            }
+
+            // Fungsi untuk menghitung selisih detik dan menyertakan nama shalat
+            function hitungSelisihDetik(waktuReal, arrayWaktuAdzan) {
+                const waktuRealDalamDetik = konversiKeDetik(waktuReal);
+                return arrayWaktuAdzan.map(item => {
+                    const selisihDetik = item.waktu_adzan_detik < waktuRealDalamDetik ?
+                        Math.abs((item.waktu_adzan_detik + 86400) - waktuRealDalamDetik) :
+                        Math.abs(item.waktu_adzan_detik - waktuRealDalamDetik);
+
+                    // Kembalikan objek dengan nama shalat dan selisih detik
+                    return {
+                        shalat: item.shalat,
+                        selisihDetik: selisihDetik
+                    };
+                });
+            }
+
+            function hitungSelisihDetik2(waktuReal, dataWaktuAdzan, shalat) {
+                const waktuRealDalamDetik = konversiKeDetik(waktuReal);
+                const selisihDetik = dataWaktuAdzan < waktuRealDalamDetik ?
+                    Math.abs((dataWaktuAdzan + 86400) - waktuRealDalamDetik) :
+                    Math.abs(dataWaktuAdzan - waktuRealDalamDetik);
 
                 // Kembalikan objek dengan nama shalat dan selisih detik
                 return {
-                    shalat: item.shalat,
+                    shalat: shalat,
                     selisihDetik: selisihDetik
                 };
-            });
-        }
-
-        function hitungSelisihDetik2(waktuReal, dataWaktuAdzan, shalat) {
-            const waktuRealDalamDetik = konversiKeDetik(waktuReal);
-            const selisihDetik = dataWaktuAdzan < waktuRealDalamDetik
-                ? Math.abs((dataWaktuAdzan + 86400) - waktuRealDalamDetik)
-                : Math.abs(dataWaktuAdzan - waktuRealDalamDetik);
-
-            // Kembalikan objek dengan nama shalat dan selisih detik
-            return {
-                shalat: shalat,
-                selisihDetik: selisihDetik
-            };
-        }
+            }
 
 
-        // Fungsi untuk mengonversi detik ke format HH:MM:SS
-        function konversiKeFormatWaktu(detik) {
-            const jam = Math.floor(detik / 3600);
-            const menit = Math.floor((detik % 3600) / 60);
-            const detikSisa = detik % 60;
+            // Fungsi untuk mengonversi detik ke format HH:MM:SS
+            function konversiKeFormatWaktu(detik) {
+                const jam = Math.floor(detik / 3600);
+                const menit = Math.floor((detik % 3600) / 60);
+                const detikSisa = detik % 60;
 
-            // Pastikan formatnya selalu 2 digit
-            return `${jam.toString().padStart(2, '0')}:${menit.toString().padStart(2, '0')}:${detikSisa.toString().padStart(2, '0')}`;
-        }
+                // Pastikan formatnya selalu 2 digit
+                return `${jam.toString().padStart(2, '0')}:${menit.toString().padStart(2, '0')}:${detikSisa.toString().padStart(2, '0')}`;
+            }
 
-        // Channel pertama: Mendapatkan data waktu adzan dan mengonversi ke detik
-        Echo.channel('sholat-channel')
-            .listen('Jdwlsho', (e) => {
-                const hasilKonversi = e.data.map(item => ({
-                    shalat: item.shalat,  // Ambil nama shalat
-                    waktu_adzan_detik: konversiKeDetik(item.waktu_adzan) // Konversi waktu adzan ke detik
-                }));
-                console.log("Hasil Konversi Waktu Adzan ke Detik:", hasilKonversi);
+            // Channel pertama: Mendapatkan data waktu adzan dan mengonversi ke detik
+            Echo.channel('sholat-channel')
+                .listen('Jdwlsho', (e) => {
+                    const hasilKonversi = e.data.map(item => ({
+                        shalat: item.shalat, // Ambil nama shalat
+                        waktu_adzan_detik: konversiKeDetik(item
+                            .waktu_adzan),
+                        imam: item.imam_name,
+                        unique_name: item.unique_name,
+                        audstat: item.audstat,
+                    }));
+                    console.log("Hasil Konversi Waktu Adzan ke Detik:", hasilKonversi);
 
-                // Channel kedua: Menghitung selisih dengan waktu real-time
-                Echo.channel('waktureal-channel')
-                    .listen('WaktuReal', (e) => {
-                        const currentTime = e.data;
-                        console.log("Waktu Real-time:", currentTime);
+                    // Channel kedua: Menghitung selisih dengan waktu real-time
+                    Echo.channel('waktureal-channel')
+                        .listen('WaktuReal', (e) => {
+                            const currentTime = e.data;
+                            console.log("Waktu Real-time:", currentTime);
 
-                        // Hitung selisih detik dengan menyertakan nama shalat
-                        const selisihDetik = hitungSelisihDetik(currentTime, hasilKonversi);
-                        console.log("Selisih Detik:", selisihDetik);
+                            // Hitung selisih detik dengan menyertakan nama shalat
+                            const selisihDetik = hitungSelisihDetik(currentTime, hasilKonversi);
+                            console.log("Selisih Detik:", selisihDetik);
 
-                        // Konversi selisih detik ke format HH:MM:SS
-                        const hasilKonversiFormatWaktu = selisihDetik.map(item => ({
-                            shalat: item.shalat,  // Nama shalat
-                            waktuSelisih: konversiKeFormatWaktu(item.selisihDetik)  // Selisih dalam format HH:MM:SS
-                        }));
-                        console.log("Selisih dalam Format HH:MM:SS:", hasilKonversiFormatWaktu);
-                        const shalatBerikutnya = hasilKonversi.find(item => konversiKeDetik(currentTime) < item.waktu_adzan_detik);
-                        
-                        if (shalatBerikutnya) {
-                            // Hitung selisih detik dan konversi ke format HH:MM:SS
-                            const selisihDetik = hitungSelisihDetik2(currentTime, shalatBerikutnya.waktu_adzan_detik, shalatBerikutnya.shalat);
-                            const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);
-                            
-                            // Tampilkan nama shalat dan selisih waktu
-                            document.getElementById("countdown-sholat").innerHTML = `
-                                >> ${shalatBerikutnya.shalat} - ${waktuSelisih}
+                            // Konversi selisih detik ke format HH:MM:SS
+                            const hasilKonversiFormatWaktu = selisihDetik.map(item => ({
+                                shalat: item.shalat, // Nama shalat
+                                waktuSelisih: konversiKeFormatWaktu(item
+                                    .selisihDetik) // Selisih dalam format HH:MM:SS
+                            }));
+                            console.log("Selisih dalam Format HH:MM:SS:", hasilKonversiFormatWaktu);
+                            const shalatBerikutnya = hasilKonversi.find(item => konversiKeDetik(
+                                currentTime) < item.waktu_adzan_detik);
+
+                            if (shalatBerikutnya) {
+                                // Hitung selisih detik dan konversi ke format HH:MM:SS
+                                const selisihDetik = hitungSelisihDetik2(currentTime, shalatBerikutnya
+                                    .waktu_adzan_detik, shalatBerikutnya.shalat);
+                                const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);
+
+                                if (selisihDetik.selisihDetik <= 10) {
+                                    showModal(10, selisihDetik.selisihDetik, shalatBerikutnya.shalat,
+                                        shalatBerikutnya.unique_name,
+                                        shalatBerikutnya.audstat); // Tampilkan modal selama 5 detik
+                                }
+
+                                document.getElementById("countdown-sholat").innerHTML = `
+                                >> ${shalatBerikutnya.shalat} - ${waktuSelisih}${shalatBerikutnya.imam ? ` - Ust.${shalatBerikutnya.imam}` : ""}
+                                 `;
+                            } else {
+                                // Jika sudah melewati semua waktu adzan, reset ke Imsak
+                                const pertama = hasilKonversi[0];
+                                const selisihDetik = hitungSelisihDetik2(currentTime, hasilKonversi[0]
+                                    .waktu_adzan_detik, pertama.shalat);
+                                const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);
+                                if (selisihDetik.selisihDetik <= 10) {
+                                    showModal(10, selisihDetik.selisihDetik, pertama.shalat, pertama
+                                        .unique_name, pertama
+                                        .audstat); // Tampilkan modal selama 5 detik
+                                }
+                                document.getElementById("countdown-sholat").innerHTML = `
+                                >> ${pertama.shalat} - ${waktuSelisih}${pertama.imam ? ` - Ust.${pertama.imam}` : ""}
                             `;
-                        } else {
-                            // Jika sudah melewati semua waktu adzan, reset ke Imsak
-                            const pertama = hasilKonversi[0];
-                            const selisihDetik = hitungSelisihDetik2(currentTime, hasilKonversi[0].waktu_adzan_detik, pertama.shalat);
-                            const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);                            
-                            document.getElementById("countdown-sholat").innerHTML = `
-                                >> ${pertama.shalat} - ${waktuSelisih}
-                            `;
-                        }
-                    });
-            });
-    });
-</script>
-
-    
-
-
-
-
-
-
+                            }
+                        });
+                });
+        });
+    </script>
     @vite('resources/js/app.js')
-
 </body>
 
 </html>
