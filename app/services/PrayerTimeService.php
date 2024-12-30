@@ -30,25 +30,27 @@ class PrayerTimeService
         $W = (180 / (15 * pi())) * acos((sin(atan(1 / ($Sh + tan(abs($B - $D) * pi() / 180)))) - sin($D * pi() / 180) * sin($B * pi() / 180)) / (cos($D * pi() / 180) * cos($B * pi() / 180)));
 
         // Mengambil data penyesuaian waktu salat dari database
-        $getdata = DB::table('set_perwaktu_shalat')->get();
+        $getdata = Jadwal::get();
 
         $_data = [
-            'subuh' => $getdata[0]->perwaktushalat_penyesuaian ?? '+0',
-            'dzuhur' => $getdata[1]->perwaktushalat_penyesuaian ?? '+0',
-            'ashar' => $getdata[2]->perwaktushalat_penyesuaian ?? '+0',
-            'maghrib' => $getdata[3]->perwaktushalat_penyesuaian ?? '+0',
-            'isya' => $getdata[4]->perwaktushalat_penyesuaian ?? '+0',
-            'terbit' => $getdata[6]->perwaktushalat_penyesuaian ?? '+0',
+            'imsak' => $getdata[0]->akurasi_adzan ?? '+0',
+            'subuh' => $getdata[1]->akurasi_adzan ?? '+0',
+            'syuruq' => $getdata[2]->akurasi_adzan ?? '+0',
+            'dzuhur' => $getdata[3]->akurasi_adzan ?? '+0',
+            'ashar' => $getdata[4]->akurasi_adzan ?? '+0',
+            'maghrib' => $getdata[5]->akurasi_adzan ?? '+0',
+            'isya' => $getdata[6]->akurasi_adzan ?? '+0',
         ];
 
         $data = [
+            'imsak' => self::appTimeAdd(substr(self::decToHours($Z - $Vd - 0.1667), 0, 5) . ":00", $_data['imsak'] . ' minutes'),
             'subuh' => self::appTimeAdd(substr(self::decToHours($Z - $Vd), 0, 5) . ":00", $_data['subuh'] . ' minutes'),
-            'terbit' => self::appTimeAdd(substr(self::decToHours($Z - $U), 0, 5) . ":00", $_data['terbit'] . ' minutes'),
+            'syuruq' => self::appTimeAdd(substr(self::decToHours($Z - $U), 0, 5) . ":00", $_data['syuruq'] . ' minutes'),
             'dzuhur' => self::appTimeAdd(substr(self::decToHours($Z), 0, 5) . ":00", $_data['dzuhur'] . ' minutes'),
             'ashar' => self::appTimeAdd(substr(self::decToHours($Z + $W), 0, 5) . ":00", $_data['ashar'] . ' minutes'),
             'maghrib' => self::appTimeAdd(substr(self::decToHours($Z + $U), 0, 5) . ":00", $_data['maghrib'] . ' minutes'),
             'isya' => self::appTimeAdd(substr(self::decToHours($Z + $Vn), 0, 5) . ":00", $_data['isya'] . ' minutes'),
-        ];
+        ];        
 
         return $data;
     }
@@ -62,8 +64,23 @@ class PrayerTimeService
 
     public static function decToHours($decimal)
     {
-        $hours = floor($decimal);
-        $minutes = ($decimal - $hours) * 60;
+        $hours = floor($decimal); // Jam
+        $totalMinutes = ($decimal - $hours) * 60; // Total menit desimal
+        $minutes = floor($totalMinutes); // Menit integer
+        $seconds = round(($totalMinutes - $minutes) * 60); // Detik
+    
+        // Lakukan pembulatan menit jika detik >= 30
+        if ($seconds >= 30) {
+            $minutes += 1;
+            $seconds = 0; // Reset detik ke 0
+        }
+    
+        // Pastikan menit tidak melebihi 59
+        if ($minutes === 60) {
+            $minutes = 0;
+            $hours += 1; // Tambah jam
+        }
+    
         return sprintf("%02d:%02d", $hours, $minutes);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Astronomis;
 use App\Models\Jadwal;
 use App\Services\PrayerTimeService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PrayerTimeController extends Controller
@@ -14,10 +15,11 @@ class PrayerTimeController extends Controller
      */
     public function index()
     {
-        // Latitude, Longitude, dan Timezone untuk Surakarta
-        // $latitude = -7.556;
-        // $longitude = 110.831;
-        // $timezoneOffset = 7;
+        $selectedDate = '2025-01-03';
+        $date = Carbon::createFromFormat('Y-m-d', $selectedDate);
+
+        // Ambil hari dalam setahun (yday)
+        $yday = $date->dayOfYear;
         $dataAstro = Astronomis::with(['waktuWilayah'])->get();
 
         $firstDataAstro = $dataAstro->first();
@@ -27,10 +29,13 @@ class PrayerTimeController extends Controller
         $ketinggianLaut = $firstDataAstro->ketinggian_laut;
         $sufajarsenja = $firstDataAstro->sudut_fajarsenja;
         $sumalamsenja = $firstDataAstro->sudut_malamsenja;
-        $gmt = $firstDataAstro->gmt;
-
+        $gmt = $firstDataAstro->waktuWilayah->gmt_selisih;
         // Ambil data Jadwal
         $list = Jadwal::with(['jdwlustadz', 'jdwlkhatib', 'audioadzan', 'audiomur'])->get();
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $list
+        // ], 200);  
 
         // Waktu salat berdasarkan jadwal (1: Subuh, 3: Dzuhur, 4: Ashar, dll.)
         $jadwalSalat = [
@@ -42,43 +47,56 @@ class PrayerTimeController extends Controller
             5 => "maghrib",
             6 => "isya",
         ];
-        // $jadwalSalat = ['imsak', 'subuh', 'terbit', 'dzuhur', 'ashar', 'maghrib', 'isya'];
-        // foreach ($jadwalSalat as $key => $name) {
-        //     $waktuAdzan = PrayerTimeService::calculatePrayerTime(
-        //         $name, 
-        //         $latitude, 
-        //         $longitude, 
-        //         $ketinggianLaut, 
-        //         $sufajarsenja, 
-        //         $sumalamsenja, 
-        //         $gmt
-        //     );
-        //     // Gunakan hasil $waktuAdzan untuk API
-        // }
-
-
-        // Format hasil API
-        $data = $list->flatMap(function ($jadwal) use ($latitude, $longitude, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $gmt, $jadwalSalat) {
-            return collect($jadwalSalat)->map(function ($name, $key) use ($jadwal, $latitude, $longitude, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $gmt) {
-                return [
-                    "id" => $jadwal->id,
-                    "name" => $name,
-                    "waktu_adzan" => PrayerTimeService::calculatePrayerTime(getdate()['yday'], $ketinggianLaut, $sufajarsenja, $sumalamsenja, $latitude, $longitude, $gmt, 1),
-                    "jdwlustadz" => $jadwal->jdwlustadz, 
-                    "jdwlkhatib" => $jadwal->jdwlkhatib,
-                    "audioadzan" => $jadwal->audioadzan,
-                    "audiomur" => $jadwal->audiomur,
-                ];
-            });
+        $data = $list->map(function ($jadwal) use ($latitude, $longitude, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $gmt, $yday) {
+            // Perhitungan waktu adzan untuk setiap salat
+            $waktuAdzan = PrayerTimeService::calculatePrayerTime($yday, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $latitude, $longitude, $gmt, $jadwal->shalat_id);
+            
+            // Menentukan waktu adzan yang sesuai dengan shalat yang diminta
+            $waktuAdzanFormatted = [
+                "Imsak" => $waktuAdzan['imsak'],
+                "Shubuh" => $waktuAdzan['subuh'],
+                "Syuruq" => $waktuAdzan['syuruq'],
+                "Dzuhur" => $waktuAdzan['dzuhur'],
+                "Ashr" => $waktuAdzan['ashar'],
+                "Maghrib" => $waktuAdzan['maghrib'],
+                "Isya" => $waktuAdzan['isya'],
+            ];
+        
+            // Mengambil waktu adzan sesuai dengan shalat yang diminta (misalnya 'imsak', 'subuh', dll)
+            $waktuAdzanRequested = $waktuAdzanFormatted[$jadwal->shalat] ?? null;
+        
+            return [
+                "id" => $jadwal->id,
+                "shalat" => $jadwal->shalat, // Nama shalat
+                "waktu_adzan" => $waktuAdzanRequested, // Hanya waktu adzan yang diminta (misalnya imsak)
+                "waktu_iqomah" => $jadwal->waktu_iqomah ?? null,
+                "jeda_iqomah" => $jadwal->jeda_iqomah ?? null,
+                "akurasi_adzan" => "0",
+                "buzzeriqomah" => $jadwal->buzzeriqomah ?? null,
+                "audmur" => $jadwal->audiomur ?? null,
+                "audio" => $jadwal->audio ?? null,
+                "audstat" => $jadwal->audstat ?? null,
+                "audmurstat" => $jadwal->audmurstat ?? null,
+                "imam" => $jadwal->imam ?? null,
+                "khatib" => $jadwal->khatib ?? null,
+                "created_by" => 1,
+                "updated_by" => 1,
+                "created_at" => $jadwal->created_at ?? null,
+                "updated_at" => $jadwal->updated_at ?? null,
+                "jdwlustadz" => $jadwal->jdwlustadz ?? null,
+                "jdwlkhatib" => $jadwal->jdwlkhatib ?? null,
+                "audioadzan" => $jadwal->audioadzan ?? null,
+                "audiomur" => $jadwal->audiomur ?? null,
+            ];
         });
+        
+        // Mengembalikan response JSON
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+    }        
 
-        return response()->json($data->values());
-    }
-
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => $prayerTimes
-        // ], 200);  
     
 
     /**
