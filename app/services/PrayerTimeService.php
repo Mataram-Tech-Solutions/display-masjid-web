@@ -1,7 +1,9 @@
 <?php
 namespace App\Services;
 
+use App\Models\Astronomis;
 use App\Models\Jadwal;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PrayerTimeService
@@ -9,6 +11,94 @@ class PrayerTimeService
     public static function sign($x)
     {
         return $x == 0 ? 0 : $x / abs($x);
+    }
+
+    public static function dataPerhitungan($date) {
+        $selectedDate = $date;
+        $date = Carbon::createFromFormat('Y-m-d', $selectedDate);
+
+        // Ambil hari dalam setahun (yday)
+        $yday = $date->dayOfYear;
+        $dataAstro = Astronomis::with(['waktuWilayah'])->get();
+
+        $firstDataAstro = $dataAstro->first();
+
+        $latitude = $firstDataAstro->latitude;
+        $longitude = $firstDataAstro->longitude;
+        $ketinggianLaut = $firstDataAstro->ketinggian_laut;
+        $sufajarsenja = $firstDataAstro->sudut_fajarsenja;
+        $sumalamsenja = $firstDataAstro->sudut_malamsenja;
+        $gmt = $firstDataAstro->waktuWilayah->gmt_selisih;
+        // Ambil data Jadwal
+        $list = Jadwal::with(['audioadzan', 'jdwlustadz', 'audiomur', 'jdwlkhatib'])
+            ->select('jadwal.*')
+            ->get();
+
+        // Manipulasi data setelah query jika diperlukan
+        $list->map(function ($item) {
+            $item->unique_name = $item->audioadzan ? $item->audioadzan->unique . '_' . $item->audioadzan->name : null;
+            $item->uniquemur_name = $item->audiomur ? $item->audiomur->unique . '_' . $item->audiomur->name : null;
+            $item->imam_name = $item->jdwlustadz ? $item->jdwlustadz->name : null;
+            $item->khatib_name = $item->jdwlkhatib ? $item->jdwlkhatib->name : null;
+            return $item;
+        });
+        // $list = Jadwal::with(['jdwlustadz', 'jdwlkhatib', 'audioadzan', 'audiomur'])->get();
+        // $list = Jadwal::with([
+        //     'jdwlustadz:id,name AS imam_name',
+        //     'jdwlkhatib',
+        //     'audioadzan' => function ($query) {
+        //         $query->select('id', DB::raw("CONCAT(`unique`, '_', `name`) AS unique_name"));
+        //     },
+        //     'audiomur' => function ($query) {
+        //         $query->select('id', DB::raw("CONCAT(`unique`, '_', `name`) AS unique_name"));
+        //     },
+        // ])
+        // ->select('jadwal.*') // Semua kolom dari jadwal
+        // ->get();
+        $data = $list->map(function ($jadwal) use ($latitude, $longitude, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $gmt, $yday) {
+            // Perhitungan waktu adzan untuk setiap salat
+            $waktuAdzan = PrayerTimeService::calculatePrayerTime($yday, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $latitude, $longitude, $gmt, $jadwal->shalat_id);
+            
+            // Menentukan waktu adzan yang sesuai dengan shalat yang diminta
+            $waktuAdzanFormatted = [
+                "Imsak" => $waktuAdzan['imsak'],
+                "Shubuh" => $waktuAdzan['subuh'],
+                "Syuruq" => $waktuAdzan['syuruq'],
+                "Dzuhur" => $waktuAdzan['dzuhur'],
+                "Ashr" => $waktuAdzan['ashar'],
+                "Maghrib" => $waktuAdzan['maghrib'],
+                "Isya" => $waktuAdzan['isya'],
+            ];
+        
+            // Mengambil waktu adzan sesuai dengan shalat yang diminta (misalnya 'imsak', 'subuh', dll)
+            $waktuAdzanRequested = $waktuAdzanFormatted[$jadwal->shalat] ?? null;
+        
+            return [
+                "id" => $jadwal->id,
+                "shalat" => $jadwal->shalat, // Nama shalat
+                "waktu_adzan" => $waktuAdzanRequested, // Hanya waktu adzan yang diminta (misalnya imsak)
+                "waktu_iqomah" => $jadwal->waktu_iqomah ?? null,
+                "jeda_iqomah" => $jadwal->jeda_iqomah ?? null,
+                "akurasi_adzan" => "0",
+                "buzzeriqomah" => $jadwal->buzzeriqomah ?? null,
+                "audmur" => $jadwal->uniquemur_name ?? null,
+                "audio" => $jadwal->unique_name ?? null,
+                "audstat" => $jadwal->audstat ?? null,
+                "audmurstat" => $jadwal->audmurstat ?? null,
+                "imam" => $jadwal->imam ?? null,
+                "khatib" => $jadwal->khatib ?? null,
+                "created_by" => 1,
+                "updated_by" => 1,
+                "created_at" => $jadwal->created_at ?? null,
+                "updated_at" => $jadwal->updated_at ?? null,
+                "jdwlustadz" => $jadwal->jdwlustadz ?? null,
+                "jdwlkhatib" => $jadwal->jdwlkhatib ?? null,
+                "audioadzan" => $jadwal->audioadzan ?? null,
+                "audiomur" => $jadwal->audiomur ?? null,
+            ];
+        });
+
+        return $data;
     }
 
     public static function calculatePrayerTime($J, $H, $Gd, $Gn, $B, $L, $TZ, $Sh)
@@ -27,7 +117,7 @@ class PrayerTimeService
         $U = (180 / (15 * pi())) * acos((sin((-0.8333 - 0.0347 * self::sign($H) * sqrt(abs($H))) * (pi() / 180)) - sin($D * (pi() / 180)) * sin($B * (pi() / 180))) / (cos($D * (pi() / 180)) * cos($B * (pi() / 180))));
         $Vd = (180 / (15 * pi())) * acos((-sin($Gd * (pi() / 180)) - sin($D * (pi() / 180)) * sin($B * (pi() / 180))) / (cos($D * (pi() / 180)) * cos($B * (pi() / 180))));
         $Vn = (180 / (15 * pi())) * acos((-sin($Gn * (pi() / 180)) - sin($D * (pi() / 180)) * sin($B * (pi() / 180))) / (cos($D * (pi() / 180)) * cos($B * (pi() / 180))));
-        $W = (180 / (15 * pi())) * acos((sin(atan(1 / ($Sh + tan(abs($B - $D) * pi() / 180)))) - sin($D * pi() / 180) * sin($B * pi() / 180)) / (cos($D * pi() / 180) * cos($B * pi() / 180)));
+        $W = (180 / (15 * pi())) * acos((sin(atan(1 / (1 + tan(abs($B - $D) * pi() / 180)))) - sin($D * pi() / 180) * sin($B * pi() / 180)) / (cos($D * pi() / 180) * cos($B * pi() / 180)));
 
         // Mengambil data penyesuaian waktu salat dari database
         $getdata = Jadwal::get();

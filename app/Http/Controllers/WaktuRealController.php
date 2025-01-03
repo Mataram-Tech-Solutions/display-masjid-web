@@ -17,6 +17,7 @@ use App\Models\Kajian;
 use App\Models\Masjid;
 use App\Models\Primarydis;
 use App\Models\Runtxt as ModelsRuntxt;
+use App\Services\PrayerTimeService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -59,7 +60,6 @@ class WaktuRealController extends Controller
         event(new ProfileMasjid(Masjid::all()));
         event(new Hadist(Centxt::all()));
         event(new Runtxt(ModelsRuntxt::all()));
-        event(new Jdwlsho($jadwal));
         $kajian = DB::table('kajian')
         ->leftJoin('ustadz', 'kajian.ulama', '=', 'ustadz.id')
         ->select('kajian.*', 'ustadz.name AS ulamaName')
@@ -137,13 +137,16 @@ class WaktuRealController extends Controller
             'tglBiasa' => $currentDate->isoFormat('dddd, D MMMM YYYY')
         ];
         event(new TanggalIslam($data));
-        event(new WaktuReal($request->time));
+        $tes = event(new WaktuReal($request->time));
         Cache::put('server_time', $request->time, now()->addMinutes(10));
+        event(new Jdwlsho(PrayerTimeService::dataPerhitungan($request->date)));
         return response()->json([
             'status' => 'success',
             'data' => [
                 [
-                    'time' => $request->time // Kembalikan dalam format H:i:s
+                    'time' => $request->time, // Kembalikan dalam format H:i:s
+                    'date' => $request->date,
+                     // Kembalikan dalam format H:i:s
                 ]
             ]
         ], 200);

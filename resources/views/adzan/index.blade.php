@@ -12,7 +12,7 @@
     <style>
         @font-face {
             font-family: 'CustomFont';
-            src: url('/fonts/BoldenVan.ttf') format('truetype');
+            src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -52,13 +52,20 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row text-center mt-2" style="font-size: 72px; color:white">
+        <div class="row text-center" style="font-size: 88px; color:white; margin-top:9%">
             <div class="col">Saatnya Adzan</div>
         </div>
-        <div class="row text-center mt-2" style="font-size: 72px; color:#e4c40f">
+        <div class="row text-center mt-2" style="font-size: 88px; color:#e4c40f">
             <div class="col">{{$sholat}}</div>
         </div>
-        <div class="row text-center mt-2">
+        <div class="row justify-content-center mt-2">
+            <div class="col-auto">
+                <div id="waktu" class="p-2 text-white" style="background-color: red; font-size: 56px; border-radius: 12px; border: 2px solid white;">
+                    --:--:--
+                </div>                
+            </div>
+        </div>
+        <div class="row text-center mt-4">
             <audio id="custom-audio" autoplay>
                 <source src="{{ asset('upload/audio/' . $audio) }}" type="audio/mpeg">
                 Your browser does not support the audio element.
@@ -73,6 +80,17 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const realtime = document.querySelector("#waktu");
+
+            Echo.channel('waktureal-channel')
+                .listen('WaktuReal', (e) => {
+                    console.log('Data JSON real-time:', e.data);
+                    const time = e.data; // Ambil nilai waktu dari JSON
+                    realtime.textContent = time;
+                });
+        });
+
         const audio = document.getElementById('custom-audio');
         const progressBar = document.getElementById('progress-bar');
     
@@ -83,7 +101,13 @@
         });
     
         audio.addEventListener('ended', () => {
+            var jedaIqomah = @json($iqomah);  // Data $sholat
+            var buzzerIqomah = @json($buzzer);  // Data $sholat
             progressBar.style.width = '0%'; // Reset progress bar after the audio ends
+            setTimeout(() => {
+                const url = `http://127.0.0.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzerIqomah)}`;
+                window.location.href = url;
+            }, 2000); // 2000 ms = 2 detik
         });
     </script>
     @vite('resources/js/app.js')

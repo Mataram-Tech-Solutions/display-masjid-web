@@ -17,6 +17,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "dayjs": "^1.11.13"
+        "dayjs": "^1.11.13",
+        "flipdown": "^0.3.2"
     }
 }

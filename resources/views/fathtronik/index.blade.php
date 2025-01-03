@@ -634,7 +634,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             let doughnutChart; // Variabel global untuk menyimpan referensi chart
 
-            function showModal(duration, hitungmundur, sholat, audioadzan, audioadzstat) {
+            function showModal(duration, hitungmundur, sholat, audioadzan, audioadzstat, iqomah, buzzer) {
                 const modal = document.getElementById("modal");
                 const timerElement = document.getElementById("timer");
                 const namesho = document.getElementById("namaSho");
@@ -644,6 +644,8 @@
                 let shalat_name = sholat;
                 let adzanstatus = audioadzstat;
                 let adzanaudio = audioadzan;
+                let jedaIqomah = iqomah;
+                let buzzerIqomah = buzzer;
 
                 timerElement.textContent = countdown;  // Tampilkan countdown pada elemen timer
                 namesho.textContent = shalat_name;  // Tampilkan nama sholat
@@ -693,9 +695,10 @@
                 if (countdown <= 1) {
                     modal.style.display = "none"; // Sembunyikan modal setelah selesai
                     if (audioadzstat == 1) {
-                        displayadzan(shalat_name, adzanaudio);  // Jalankan audio adzan
+                        displayadzan(shalat_name, adzanaudio, jedaIqomah, buzzerIqomah);  // Jalankan audio adzan
                         console.log('kosongtes:', audioadzstat);
                     } else {
+                        displayiqomah(jedaIqomah, buzzerIqomah)
                         console.log('kosongtes:', audioadzstat);
                     }
                 }
@@ -703,41 +706,20 @@
 
 
 
-            function displayadzan(shalat_name, adzanaudio) {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                // Data yang dikirimkan
-                const data = {
-                    shalat_name: shalat_name,
-                    adzanaudio: adzanaudio, // Data yang ingin dikirim
-                };
+            function displayadzan(shalat_name, adzanaudio, jedaIqomah, buzzer) {
+                // Buat URL dengan query string
+                const url = `http://127.0.0.1:8000/displayadzan?shalat_name=${encodeURIComponent(shalat_name)}&adzanaudio=${encodeURIComponent(adzanaudio)}&menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
+                
+                // Redirect ke URL tersebut
+                window.location.href = url;
+            }
 
-                // Kirim POST request ke server
-                fetch("http://127.0.0.1:8000/displayadzan", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": csrfToken, // Tambahkan CSRF token
-                        },
-                        body: JSON.stringify(data),
-                    })
-                    .then((response) => {
-                        if (response.ok) {
-                            // Kembalikan respons sebagai HTML
-                            return response.text();
-                        } else {
-                            console.error("POST request failed");
-                        }
-                    })
-                    .then((html) => {
-                        if (html) {
-                            document.open();
-                            document.write(html);
-                            document.close();
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error during POST request:", error);
-                    });
+            function displayiqomah(jedaIqomah, buzzer) {
+                // Buat URL dengan query string
+                const url = `http://127.0.0.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
+                
+                // Redirect ke URL tersebut
+                window.location.href = url;
             }
 
             // Fungsi untuk mengonversi waktu dalam format HH:MM:SS ke detik
@@ -794,8 +776,10 @@
                         waktu_adzan_detik: konversiKeDetik(item
                             .waktu_adzan),
                         imam: item.imam_name,
-                        unique_name: item.unique_name,
+                        unique_name: item.audio,
                         audstat: item.audstat,
+                        iqomah: item.jeda_iqomah,
+                        buzzer: item.buzzeriqomah
                     }));
                     console.log("Hasil Konversi Waktu Adzan ke Detik:", hasilKonversi);
 
@@ -828,7 +812,7 @@
                                 if (selisihDetik.selisihDetik <= 10) {
                                     showModal(10, selisihDetik.selisihDetik, shalatBerikutnya.shalat,
                                         shalatBerikutnya.unique_name,
-                                        shalatBerikutnya.audstat); // Tampilkan modal selama 5 detik
+                                        shalatBerikutnya.audstat, shalatBerikutnya.iqomah, shalatBerikutnya.buzzer); // Tampilkan modal selama 5 detik
                                 }
 
                                 document.getElementById("countdown-sholat").innerHTML = `
@@ -843,7 +827,7 @@
                                 if (selisihDetik.selisihDetik <= 10) {
                                     showModal(10, selisihDetik.selisihDetik, pertama.shalat, pertama
                                         .unique_name, pertama
-                                        .audstat); // Tampilkan modal selama 5 detik
+                                        .audstat, pertama.iqomah, pertama.buzzer); // Tampilkan modal selama 5 detik
                                 }
                                 document.getElementById("countdown-sholat").innerHTML = `
                                 >> ${pertama.shalat} - ${waktuSelisih}${pertama.imam ? ` - Ust.${pertama.imam}` : ""}

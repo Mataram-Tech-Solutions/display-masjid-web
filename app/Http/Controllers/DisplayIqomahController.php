@@ -2,30 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Astronomis;
-use App\Models\Jadwal;
-use App\Services\PrayerTimeService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class PrayerTimeController extends Controller
+class DisplayIqomahController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = PrayerTimeService::dataPerhitungan('2025-01-01');
-        
-        // Mengembalikan response JSON
-        return response()->json([
-            'status' => 'success',
-            'data' => $data
-        ], 200);
-    }        
-
-    
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -73,5 +60,24 @@ class PrayerTimeController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function displayIqomah(Request $request)
+    {
+        $menitIqomah = $request->query('menitIqomah');
+        $buzzerIqomah =  $request->query('buzzer');
+
+        // Validasi data
+        if (!$menitIqomah || !$buzzerIqomah) {
+            abort(400, 'Invalid input');
+        }
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $menitIqomah
+        // ], 200);  
+        return view('iqomah.index', [
+            'iqomah' => $menitIqomah,
+            'buzzer' => $buzzerIqomah,
+        ]);
     }
 }

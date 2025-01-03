@@ -5,6 +5,7 @@ use App\Http\Controllers\AudioController;
 use App\Http\Controllers\CentxtController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DispalyAdzanController;
+use App\Http\Controllers\DisplayIqomahController;
 use App\Http\Controllers\DisUtamaController;
 use App\Http\Controllers\JadwalKajianController;
 use App\Http\Controllers\JadwalSholatController;
@@ -157,13 +158,16 @@ Route::get('/waiting-rtc', [WaitingRtcController::class, 'index'])
         'update' => 'displayutama.update',
         'destroy' => 'displayutama.destroy',
     ]);
-    Route::resource('/displayadzan',DispalyAdzanController::class)
-    ->names([
-        'index' => 'displayadzan.index',
-        'create' => 'displayadzan.create',
-        'store' => 'displayadzan.store',
-        'show' => 'displayadzan.show',
-        'edit' => 'displayadzan.edit',
-        'update' => 'displayadzan.update',
-        'destroy' => 'displayadzan.destroy',
-    ]);
+    // Route::resource('/displayadzan',DispalyAdzanController::class)
+    // ->names([
+    //     'index' => 'displayadzan.index',
+    //     'create' => 'displayadzan.create',
+    //     'store' => 'displayadzan.store',
+    //     'show' => 'displayadzan.show',
+    //     'edit' => 'displayadzan.edit',
+    //     'update' => 'displayadzan.update',
+    //     'destroy' => 'displayadzan.destroy',
+    // ]);
+    Route::get('/displayadzan', [DispalyAdzanController::class, 'displayAdzan'])->name('display.adzan');
+    Route::get('/displayiqomah', [DisplayIqomahController::class, 'displayIqomah'])->name('display.iqomah');
+

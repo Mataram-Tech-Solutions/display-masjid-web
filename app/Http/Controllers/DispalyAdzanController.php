@@ -27,16 +27,7 @@ class DispalyAdzanController extends Controller
      */
     public function store(Request $request)
     {
-        $namaSho = $request->input('shalat_name');
-        $audio = $request->input('adzanaudio');
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => $namaSho
-        // ], 200); 
-        return view('adzan.index', [
-            'sholat' => $namaSho,
-            'audio' => $audio,
-        ]);
+       //
     }
 
     /**
@@ -70,4 +61,26 @@ class DispalyAdzanController extends Controller
     {
         //
     }
+
+    public function displayAdzan(Request $request)
+    {
+        // Ambil data dari query string
+        $shalatName = $request->query('shalat_name');
+        $adzanAudio = $request->query('adzanaudio');
+        $menitIqomah = $request->query('menitIqomah');
+        $buzzerIqomah = $request->query('buzzer');
+
+        // Validasi data
+        if (!$shalatName || !$adzanAudio || !$menitIqomah || !$buzzerIqomah) {
+            abort(400, 'Invalid input');
+        }
+
+        return view('adzan.index', [
+            'sholat' => $shalatName,
+            'audio' => $adzanAudio,
+            'iqomah' => $menitIqomah,
+            'buzzer' => $buzzerIqomah,
+        ]);
+    }
+
 }
