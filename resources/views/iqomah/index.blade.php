@@ -11,13 +11,24 @@
     <link id="pagestyle" rel="stylesheet" href="{{asset('flipdown-master/dist/flipdown.min.css')}}">
     <link>
     <style>
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
             margin: 0;
-            height: 100%;
+            height: 100vh; /* Mengatur tinggi ke 100% dari viewport height */
+            width: 100vw; /* Mengatur lebar ke 100% dari viewport width */
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: black;
+            background-image: url('{{ asset('images/background2.jpg') }}');
+            background-size: cover; /* Memastikan gambar menutupi seluruh latar */
+            background-position: center; /* Memusatkan gambar */
+            background-repeat: no-repeat; /* Mencegah pengulangan gambar */
+            background-attachment: fixed; /* Membuat gambar tetap saat scroll */
             color: white;
             font-family: Arial, sans-serif;
         }
@@ -25,8 +36,8 @@
 </head>
 
 <body>
-    <div>
-        <h1 class="text-center mb-4">Iqomah</h1>
+    <div style="padding-bottom: 13%">
+        <div class="text-center mb-4" style="font-size: 5rem; color: rgb(255, 255, 255); font-family: 'CustomFont', sans-serif;">Iqomah</div>
         <div id="flipdown" class="flipdown"></div>
     </div>
 

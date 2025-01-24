@@ -25,7 +25,7 @@
         </head>
 
 
-<body class="g-sidenav-show   bg-gray-100">
+<body class="g-sidenav-show bg-gray-100">
     <div class="min-height-300 bg-dark position-absolute w-100"></div>
         @include('layouts.sidebar')
         <main class="main-content position-relative border-radius-lg ">
@@ -38,6 +38,9 @@
    <!--   Core JS Files   -->
   <script src="{{asset('argon/assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('argon/assets/js/core/bootstrap.min.js')}}"></script>
+  <script src="{{asset('argon/assets/js/argon-dashboard.js')}}"></script>
+  <script src="{{asset('argon/assets/js/argon-dashboard.js.map')}}"></script>
+  <script src="{{asset('argon/assets/js/argon-dashboard.min.js')}}"></script>
   <script src="{{asset('argon/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('argon/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{asset('argon/assets/js/plugins/chartjs.min.js')}}"></script>

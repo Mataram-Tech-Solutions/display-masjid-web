@@ -401,7 +401,7 @@
 
             Echo.channel('tglislam-channel')
                 .listen('TanggalIslam', (e) => {
-                    console.log('Data JSON terbaru:', e.data);
+                    console.log('Data JSON tanggal terbaru:', e.data);
 
                     // Format tanggal biasa dengan penambahan warna biru pada hari dan tanggal
                     const tglBiasa = e.data.tglBiasa; // 'Senin, 9 Desember 2024'

@@ -19,6 +19,10 @@ return new class extends Migration
             $table->integer('sudut_fajarsenja')->comment('Sudut Fajar dan Senja (derajat)');
             $table->integer('sudut_malamsenja')->comment('Sudut Malam dan Senja (derajat)');
             $table->string('gmt', 3)->default('+7')->comment('Zona Waktu (GMT)');
+            $table->unsignedBigInteger('created_by'); // Kolom imam yang merujuk ke id di tabel ustadz
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('updated_by'); // Kolom imam yang merujuk ke id di tabel ustadz
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps(); // Created_At & Updated_At
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\HelloEvent;
+use App\Http\Controllers\AstronomisController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\CentxtController;
 use App\Http\Controllers\DashboardController;
@@ -146,6 +147,17 @@ Route::get('/waiting-rtc', [WaitingRtcController::class, 'index'])
             'edit' => 'masjid.edit',
             'update' => 'masjid.update',
             'destroy' => 'masjid.destroy',
+        ]);
+
+        Route::resource('/astronomis',AstronomisController::class)
+        ->names([
+            'index' => 'astronomis.index',
+            'create' => 'astronomis.create',
+            'store' => 'astronomis.store',
+            'show' => 'astronomis.show',
+            'edit' => 'astronomis.edit',
+            'update' => 'astronomis.update',
+            'destroy' => 'astronomis.destroy',
         ]);
     });
     Route::resource('/displayutama',DisUtamaController::class)

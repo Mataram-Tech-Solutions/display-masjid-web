@@ -19,42 +19,28 @@
                                 <input type="text" class="form-control disabled" id="sholat" name="sholat" value="{{ old('sholat', $sebelumnya->shalat) }}"disabled>
                             </div>
                         </div>
-                        <!-- Form Adzan -->
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <label for="adzan" class="form-control-label">Adzan :</label>
-                                <div class="d-flex align-items-center">
-                                    <!-- Input for Hours -->
-                                    <input type="number" class="form-control me-2" id="adzan_hour" name="adzan_hour" 
-                                        value="{{ old('adzan_hour', date('H', strtotime($sebelumnya->waktu_adzan))) }}" 
-                                        min="0" max="23" placeholder="HH" required>
-                                    <!-- Separator -->
-                                    <span class="mx-1 me-2">:</span>
-                                    <!-- Input for Minutes -->
-                                    <input type="number" class="form-control" id="adzan_minute" name="adzan_minute" 
-                                        value="{{ old('adzan_minute', date('i', strtotime($sebelumnya->waktu_adzan))) }}" 
-                                        min="0" max="59" placeholder="MM" required>
+                                <label>Akurasi Adzan:</label>
+                                <div>
+                                    <input type="radio" id="tambah" name="operasi" value="tambah">
+                                    <label for="tambah">Tambah</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="kurang" name="operasi" value="kurang">
+                                    <label for="kurang">Kurang</label>
                                 </div>
                             </div>
-                        </div> 
-                        <!-- Form Iqomah -->
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="iqomah" class="form-control-label">Iqomah :</label>
-                                <div class="d-flex align-items-center">
-                                    <!-- Input for Hours -->
-                                    <input type="number" class="form-control me-2" id="iqomah_hour" name="iqomah_hour" 
-                                        value="{{ old('iqomah_hour', date('H', strtotime($sebelumnya->waktu_iqomah))) }}" 
-                                        min="0" max="23" placeholder="HH" required>
-                                    <!-- Separator -->
-                                    <span class="mx-1 me-2">:</span>
-                                    <!-- Input for Minutes -->
-                                    <input type="number" class="form-control" id="iqomah_minute" name="iqomah_minute" 
-                                        value="{{ old('iqomah_minute', date('i', strtotime($sebelumnya->waktu_iqomah))) }}" 
-                                        min="0" max="59" placeholder="MM" required>
-                                </div>
+                                <label for="menit">Akurasi Adzan:</label>
+                                <select class="form-control" id="menit" name="menit" data-bs-defaultVal="{{ old('menit', $sebelumnya->akurasi_adzan)}}">
+                                    <!-- Options akan diisi oleh JavaScript -->
+                                </select>
                             </div>
-                        </div> 
+                        </div>
+                        <div class="col-md-2"></div>
                         <!-- Row 2 -->
                         <div class="col-md-2">
                             <div class="form-group">
@@ -259,5 +245,74 @@
     });
 </script>
 @endif
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menitDropdown = document.getElementById('menit');
+        const radioTambah = document.getElementById('tambah');
+        const radioKurang = document.getElementById('kurang');
+        const defaultVal = menitDropdown.getAttribute('data-bs-defaultVal'); // Ambil nilai default
+        console.log('Default value:', defaultVal);
 
+        function updateDropdown() {
+            menitDropdown.innerHTML = ''; // Hapus semua opsi
+
+            // Tambahkan opsi default
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "--Pilih Menit--";
+            defaultOption.disabled = true;
+            defaultOption.selected = false; // Jadikan opsi default sebagai selected
+            menitDropdown.appendChild(defaultOption);
+
+            let start = 0;
+            let end = 60;
+
+            for (let i = start; i <= end; i++) {
+                const option = document.createElement('option');
+                let value, textContent;
+                
+                if (i === 0) {
+                    value = '0';
+                    textContent = '0 menit';
+                } else {
+                    value = radioTambah.checked ? `+${i}` : `-${i}`;
+                    textContent = `${value} menit`;
+                }
+                
+                option.value = value;
+                option.textContent = textContent;
+                
+                if (value === defaultVal) {
+                    option.selected = true; // Set opsi sesuai defaultVal sebagai selected
+                }
+                menitDropdown.appendChild(option);
+            }
+        }
+
+        // Event listener untuk perubahan radio button
+        radioTambah.addEventListener('change', updateDropdown);
+        radioKurang.addEventListener('change', updateDropdown);
+        if (defaultVal.startsWith('+')) {
+            document.getElementById('tambah').checked = true;
+        } else if (defaultVal.startsWith('-')) {
+            document.getElementById('kurang').checked = true;
+        }
+
+        // Inisialisasi awal
+        updateDropdown();
+    });
+</script>
+<script>
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     // Ambil nilai dari controller
+    //     const defaultVal = @json($sebelumnya->akurasi_adzan);
+
+    //     // Cek apakah nilai dimulai dengan '+' atau '-'
+    //     if (defaultVal.startsWith('+')) {
+    //         document.getElementById('tambah').checked = true;
+    //     } else if (defaultVal.startsWith('-')) {
+    //         document.getElementById('kurang').checked = true;
+    //     }
+    // });
+</script>
 @endsection

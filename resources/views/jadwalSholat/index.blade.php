@@ -12,8 +12,8 @@
               <thead>
                 <tr>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sholat</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Adzan</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Iqomah</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jeda Iqomah</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Akurasi Adzan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Buzzer Iqomah</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Audio Adzan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Audio Murothal</th>
@@ -31,10 +31,10 @@
                         <span class="text-secondary text-xs font-weight-bold">{{ $lists->shalat }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->waktu_adzan }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->jeda_iqomah }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->waktu_iqomah ?? '-' }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->akurasi_adzan ?? '-' }}</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $lists->buzzeriqomah ?? '-'  }}</span>

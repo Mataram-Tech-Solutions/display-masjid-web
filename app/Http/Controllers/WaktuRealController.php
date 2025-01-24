@@ -96,11 +96,16 @@ class WaktuRealController extends Controller
         ];
 
         // Panjang bulan Hijriah dalam satu tahun
-        $islamicMonthLengths = [29, 30, 30, 30, 29, 30, 30, 29, 29, 30, 29, 29];
+        $islamicMonthLengths = [29, 30, 30, 30, 29, 30, 30, 29, 29, 30, 29, 29,
+        30, 29, 30, 30, 30, 29, 30, 29, 30, 29, 30, 29,
+        29, 30, 29, 30, 30, 29, 30, 30, 29, 30, 29, 30,
+        29, 29, 30, 29, 30, 29, 30, 30, 29, 30, 30, 29,
+        30, 29, 30, 29, 29, 30, 29, 30, 29, 30, 30, 29];
 
         // Tanggal sekarang
         Carbon::setLocale('id');
-        $currentDate = Carbon::now();
+        $tanggalDisplay = Carbon::parse($request->date);
+        $currentDate = $tanggalDisplay;
 
         // Hitung selisih hari dari 1 Muharram
         $daysDifference = $muharramStart->diffInDays($currentDate, false);
@@ -115,27 +120,34 @@ class WaktuRealController extends Controller
         $currentMonthIndex = 0; // Indeks bulan pertama (Muharram)
         $remainingDays = $daysDifference;
 
-        // Iterasi untuk menghitung bulan Hijriah berdasarkan panjang bulan
+        $lengthOfMonthArray = count($islamicMonthLengths);
+
+       // Iterasi untuk menghitung bulan Hijriah berdasarkan panjang bulan
         while ($remainingDays >= $islamicMonthLengths[$currentMonthIndex]) {
             $remainingDays -= $islamicMonthLengths[$currentMonthIndex];
             $currentMonthIndex++;
 
-            // Jika melewati bulan Dzulhijjah, reset ke Muharram dan tambah tahun
-            if ($currentMonthIndex >= 12) {
-                $currentMonthIndex = 0;
+            // Jika melewati bulan Dzulhijjah (bulan ke-12), reset ke Muharram dan tambah tahun
+            if ($currentMonthIndex % 12 === 0) {
                 $currentYear++;
+            }
+
+            // Menghindari indeks array di luar batas
+            if ($currentMonthIndex >= count($islamicMonthLengths)) {
+                $currentMonthIndex = 0; // Reset jika melebihi panjang array
             }
         }
 
         // Tanggal dalam bulan Hijriah saat ini
         $currentHijriDate = $remainingDays + 1;
-        $currentMonth = $islamicMonths[$currentMonthIndex];
+        $currentMonth = $islamicMonths[$currentMonthIndex % 12]; // Menggunakan modulo 12 untuk memastikan bulan Hijriah valid
 
         // Tampilkan hasil
         $data = [
             'tglHijriah' => $currentHijriDate . ' ' . $currentMonth . ' ' . $currentYear . ' H',
             'tglBiasa' => $currentDate->isoFormat('dddd, D MMMM YYYY')
         ];
+
         event(new TanggalIslam($data));
         $tes = event(new WaktuReal($request->time));
         Cache::put('server_time', $request->time, now()->addMinutes(10));

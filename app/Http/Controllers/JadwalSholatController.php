@@ -89,10 +89,11 @@ class JadwalSholatController extends Controller
     public function update(Request $request, string $id)
     {
         $sholat = $request->input('shalat');
-        $adzanjam = $request->input('adzan_hour');
-        $adzanmenit = $request->input('adzan_minute');
-        $iqomahjam = $request->input('iqomah_hour');
-        $iqomahmenit = $request->input('iqomah_minute');
+        // $adzanjam = $request->input('adzan_hour');
+        // $adzanmenit = $request->input('adzan_minute');
+        // $iqomahjam = $request->input('iqomah_hour');
+        // $iqomahmenit = $request->input('iqomah_minute');
+        $akurasi = $request->input('menit');
         $buzzer = $request->input('buzzer');
         $audioadzan = $request->input('audioadzan');
         $audiomur = $request->input('audiomur');
@@ -113,8 +114,9 @@ class JadwalSholatController extends Controller
 
         // Update data
         $jadwal->shalat = $sholat;
-        $jadwal->waktu_adzan = sprintf('%02d:%02d:00', $adzanjam, $adzanmenit);
-        $jadwal->waktu_iqomah = sprintf('%02d:%02d:00', $iqomahjam, $iqomahmenit);
+        // $jadwal->waktu_adzan = sprintf('%02d:%02d:00', $adzanjam, $adzanmenit);
+        // $jadwal->waktu_iqomah = sprintf('%02d:%02d:00', $iqomahjam, $iqomahmenit);
+        $jadwal->akurasi_adzan = $akurasi;
         $jadwal->buzzeriqomah = $buzzer;
         $jadwal->audio = $audioadzan;
         $jadwal->audmur = $audiomur;

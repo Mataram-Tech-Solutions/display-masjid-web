@@ -91,7 +91,7 @@ var FlipDown = function () {
   }, {
     key: "_parseOptions",
     value: function _parseOptions(opt) {
-      var headings = ["", "", "Minutes", "Seconds"];
+      var headings = ["", "", "Menit", "Detik"];
 
       if (opt.headings && opt.headings.length === 4) {
         headings = opt.headings;

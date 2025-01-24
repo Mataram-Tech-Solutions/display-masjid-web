@@ -27,7 +27,9 @@
                         (Route::currentRouteName() == 'runtxt.edit' ? route('runtxt.index') : 
                         (Route::currentRouteName() == 'runtxt.create' ? route('runtxt.index') :  
                         (Route::currentRouteName() == 'masjid.index' ? route('masjid.index') : 
-                        (Route::currentRouteName() == 'masjid.edit' ? route('masjid.index') : 'javascript:void(0);'))))))))))))))))))))))
+                        (Route::currentRouteName() == 'masjid.edit' ? route('masjid.index') :
+                        (Route::currentRouteName() == 'astronomis.index' ? route('astronomis.index') : 
+                        (Route::currentRouteName() == 'astronomis.edit' ? route('astronomis.index') : 'javascript:void(0);'))))))))))))))))))))))))
                     }}">
                     @if(Route::currentRouteName() == 'dashboard.index')
                         
@@ -75,6 +77,10 @@
                         
                     @elseif(Route::currentRouteName() == 'masjid.edit')
                         Masjid
+                    @elseif(Route::currentRouteName() == 'astronomis.index')
+                        
+                    @elseif(Route::currentRouteName() == 'astronomis.edit')
+                        Astronomis
                     @else
                         Unknown Page
                     @endif
@@ -127,6 +133,10 @@
                          Profile Masjid
                      @elseif(Route::currentRouteName() == 'masjid.edit')
                          Edit Profile Masjid
+                    @elseif(Route::currentRouteName() == 'astronomis.index')
+                         Astronomis
+                     @elseif(Route::currentRouteName() == 'astronomis.edit')
+                         Edit Astronomis
                      @else
                          Unknown Page
                      @endif
@@ -179,6 +189,10 @@
                     Profile Masjid
                 @elseif(Route::currentRouteName() == 'masjid.edit')
                     Edit Profile Masjid
+                @elseif(Route::currentRouteName() == 'astronomis.index')
+                    Astronomis
+                @elseif(Route::currentRouteName() == 'astronomis.edit')
+                    Edit Astronomis
                 @else
                     Unknown Page
                 @endif
