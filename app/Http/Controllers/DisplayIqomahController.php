@@ -68,7 +68,7 @@ class DisplayIqomahController extends Controller
         $buzzerIqomah =  $request->query('buzzer');
 
         // Validasi data
-        if (!$menitIqomah || !$buzzerIqomah) {
+        if (!is_numeric($menitIqomah) || !is_numeric($buzzerIqomah)) {
             abort(400, 'Invalid input');
         }
         // return response()->json([

@@ -50,6 +50,14 @@
                                         min="0" max="20" required>
                             </div>
                         </div> 
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="murothal_start" class="form-control-label">Murothal Dimulai :</label>
+                                    <input type="number" class="form-control" id="murothal_start" name="murothal_start" 
+                                        value="{{ old('murothal_start', $sebelumnya->murstart) }}" 
+                                        min="0" max="60" required>
+                            </div>
+                        </div> 
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="audioadzan" class="form-control-label">Audio Adzan :</label>

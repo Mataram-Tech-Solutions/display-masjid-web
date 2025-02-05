@@ -53,8 +53,11 @@ class WaktuRealController extends Controller
             'jadwal.*', // Semua kolom dari tabel jadwal
             DB::raw("CONCAT(audio.unique, '_', audio.name) AS unique_name"),
             'ustadz.name AS imam_name' // Tambahkan kolom dengan alias dari tabel ustadz jika diperlukan
-        )
-        ->get();
+        )->get();
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $jadwal
+        // ], 200);  
         event(new PrimarydisUpdated(Primarydis::all()));
         event(new Hadist(Centxt::all()));
         event(new ProfileMasjid(Masjid::all()));
@@ -158,6 +161,7 @@ class WaktuRealController extends Controller
                 [
                     'time' => $request->time, // Kembalikan dalam format H:i:s
                     'date' => $request->date,
+                    'data' => PrayerTimeService::dataPerhitungan($request->date)
                      // Kembalikan dalam format H:i:s
                 ]
             ]

@@ -95,6 +95,7 @@ class JadwalSholatController extends Controller
         // $iqomahmenit = $request->input('iqomah_minute');
         $akurasi = $request->input('menit');
         $buzzer = $request->input('buzzer');
+        $startMur = $request->input('murothal_start');
         $audioadzan = $request->input('audioadzan');
         $audiomur = $request->input('audiomur');
         if ($request->input('adzan_automatis') == "on") {
@@ -118,6 +119,7 @@ class JadwalSholatController extends Controller
         // $jadwal->waktu_iqomah = sprintf('%02d:%02d:00', $iqomahjam, $iqomahmenit);
         $jadwal->akurasi_adzan = $akurasi;
         $jadwal->buzzeriqomah = $buzzer;
+        $jadwal->murstart = $startMur;
         $jadwal->audio = $audioadzan;
         $jadwal->audmur = $audiomur;
         $jadwal->audstat = $adzanauto;

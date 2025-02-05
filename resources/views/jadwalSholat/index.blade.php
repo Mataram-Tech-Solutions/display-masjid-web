@@ -15,6 +15,7 @@
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jeda Iqomah</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Akurasi Adzan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Buzzer Iqomah</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Murothal Dimulai</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Audio Adzan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Audio Murothal</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status Audio Adzan</th>
@@ -38,6 +39,9 @@
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $lists->buzzeriqomah ?? '-'  }}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ $lists->murstart ?? '-'  }} Menit Sebelum Adzan</span>
                     </td>
                     <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{ $lists->audioadzan->name ?? '-'  }}</span>

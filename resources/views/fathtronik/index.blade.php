@@ -779,7 +779,9 @@
                         unique_name: item.audio,
                         audstat: item.audstat,
                         iqomah: item.jeda_iqomah,
-                        buzzer: item.buzzeriqomah
+                        buzzer: item.buzzeriqomah,
+                        startMur: item.murstart,
+                        audmur: item.audmur
                     }));
                     console.log("Hasil Konversi Waktu Adzan ke Detik:", hasilKonversi);
 
@@ -808,11 +810,55 @@
                                 const selisihDetik = hitungSelisihDetik2(currentTime, shalatBerikutnya
                                     .waktu_adzan_detik, shalatBerikutnya.shalat);
                                 const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);
+                                const waktuMurothal = shalatBerikutnya.waktu_adzan_detik - (shalatBerikutnya.startMur * 60); // Hitung waktu mulai murottal
+
+                                // Periksa jika waktu saat ini mendekati waktu untuk memutar murottal
+                                let currentAudio = null; // Variabel untuk menyimpan audio yang sedang diputar
+
+                                function putarMurothal(namaFile) {
+                                    // Pastikan audio yang sedang diputar dihentikan sebelum memulai yang baru
+                                    if (currentAudio) {
+                                        currentAudio.pause();
+                                        currentAudio.currentTime = 0; // Reset waktu audio ke awal
+                                    }
+
+                                    // Buat instance Audio baru dan simpan ke currentAudio
+                                    currentAudio = new Audio(`/upload/audio/${namaFile}`); // Path ke file murottal
+                                    currentAudio.play()
+                                        .then(() => console.log(`Memutar: ${namaFile}`))
+                                        .catch((err) => console.error('Gagal memutar audio:', err));
+                                }
+
+                                // Periksa jika waktu saat ini mendekati waktu untuk memutar murottal
+                                if (konversiKeDetik(currentTime) >= waktuMurothal && konversiKeDetik(currentTime) < shalatBerikutnya.waktu_adzan_detik) {
+                                    console.log(`Memutar murottal untuk ${shalatBerikutnya.shalat}, file: ${shalatBerikutnya.audmur}`);
+                                    putarMurothal(shalatBerikutnya.audmur); // Memutar murottal
+
+                                    if (selisihDetik.selisihDetik == 0) {
+                                        console.log('Menghentikan murottal karena selisih detik adalah 0');
+                                        if (currentAudio) {
+                                            currentAudio.pause(); // Hentikan audio
+                                            currentAudio.currentTime = 0; // Reset ke awal
+                                            currentAudio = null; // Kosongkan referensi audio
+                                        }
+                                    }
+                                }
 
                                 if (selisihDetik.selisihDetik <= 10) {
                                     showModal(10, selisihDetik.selisihDetik, shalatBerikutnya.shalat,
                                         shalatBerikutnya.unique_name,
                                         shalatBerikutnya.audstat, shalatBerikutnya.iqomah, shalatBerikutnya.buzzer); // Tampilkan modal selama 5 detik
+                                }
+
+                                function putarMurothal(namaFile) {
+                                    if (!namaFile) {
+                                        console.error('Nama file murottal kosong.');
+                                        return;
+                                    }
+                                    const audio = new Audio(`/upload/audio/${namaFile}`); // Sesuaikan path file murottal Anda
+                                    audio.play()
+                                        .then(() => console.log('Murottal diputar:', namaFile))
+                                        .catch(err => console.error('Gagal memutar murottal:', err));
                                 }
 
                                 document.getElementById("countdown-sholat").innerHTML = `
@@ -824,6 +870,13 @@
                                 const selisihDetik = hitungSelisihDetik2(currentTime, hasilKonversi[0]
                                     .waktu_adzan_detik, pertama.shalat);
                                 const waktuSelisih = konversiKeFormatWaktu(selisihDetik.selisihDetik);
+                                const waktuMurothal = pertama.waktu_adzan_detik - (pertama.startMur * 60); // Hitung waktu mulai murottal
+
+                                // Periksa jika waktu saat ini mendekati waktu untuk memutar murottal
+                                if (konversiKeDetik(currentTime) >= waktuMurothal && konversiKeDetik(currentTime) < pertama.waktu_adzan_detik) {
+                                    console.log(`Memutar murottal untuk ${pertama.shalat}, file: ${pertama.audmur}`);
+                                    putarMurothal(pertama.audmur); // Memutar murottal
+                                }
                                 if (selisihDetik.selisihDetik <= 10) {
                                     showModal(10, selisihDetik.selisihDetik, pertama.shalat, pertama
                                         .unique_name, pertama
