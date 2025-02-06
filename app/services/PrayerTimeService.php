@@ -29,14 +29,22 @@ class PrayerTimeService
         $sufajarsenja = $firstDataAstro->sudut_fajarsenja;
         $sumalamsenja = $firstDataAstro->sudut_malamsenja;
         $gmt = $firstDataAstro->waktuWilayah->gmt_selisih;
+        Carbon::setLocale('id'); // Atur ke bahasa Indonesia
+        $namaHari = Carbon::parse($date)->translatedFormat('l');
         // Ambil data Jadwal
-        $list = Jadwal::with(['audioadzan', 'jdwlustadz', 'audiomur', 'jdwlkhatib'])
+        if ($namaHari == "Jumat") {
+            $list = Jadwal::with(['audioadzan', 'jdwlustadz', 'audiomur', 'jdwlkhatib'])
             ->whereIn('shalat', ['Imsak', 'Shubuh', 'Syuruq', 'Jumat', 'Ashr', 'Maghrib', 'Isya'])
             ->orderByRaw("FIELD(shalat, 'Imsak', 'Shubuh', 'Syuruq', 'Jumat', 'Ashr', 'Maghrib', 'Isya')")
             ->select('jadwal.*')
             ->get();
-
-
+        } else {
+            $list = Jadwal::with(['audioadzan', 'jdwlustadz', 'audiomur', 'jdwlkhatib'])
+            ->whereIn('shalat', ['Imsak', 'Shubuh', 'Syuruq', 'Dzuhur', 'Ashr', 'Maghrib', 'Isya'])
+            ->orderByRaw("FIELD(shalat, 'Imsak', 'Shubuh', 'Syuruq', 'Dzuhur', 'Ashr', 'Maghrib', 'Isya')")
+            ->select('jadwal.*')
+            ->get();
+        }
         // Manipulasi data setelah query jika diperlukan
         $list->map(function ($item) {
             $item->unique_name = $item->audioadzan ? $item->audioadzan->unique . '_' . $item->audioadzan->name : null;
@@ -45,61 +53,59 @@ class PrayerTimeService
             $item->khatib_name = $item->jdwlkhatib ? $item->jdwlkhatib->name : null;
             return $item;
         });
-        // $list = Jadwal::with(['jdwlustadz', 'jdwlkhatib', 'audioadzan', 'audiomur'])->get();
-        // $list = Jadwal::with([
-        //     'jdwlustadz:id,name AS imam_name',
-        //     'jdwlkhatib',
-        //     'audioadzan' => function ($query) {
-        //         $query->select('id', DB::raw("CONCAT(`unique`, '_', `name`) AS unique_name"));
-        //     },
-        //     'audiomur' => function ($query) {
-        //         $query->select('id', DB::raw("CONCAT(`unique`, '_', `name`) AS unique_name"));
-        //     },
-        // ])
-        // ->select('jadwal.*') // Semua kolom dari jadwal
-        // ->get();
-        $data = $list->map(function ($jadwal) use ($latitude, $longitude, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $gmt, $yday) {
+
+        $data = $list->map(function ($jadwal) use ($latitude, $longitude, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $gmt, $yday, $namaHari) {
             // Perhitungan waktu adzan untuk setiap salat
             $waktuAdzan = PrayerTimeService::calculatePrayerTime($yday, $ketinggianLaut, $sufajarsenja, $sumalamsenja, $latitude, $longitude, $gmt, $jadwal->shalat_id);
-            
-            // Menentukan waktu adzan yang sesuai dengan shalat yang diminta
-            $waktuAdzanFormatted = [
-                "Imsak" => $waktuAdzan['imsak'],
-                "Shubuh" => $waktuAdzan['subuh'],
-                "Syuruq" => $waktuAdzan['syuruq'],
-                "Jumat" => $waktuAdzan['dzuhur'],
-                "Ashr" => $waktuAdzan['ashar'],
-                "Maghrib" => $waktuAdzan['maghrib'],
-                "Isya" => $waktuAdzan['isya'],
-            ];
+                      
+            if ($namaHari == "Jumat") {
+                $waktuAdzanFormatted = [
+                    "Imsak" => $waktuAdzan['imsak'],
+                    "Shubuh" => $waktuAdzan['subuh'],
+                    "Syuruq" => $waktuAdzan['syuruq'],
+                    "Jumat" => $waktuAdzan['dzuhur'],
+                    "Ashr" => $waktuAdzan['ashar'],
+                    "Maghrib" => $waktuAdzan['maghrib'],
+                    "Isya" => $waktuAdzan['isya'],
+                ];
+            } else {
+                $waktuAdzanFormatted = [
+                    "Imsak" => $waktuAdzan['imsak'],
+                    "Shubuh" => $waktuAdzan['subuh'],
+                    "Syuruq" => $waktuAdzan['syuruq'],
+                    "Dzuhur" => $waktuAdzan['dzuhur'],
+                    "Ashr" => $waktuAdzan['ashar'],
+                    "Maghrib" => $waktuAdzan['maghrib'],
+                    "Isya" => $waktuAdzan['isya'],
+                ];
+            }
         
             // Mengambil waktu adzan sesuai dengan shalat yang diminta (misalnya 'imsak', 'subuh', dll)
             $waktuAdzanRequested = $waktuAdzanFormatted[$jadwal->shalat] ?? null;
         
             return [
-                $waktuAdzanRequested,
-                // "id" => $jadwal->id,
-                // "shalat" => $jadwal->shalat, // Nama shalat
-                // "waktu_adzan" => $waktuAdzanRequested, // Hanya waktu adzan yang diminta (misalnya imsak)
-                // "waktu_iqomah" => $jadwal->waktu_iqomah ?? null,
-                // "jeda_iqomah" => $jadwal->jeda_iqomah ?? null,
-                // "akurasi_adzan" => "0",
-                // "buzzeriqomah" => $jadwal->buzzeriqomah ?? null,
-                // "audmur" => $jadwal->uniquemur_name ?? null,
-                // "audio" => $jadwal->unique_name ?? null,
-                // "audstat" => $jadwal->audstat ?? null,
-                // "audmurstat" => $jadwal->audmurstat ?? null,
-                // "imam" => $jadwal->imam ?? null,
-                // "khatib" => $jadwal->khatib ?? null,
-                // "created_by" => 1,
-                // "updated_by" => 1,
-                // "created_at" => $jadwal->created_at ?? null,
-                // "updated_at" => $jadwal->updated_at ?? null,
-                // "jdwlustadz" => $jadwal->jdwlustadz ?? null,
-                // "jdwlkhatib" => $jadwal->jdwlkhatib ?? null,
-                // "audioadzan" => $jadwal->audioadzan ?? null,
-                // "audiomur" => $jadwal->audiomur ?? null,
-                // "murstart" => $jadwal->murstart ?? null,
+                "id" => $jadwal->id,
+                "shalat" => $jadwal->shalat, // Nama shalat
+                "waktu_adzan" => $waktuAdzanRequested, // Hanya waktu adzan yang diminta (misalnya imsak)
+                "waktu_iqomah" => $jadwal->waktu_iqomah ?? null,
+                "jeda_iqomah" => $jadwal->jeda_iqomah ?? null,
+                "akurasi_adzan" => "0",
+                "buzzeriqomah" => $jadwal->buzzeriqomah ?? null,
+                "audmur" => $jadwal->uniquemur_name ?? null,
+                "audio" => $jadwal->unique_name ?? null,
+                "audstat" => $jadwal->audstat ?? null,
+                "audmurstat" => $jadwal->audmurstat ?? null,
+                "imam" => $jadwal->imam ?? null,
+                "khatib" => $jadwal->khatib ?? null,
+                "created_by" => 1,
+                "updated_by" => 1,
+                "created_at" => $jadwal->created_at ?? null,
+                "updated_at" => $jadwal->updated_at ?? null,
+                "jdwlustadz" => $jadwal->jdwlustadz ?? null,
+                "jdwlkhatib" => $jadwal->jdwlkhatib ?? null,
+                "audioadzan" => $jadwal->audioadzan ?? null,
+                "audiomur" => $jadwal->audiomur ?? null,
+                "murstart" => $jadwal->murstart ?? null,
             ];
         });
 

@@ -533,16 +533,34 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Objek untuk memetakan waktu sholat dengan ID kolom
-            const prayerMapping = {
-                Imsak: "imsak",
-                Shubuh: "subuh",
-                Syuruq: "syuruq",
-                Dzuhur: "dzuhur",
-                Ashr: "ashar",
-                Maghrib: "maghrib",
-                Isya: "isya",
-            };
+            Echo.channel('tanggalreal-channel')
+                .listen('TanggalReal', (e) => {
+                    const date = e.data; // Ambil nilai waktu dari JSON
+                    const day = getHariIndonesia(date);
+                    console.log('Data nama hari:', day);
+                    let prayerMapping = {};
+
+                    if (day === "Jumat") {
+                        prayerMapping = {
+                            Imsak: "imsak",
+                            Shubuh: "subuh",
+                            Syuruq: "syuruq",
+                            Jumat: "dzuhur",
+                            Ashr: "ashar",
+                            Maghrib: "maghrib",
+                            Isya: "isya",
+                        };
+                    } else {
+                        prayerMapping = {
+                            Imsak: "imsak",
+                            Shubuh: "subuh",
+                            Syuruq: "syuruq",
+                            Dzuhur: "dzuhur",
+                            Ashr: "ashar",
+                            Maghrib: "maghrib",
+                            Isya: "isya",
+                        };
+                    }
 
             // Fungsi untuk memperbarui waktu sholat di kolom
             function updatePrayerTimes(data) {
@@ -563,6 +581,16 @@
                 });
             }
 
+            function getHariIndonesia(tanggal) {
+                let hariIndo = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+                let [yy, mm, dd] = tanggal.split('-');
+                let date = new Date(`20${yy}-${mm}-${dd}`); // Asumsikan tahun 20xx
+                let indexHari = date.getDay(); // Mendapatkan index hari (0 = Minggu, 1 = Senin, dst.)
+
+                return hariIndo[indexHari];
+            }
+
             // Mendengarkan data dari WebSocket melalui Laravel Echo
             Echo.channel('sholat-channel')
                 .listen('Jdwlsho', (e) => {
@@ -575,6 +603,7 @@
                         console.warn("Format data WebSocket tidak valid:", e.data);
                     }
                 });
+            });
         });
     </script>
     <script>

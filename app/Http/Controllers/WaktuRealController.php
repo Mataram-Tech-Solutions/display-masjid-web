@@ -10,6 +10,7 @@ use App\Events\PrimarydisUpdated;
 use App\Events\ProfileMasjid;
 use App\Events\Runtxt;
 use App\Events\TanggalIslam;
+use App\Events\TanggalReal;
 use App\Events\WaktuReal;
 use App\Models\Centxt;
 use App\Models\Jadwal;
@@ -152,7 +153,8 @@ class WaktuRealController extends Controller
         ];
 
         event(new TanggalIslam($data));
-        $tes = event(new WaktuReal($request->time));
+        event(new WaktuReal($request->time));
+        event(new TanggalReal($request->date));
         Cache::put('server_time', $request->time, now()->addMinutes(10));
         event(new Jdwlsho(PrayerTimeService::dataPerhitungan($request->date)));
         return response()->json([
