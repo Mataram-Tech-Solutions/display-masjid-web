@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PrayerTimeController;
+use App\Http\Controllers\WaktuCarbonContoller;
 use App\Http\Controllers\WaktuRealController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,3 +41,6 @@ Route::resource('/prayer', PrayerTimeController::class)
             'update' => 'prayer.update',
             'destroy' => 'prayer.destroy',
         ]);
+
+Route::post('/waktucarbon', [WaktuCarbonContoller::class, 'store']);
+Route::get('/waktucarbon', [WaktuCarbonContoller::class, 'getTime']);

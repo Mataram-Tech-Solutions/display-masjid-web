@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Carbon\Carbon;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -18,7 +19,7 @@ class WaktuReal implements ShouldBroadcast
 
     public function __construct($data)
     {
-        $this->data = $data;
+        $this->data = Carbon::now()->format('H:i:s');
     }
 
     public function broadcastOn()

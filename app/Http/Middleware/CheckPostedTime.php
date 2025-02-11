@@ -23,11 +23,11 @@ class CheckPostedTime
              return $next($request);
          }
      
-         // Periksa apakah 'server_time' ada di cache
-         if (!Cache::has('server_time')) {
-             // Jika belum ada waktu, arahkan ke halaman "waktu belum diset"
-             return redirect()->route('waiting-rtc.index');
-         }
+        //  // Periksa apakah 'server_time' ada di cache
+        //  if (!Cache::has('server_time')) {
+        //      // Jika belum ada waktu, arahkan ke halaman "waktu belum diset"
+        //      return redirect()->route('waiting-rtc.index');
+        //  }
      
          return $next($request);
      }

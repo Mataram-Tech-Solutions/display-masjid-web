@@ -31,8 +31,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/waiting-rtc', [WaitingRtcController::class, 'index'])
-    ->name('waiting-rtc.index');
+// Route::get('/waiting-rtc', [WaitingRtcController::class, 'index'])
+//     ->name('waiting-rtc.index');
 
         Route::middleware([
             'auth:sanctum',

@@ -47,18 +47,12 @@ class WaktuRealController extends Controller
      */
     public function store(Request $request)
     {
-        $jadwal = DB::table('jadwal')
-        ->leftJoin('audio', 'jadwal.audio', '=', 'audio.id')
-        ->leftJoin('ustadz', 'jadwal.imam', '=', 'ustadz.id')
-        ->select(
-            'jadwal.*', // Semua kolom dari tabel jadwal
-            DB::raw("CONCAT(audio.unique, '_', audio.name) AS unique_name"),
-            'ustadz.name AS imam_name' // Tambahkan kolom dengan alias dari tabel ustadz jika diperlukan
-        )->get();
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => $jadwal
-        // ], 200);  
+        $time = date('H:i:s', time());  // Mengambil waktu saat ini dalam format H:i:s
+$date = date('Y-m-d', time());  // Mengambil tanggal saat ini dalam format Y-m-d
+
+event(new WaktuReal($time));
+event(new TanggalReal($date));
+
         event(new PrimarydisUpdated(Primarydis::all()));
         event(new Hadist(Centxt::all()));
         event(new ProfileMasjid(Masjid::all()));
@@ -153,8 +147,6 @@ class WaktuRealController extends Controller
         ];
 
         event(new TanggalIslam($data));
-        event(new WaktuReal($request->time));
-        event(new TanggalReal($request->date));
         Cache::put('server_time', $request->time, now()->addMinutes(10));
         event(new Jdwlsho(PrayerTimeService::dataPerhitungan($request->date)));
         return response()->json([
@@ -164,7 +156,6 @@ class WaktuRealController extends Controller
                     'time' => $request->time, // Kembalikan dalam format H:i:s
                     'date' => $request->date,
                     'data' => PrayerTimeService::dataPerhitungan($request->date)
-                     // Kembalikan dalam format H:i:s
                 ]
             ]
         ], 200);

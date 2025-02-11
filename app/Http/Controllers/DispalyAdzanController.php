@@ -70,10 +70,10 @@ class DispalyAdzanController extends Controller
         $menitIqomah = $request->query('menitIqomah');
         $buzzerIqomah = $request->query('buzzer');
 
-        // Validasi data
-        if (!$shalatName || !$adzanAudio || !$menitIqomah || !$buzzerIqomah) {
-            abort(400, 'Invalid input');
-        }
+        // // Validasi data
+        // if (!$shalatName || !$adzanAudio || !$menitIqomah || !$buzzerIqomah) {
+        //     abort(400, 'Invalid input');
+        // }
 
         return view('adzan.index', [
             'sholat' => $shalatName,
