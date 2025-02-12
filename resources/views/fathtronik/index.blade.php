@@ -460,6 +460,11 @@
         if (jadwalSholat.length > 0) {
             const waktuSekarangDetik = konversiKeDetik(formattedTime);
             const shalatBerikutnya = jadwalSholat.find(item => waktuSekarangDetik < item.waktu_adzan_detik) || jadwalSholat[0];
+            const detikaudio = jadwalSholat.uniquemur_name;
+            const durationAud = new Audio();
+            durationAud.src = new Audio(`/upload/audio/${shalatBerikutnya.uniquemur_name}`);
+            const hitungDtkAud = durationAud.duration;
+
 
             const selisihDetik = shalatBerikutnya.waktu_adzan_detik >= waktuSekarangDetik
                 ? shalatBerikutnya.waktu_adzan_detik - waktuSekarangDetik
@@ -473,14 +478,15 @@
             // Jika countdown ≤ 10 detik, tampilkan modal
             if (selisihDetik <= 10) {
                 showModal(10, selisihDetik, shalatBerikutnya.shalat, 
-                    shalatBerikutnya.audio, shalatBerikutnya.audstat, shalatBerikutnya.audiomur, shalatBerikutnya.audiomurstat
+                    shalatBerikutnya.unique_name, shalatBerikutnya.audstat, shalatBerikutnya.uniquemur_name, shalatBerikutnya.audiomurstat,
                     shalatBerikutnya.iqomah, shalatBerikutnya.buzzer);
             }
 
             // Jika countdown ≤ 120 detik, mulai murottal
             if (selisihDetik <= 120 && !murottalAudio.src) {
-                playMurottal();
+                playMurottal(shalatBerikutnya.uniquemur_name);
             }
+            console.log('Data Shalat Berikutnya:', hitungDtkAud)
         }
     }
 
@@ -539,7 +545,7 @@
         window.location.href = `http://127.0.0.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
     }
 
-    function playMurottal() {
+    function playMurottal(namaFile) {
         murottalAudio.src = new Audio(`/upload/audio/${namaFile}`); // Ganti dengan URL yang sesuai
         murottalAudio.loop = true;
         murottalAudio.play().catch(error => console.error("Gagal memutar murottal:", error));
@@ -558,7 +564,7 @@
                 waktu_adzan_detik: konversiKeDetik(item.waktu_adzan),
                 imam: item.imam_name,
                 unique_name: item.audio,
-                uniquemur_name: audmur
+                uniquemur_name: item.audmur,
                 audstat: item.audstat,
                 audmurstat: item.audmurstat,
                 iqomah: item.jeda_iqomah,
@@ -794,41 +800,41 @@
         });
         </script>
        <script>
-        // setInterval(function() {
-        //     let svrtm = "{{ $finalTime ?? date('Y-m-d H:i:s') }}";
-        // let crtime = new Date(svrtm.replace(" ", "T"));
+       window.onload = function() {
+    let svrtm = "{{ $finalTime ?? date('Y-m-d H:i:s') }}";
+    let crtime = new Date(svrtm.replace(" ", "T"));
 
-        //     crtime.setSeconds(crtime.getSeconds() + 1); 
-            
-        //     let frtmate = new Intl.DateTimeFormat("id-ID", {
-        //         hour: "2-digit",
-        //         minute: "2-digit",
-        //         second: "2-digit",
-        //         hour12: false
-        //     }).format(crtime).replace(/\./g, ":");
-        //     let formattedDate = crtime.toISOString().split('T')[0];            
+    crtime.setSeconds(crtime.getSeconds() + 1);
 
-    
-        //     // Kirim request ke server setiap detik
-        //     fetch('api/waktu', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        //         },
-        //         body: JSON.stringify({
-        //             date: formattedDate,  // Kirim tanggal dalam format Y-m-d
-        //             time: frtmate   // Kirim waktu dalam format H:i:s
-        //         })
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log('Data telah disimpan:', data);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
-        // }, 1000); // Setiap 1000 ms (1 detik)
+    let frtmate = new Intl.DateTimeFormat("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+    }).format(crtime).replace(/\./g, ":");
+    let formattedDate = crtime.toISOString().split('T')[0];
+
+    // Kirim request ke server SEKALI
+    fetch('api/waktu', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+            date: formattedDate,  // Kirim tanggal dalam format Y-m-d
+            time: frtmate   // Kirim waktu dalam format H:i:s
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Data telah disimpan:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+};
+
     </script>
     
     @vite('resources/js/app.js')

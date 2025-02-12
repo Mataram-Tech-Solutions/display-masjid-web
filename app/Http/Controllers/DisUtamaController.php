@@ -9,6 +9,8 @@ use App\Events\PrimarydisUpdated;
 use App\Events\ProfileMasjid;
 use App\Events\Runtxt;
 use App\Events\TanggalIslam;
+use App\Events\TanggalReal;
+use App\Events\WaktuReal;
 use App\Models\Centxt;
 use App\Models\Jadwal;
 use App\Models\Kajian;
@@ -27,6 +29,11 @@ class DisUtamaController extends Controller
      */
     public function index()
     {
+        $time = date('H:i:s', time());  // Mengambil waktu saat ini dalam format H:i:s
+        $date = date('Y-m-d', time());  // Mengambil tanggal saat ini dalam format Y-m-d
+
+        event(new WaktuReal($time));
+        event(new TanggalReal($date));
         // event(new PrimarydisUpdated(Primarydis::all()));
         // event(new Hadist(Centxt::all()));
         // event(new ProfileMasjid(Masjid::all()));
