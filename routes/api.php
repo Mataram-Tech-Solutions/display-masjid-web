@@ -5,6 +5,8 @@ use App\Http\Controllers\WaktuCarbonContoller;
 use App\Http\Controllers\WaktuRealController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +44,10 @@ Route::resource('/prayer', PrayerTimeController::class)
             'destroy' => 'prayer.destroy',
         ]);
 
+Route::get('/datetime', function () {
+    $datetime = Cache::get('post_datetime', now()->format('Y-m-d H:i:s'));
+
+    return response()->json(['datetime' => $datetime]);
+});
 Route::post('/waktucarbon', [WaktuCarbonContoller::class, 'store']);
 Route::get('/waktucarbon', [WaktuCarbonContoller::class, 'getTime']);

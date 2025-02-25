@@ -428,8 +428,8 @@
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-    let serverTime = "{{ $finalTime ?? date('Y-m-d H:i:s') }}";
-    let currentTime = new Date(serverTime.replace(" ", "T"));
+    // let serverTime = "{{ $finalTime ?? date('Y-m-d H:i:s') }}";
+    // let currentTime = new Date(serverTime.replace(" ", "T"));
     let jadwalSholat = [];
     let murottalAudio = new Audio(); // Audio murottal
 
@@ -486,7 +486,7 @@
             if (selisihDetik <= 120 && !murottalAudio.src) {
                 playMurottal(shalatBerikutnya.uniquemur_name);
             }
-            console.log('Data Shalat Berikutnya:', hitungDtkAud)
+            // console.log('Data Shalat Berikutnya:', hitungDtkAud)
         }
     }
 
@@ -575,7 +575,30 @@
         });
 
     setInterval(updateTime, 1000);
-});
+    let lastFetchedTime = null;
+
+    function fetchTimeFromRTC() {
+        fetch('/api/datetime', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (lastFetchedTime !== data.datetime) {  
+                lastFetchedTime = data.datetime;
+                currentTime = new Date(data.datetime);
+                console.log("Data waktu diperbarui:", data.datetime);
+            }
+        })
+        .catch(error => console.error('Gagal mengambil waktu dari RTC:', error));
+    }
+
+    // Panggil sekali saat halaman dimuat
+    fetchTimeFromRTC();
+
+    // Cek perubahan setiap 10 detik
+    setInterval(fetchTimeFromRTC, 10000);
+    });
 
 
     </script>

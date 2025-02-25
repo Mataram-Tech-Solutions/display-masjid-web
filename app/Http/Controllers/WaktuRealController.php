@@ -48,10 +48,10 @@ class WaktuRealController extends Controller
     public function store(Request $request)
     {
         $time = date('H:i:s', time());  // Mengambil waktu saat ini dalam format H:i:s
-$date = date('Y-m-d', time());  // Mengambil tanggal saat ini dalam format Y-m-d
+        $date = date('Y-m-d', time());  // Mengambil tanggal saat ini dalam format Y-m-d
 
-event(new WaktuReal($time));
-event(new TanggalReal($date));
+        event(new WaktuReal($time));
+        event(new TanggalReal($date));
 
         event(new PrimarydisUpdated(Primarydis::all()));
         event(new Hadist(Centxt::all()));
@@ -103,7 +103,7 @@ event(new TanggalReal($date));
         // Tanggal sekarang
         Carbon::setLocale('id');
         $tanggalDisplay = Carbon::parse($request->date);
-        $currentDate = $tanggalDisplay;
+        $currentDate = Cache::get('post_datetime', now()->format('Y-m-d'));
 
         // Hitung selisih hari dari 1 Muharram
         $daysDifference = $muharramStart->diffInDays($currentDate, false);

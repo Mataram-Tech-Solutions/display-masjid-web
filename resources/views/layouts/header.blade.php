@@ -29,7 +29,9 @@
                         (Route::currentRouteName() == 'masjid.index' ? route('masjid.index') : 
                         (Route::currentRouteName() == 'masjid.edit' ? route('masjid.index') :
                         (Route::currentRouteName() == 'astronomis.index' ? route('astronomis.index') : 
-                        (Route::currentRouteName() == 'astronomis.edit' ? route('astronomis.index') : 'javascript:void(0);'))))))))))))))))))))))))
+                        (Route::currentRouteName() == 'astronomis.edit' ? route('astronomis.index') : 
+                        (Route::currentRouteName() == 'setwaktu' ? route('setwaktu') : 
+                        (Route::currentRouteName() == 'setwaktu-edit' ? route('setwaktu') : 'javascript:void(0);'))))))))))))))))))))))))))
                     }}">
                     @if(Route::currentRouteName() == 'dashboard.index')
                         
@@ -81,6 +83,10 @@
                         
                     @elseif(Route::currentRouteName() == 'astronomis.edit')
                         Astronomis
+                    @elseif(Route::currentRouteName() == 'setwaktu')
+                        
+                    @elseif(Route::currentRouteName() == 'setwaktu-edit')
+                        Waktu
                     @else
                         Unknown Page
                     @endif
@@ -137,6 +143,10 @@
                          Astronomis
                      @elseif(Route::currentRouteName() == 'astronomis.edit')
                          Edit Astronomis
+                    @elseif(Route::currentRouteName() == 'setwaktu')
+                         Waktu
+                     @elseif(Route::currentRouteName() == 'setwaktu-edit')
+                         Setting Waktu
                      @else
                          Unknown Page
                      @endif
@@ -193,6 +203,10 @@
                     Astronomis
                 @elseif(Route::currentRouteName() == 'astronomis.edit')
                     Edit Astronomis
+                @elseif(Route::currentRouteName() == 'setwaktu')
+                    Waktu
+                @elseif(Route::currentRouteName() == 'setwaktu-edit')
+                    Setting Waktu
                 @else
                     Unknown Page
                 @endif

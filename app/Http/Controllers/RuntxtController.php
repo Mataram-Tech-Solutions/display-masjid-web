@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Runtxt;
+use App\Events\Runtxt as eventRun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Runtxt;
+
 
 class RuntxtController extends Controller
 {
@@ -14,6 +16,7 @@ class RuntxtController extends Controller
     public function index()
     {
         $runtxt = Runtxt::all();
+        event(new eventRun(Runtxt::all()));
         return view('runtxt.index', [
             'runtxt' => $runtxt,
         ]);

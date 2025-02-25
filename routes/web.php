@@ -182,4 +182,10 @@ use Illuminate\Support\Facades\Route;
     // ]);
     Route::get('/displayadzan', [DispalyAdzanController::class, 'displayAdzan'])->name('display.adzan');
     Route::get('/displayiqomah', [DisplayIqomahController::class, 'displayIqomah'])->name('display.iqomah');
+    Route::get('/setwaktu', function () {
+        return view('setwaktu.index');
+    })->name('setwaktu');
+    Route::get('/setwaktu-edit', function () {
+        return view('setwaktu.edit');
+    })->name('setwaktu-edit');
 

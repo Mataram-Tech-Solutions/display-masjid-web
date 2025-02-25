@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProfileMasjid;
 use App\Models\Masjid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,7 @@ class MasjidController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $nama = $request->input('name');
         $alamat = $request->input('alamat');
         try {
@@ -72,9 +74,10 @@ class MasjidController extends Controller
             $masjid->name = $nama;
             $masjid->alamat = $alamat;
             $masjid->updated_by = Auth::user()->id;
-    
+            
             // Simpan ke database
             $masjid->save();
+            event(new ProfileMasjid(Masjid::all()));
             return redirect()->route('masjid.index')->with('success', 'Data berhasil diperbarui!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error
