@@ -57,10 +57,31 @@
             const flipdown = new FlipDown(countdownTime)
                 .start()
                 .ifEnded(() => {
-                    console.log('The countdown has ended!');
-                    const url = `http://127.0.0.1:8000/displayutama`;
-                    window.location.href = url;
+                    console.log('Countdown selesai!');
+
+                    // Kirim request POST ke ESP8266 untuk menyalakan buzzer
+                    fetch('http://192.168.37.79/buzzer', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            buzzer: {{ $buzzer ?? 1 }} // Pastikan variabel ini ada
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Buzzer Response:', data);
+                    })
+                    .catch(error => console.error('Gagal mengirim data ke buzzer:', error));
+
+                    // Redirect ke halaman utama setelah countdown selesai
+                    setTimeout(() => {
+                        window.location.href = 'http://127.0.0.1:8000/displayutama';
+                    }, 2000); // Delay 2 detik sebelum redirect
                 });
+
 
             
                 document.body.classList.toggle('light-theme');
