@@ -7,7 +7,7 @@
               document.write(new Date().getFullYear())
             </script>,
             made by
-            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Mataram Tech Solutions</a>
+            <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">FathTronik</a>
           </div>
         </div>
       </div>

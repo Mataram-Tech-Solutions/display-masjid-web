@@ -53,8 +53,16 @@ class DisUtamaController extends Controller
      */
     public function store(Request $request)
     {
+        // return response()->json([
+        //     'tanggal' => $request->tanggal,
+        //     'jam_hour' => $request->jam_hour,
+        //     'menit_minute' => $request->menit_minute,
+        // ], 200);
+        $tglReq = $request->tanggal;
+        $jamReq = $request->jam_hour;
+        $menitReq = $request->menit_minute;
         $datetime = Carbon::createFromFormat('Y-m-d H:i', 
-            "{$request->tanggal} {$request->jam_hour}:{$request->menit_minute}"
+            "{$tglReq} {$jamReq}:{$menitReq}"
         )->format('Y-m-d H:i:s');
 
         // Simpan ke Cache
@@ -62,7 +70,7 @@ class DisUtamaController extends Controller
 
         // Kirim data ke ESP8266
         try {
-            $response = Http::post('http://192.168.37.79/set-datetime', [
+            $response = Http::post('http://192.168.37.111/set-datetime', [
                 'datetime' => $datetime
             ]);
     
@@ -176,6 +184,7 @@ class DisUtamaController extends Controller
         event(new TanggalIslam($data));
         // Cache::put('server_time', $time, now()->addMinutes(10));
         event(new Jdwlsho(PrayerTimeService::dataPerhitungan($date)));
+        // dd();
 
 
         return response()->json(['message' => 'Waktu berhasil disimpan', 'datetime' => $datetime]);

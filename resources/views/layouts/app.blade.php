@@ -18,6 +18,7 @@
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
         <!-- CSS Files -->
         <link id="pagestyle" href="{{asset('argon/assets/css/argon-dashboard.css?v=2.1.0')}}" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -36,6 +37,7 @@
             </div>
         </main>
    <!--   Core JS Files   -->
+   <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{asset('argon/assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('argon/assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('argon/assets/js/argon-dashboard.js')}}"></script>

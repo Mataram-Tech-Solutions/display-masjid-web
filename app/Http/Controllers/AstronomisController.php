@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Jdwlsho;
 use App\Models\Astronomis;
+use App\Services\PrayerTimeService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-
 class AstronomisController extends Controller
 {
     /**
@@ -59,6 +62,8 @@ class AstronomisController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $cache = Cache::get('post_datetime');
+        $date = Carbon::parse($cache)->format('Y-m-d');
         $latitude = $request->input('latitude');
         $longitude = $request->input('longitude');
         $ketinggian_laut = $request->input('ketinggian_laut');
@@ -79,6 +84,7 @@ class AstronomisController extends Controller
     
             // Simpan ke database
             $astronomis->save();
+            event(new Jdwlsho(PrayerTimeService::dataPerhitungan($date)));
             return redirect()->route('astronomis.index')->with('success', 'Data berhasil diperbarui!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error

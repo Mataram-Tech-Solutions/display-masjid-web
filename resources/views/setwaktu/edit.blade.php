@@ -7,7 +7,7 @@
                 <h6>Setting Waktu</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-                <form action="{{ route('displayutama.store') }}" method="POST">
+                <form action="{{ route('setwaktu-store') }}" method="POST">
                     @csrf
                     <div class="row px-4">
                         <div class="col-md-4">

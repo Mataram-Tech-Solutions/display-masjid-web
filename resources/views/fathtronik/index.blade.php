@@ -8,7 +8,7 @@
 
     <title>Primary Display - FathTronik</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <style>
         @font-face {
             font-family: 'CustomFont';
@@ -304,7 +304,15 @@
         </div>
     </div>
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{asset('argon/assets/js/core/popper.min.js')}}"></script>
+    <script src="{{asset('argon/assets/js/core/bootstrap.min.js')}}"></script>
+    <script src="{{asset('argon/assets/js/argon-dashboard.js')}}"></script>
+    <script src="{{asset('argon/assets/js/argon-dashboard.js.map')}}"></script>
+    <script src="{{asset('argon/assets/js/argon-dashboard.min.js')}}"></script>
+    <script src="{{asset('argon/assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('argon/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
+    <script src="{{asset('argon/assets/js/plugins/chartjs.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -382,7 +390,7 @@
                     if (window.rotationInterval) {
                         clearInterval(window.rotationInterval); // Pastikan tidak ada interval ganda
                     }
-                    window.rotationInterval = setInterval(switchBackground, 5000);
+                    window.rotationInterval = setInterval(switchBackground, 10000);
                     switchBackground(); // Segera panggil untuk memulai
                 }
             }
@@ -537,12 +545,12 @@
 
     function displayadzan(shalat_name, adzanaudio, jedaIqomah, buzzer) {
         stopMurottal(); // Matikan murottal sebelum adzan
-        window.location.href = `http://127.0.0.1:8000/displayadzan?shalat_name=${encodeURIComponent(shalat_name)}&adzanaudio=${encodeURIComponent(adzanaudio)}&menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
+        window.location.href = `http://192.168.37.1:8000/displayadzan?shalat_name=${encodeURIComponent(shalat_name)}&adzanaudio=${encodeURIComponent(adzanaudio)}&menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
     }
 
     function displayiqomah(jedaIqomah, buzzer) {
         stopMurottal(); // Matikan murottal sebelum iqomah
-        window.location.href = `http://127.0.0.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
+        window.location.href = `http://192.168.37.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzer)}`;
     }
 
     function playMurottal(namaFile) {
@@ -817,11 +825,6 @@
             }
         });
     </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                
-        });
-        </script>
        <script>
        window.onload = function() {
     let svrtm = "{{ $finalTime ?? date('Y-m-d H:i:s') }}";

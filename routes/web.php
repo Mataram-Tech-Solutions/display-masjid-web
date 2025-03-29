@@ -14,6 +14,7 @@ use App\Http\Controllers\MasjidController;
 use App\Http\Controllers\MuharramController;
 use App\Http\Controllers\PrimarydisController;
 use App\Http\Controllers\RuntxtController;
+use App\Http\Controllers\SetwaktuController;
 use App\Http\Controllers\UlamaController;
 use App\Http\Controllers\WaitingRtcController;
 use App\Http\Middleware\CheckPostedTime;
@@ -188,4 +189,5 @@ use Illuminate\Support\Facades\Route;
     Route::get('/setwaktu-edit', function () {
         return view('setwaktu.edit');
     })->name('setwaktu-edit');
+    Route::post('/setwaktu.store', [SetwaktuController::class, 'store'])->name('setwaktu-store');
 

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Countdown Iqomah</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <link id="pagestyle" rel="stylesheet" href="{{asset('flipdown-master/dist/flipdown.css')}}">
     <link id="pagestyle" rel="stylesheet" href="{{asset('flipdown-master/dist/flipdown.min.css')}}">
     <link>
@@ -60,11 +60,10 @@
                     console.log('Countdown selesai!');
 
                     // Kirim request POST ke ESP8266 untuk menyalakan buzzer
-                    fetch('http://192.168.37.79/buzzer', {
+                    fetch('http://192.168.37.111/buzzer', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
                         body: JSON.stringify({
                             buzzer: {{ $buzzer ?? 1 }} // Pastikan variabel ini ada
@@ -78,8 +77,8 @@
 
                     // Redirect ke halaman utama setelah countdown selesai
                     setTimeout(() => {
-                        window.location.href = 'http://127.0.0.1:8000/displayutama';
-                    }, 2000); // Delay 2 detik sebelum redirect
+                        window.location.href = 'http://192.168.37.1:8000/displayutama';
+                    }, 5000); // Delay 2 detik sebelum redirect
                 });
 
 

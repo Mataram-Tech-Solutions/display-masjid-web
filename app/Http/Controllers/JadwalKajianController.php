@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Jdwlkaj;
 use App\Models\Kajian;
 use App\Models\Ustadz;
 use Illuminate\Http\Request;
@@ -58,6 +59,7 @@ class JadwalKajianController extends Controller
     
             // Simpan ke database
             $kajian->save();
+            event(new Jdwlkaj(Kajian::all()));
             return redirect()->route('jadwalkajian.index')->with('success', 'Berhasil menambahkan jadwal!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error
@@ -112,6 +114,7 @@ class JadwalKajianController extends Controller
     
             // Simpan ke database
             $kajian->save();
+            event(new Jdwlkaj(Kajian::all()));
             return redirect()->route('jadwalkajian.index')->with('success', 'Data berhasil diperbarui!');
             } catch (\Exception $e) {
                 // Redirect ke edit jika gagal dengan pesan error
@@ -127,6 +130,7 @@ class JadwalKajianController extends Controller
         try {
         $kajian = Kajian::findOrFail($id);
         $kajian->delete();
+        event(new Jdwlkaj(Kajian::all()));
         return redirect()->route('jadwalkajian.index')->with('success', 'Data berhasil dihapus!');
         } catch (\Exception $e) {
             // Redirect ke edit jika gagal dengan pesan error

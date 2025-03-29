@@ -8,7 +8,7 @@
 
     <title>Adzan Display - FathTronik</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
     <style>
         @font-face {
             font-family: 'CustomFont';
@@ -78,8 +78,8 @@
         </div>
         
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script>
         document.addEventListener("DOMContentLoaded", function() {
             const realtime = document.querySelector("#waktu");
 
@@ -105,7 +105,7 @@
             var buzzerIqomah = @json($buzzer);  // Data $sholat
             progressBar.style.width = '0%'; // Reset progress bar after the audio ends
             setTimeout(() => {
-                const url = `http://127.0.0.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzerIqomah)}`;
+                const url = `http://192.168.37.1:8000/displayiqomah?menitIqomah=${encodeURIComponent(jedaIqomah)}&buzzer=${encodeURIComponent(buzzerIqomah)}`;
                 window.location.href = url;
             }, 2000); // 2000 ms = 2 detik
         });
